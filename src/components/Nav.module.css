@@ -40,6 +40,12 @@
 }
 .links a:hover { opacity: 1; }
 
+.active {
+  border-bottom: 2px solid var(--jd-yellow);
+  padding-bottom: 4px;
+  opacity: 1 !important;
+}
+
 .cta {
   background: var(--jd-yellow);
   color: var(--jd-green-deep);

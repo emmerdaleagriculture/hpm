@@ -37,18 +37,19 @@ export async function Footer() {
 
   return (
     <footer className={styles.footer}>
-      <div className={styles.row}>
-        <div>
+      <div className={styles.grid}>
+        <div className={styles.brandCol}>
           <div className={styles.brand}>Hampshire Paddock Management</div>
-          <p className={styles.desc}>
-            Modern paddock &amp; smallholding management for horse owners and
-            landowners across Hampshire and the surrounding counties.
+          <div className={styles.tag}>Paddocks, put right.</div>
+          <p className={styles.blurb}>
+            Modern, well-equipped paddock management across Hampshire and
+            surrounding counties. Trading as Emmerdale Agriculture Ltd.
           </p>
         </div>
 
         {SERVICE_CATEGORIES.map((cat) => (
           <div key={cat.key} className={styles.col}>
-            <h4>{cat.label}</h4>
+            <h5>{cat.label}</h5>
             <ul>
               {(byCat[cat.key] ?? []).map((s) => (
                 <li key={s.slug}>
@@ -60,14 +61,19 @@ export async function Footer() {
         ))}
 
         <div className={styles.col}>
-          <h4>Contact</h4>
+          <h5>Company</h5>
           <ul>
-            <li><a href="tel:07825156062">07825 156062</a></li>
-            <li><a href="mailto:tom@hampshirepaddockmanagement.com">tom@hampshirepaddockmanagement.com</a></li>
-            <li style={{ marginTop: 10 }}>Hampshire, United Kingdom</li>
-            <li style={{ marginTop: 16 }}>
-              <Link href="/services">All services</Link>
-            </li>
+            <li><Link href="/about">About</Link></li>
+            <li><Link href="/gallery">Gallery</Link></li>
+            <li><Link href="/contact">Contact</Link></li>
+          </ul>
+        </div>
+
+        <div className={styles.col}>
+          <h5>Contact</h5>
+          <ul>
+            <li><a href="tel:07825156062">Call the yard</a></li>
+            <li><a href="mailto:tom@hampshirepaddockmanagement.com">Email us</a></li>
           </ul>
         </div>
       </div>
