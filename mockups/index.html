@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hampshire Paddock Management — Design Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --cream: #f7f4ee;
+    --muted: #6b6558;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; background: var(--cream); color: var(--ink); }
+  .picker {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px;
+  }
+  .picker h1 { font-size: clamp(28px, 5vw, 40px); margin: 0 0 8px; letter-spacing: -0.02em; }
+  .picker p { color: var(--muted); margin: 0 0 40px; max-width: 600px; line-height: 1.6; }
+  .directions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .direction {
+    background: white;
+    border: 1px solid #e5e0d6;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 15px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+  .direction:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+  .direction .swatch {
+    height: 80px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .direction .swatch::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: inherit;
+  }
+  .direction h2 { margin: 0 0 6px; font-size: 20px; }
+  .direction .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .direction .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .direction .tag { font-size: 11px; background: #f0ece2; padding: 4px 10px; border-radius: 100px; color: var(--muted); }
+
+  .d1 .swatch { background: linear-gradient(135deg, #e8dfc9 0%, #b38b4b 50%, #3d5a2f 100%); }
+  .d2 .swatch { background: linear-gradient(135deg, #1a1a1a 0%, #333 40%, #f5c518 100%); }
+  .d3 .swatch { background: linear-gradient(135deg, #d8e4d0 0%, #5c7a4e 60%, #2b3a22 100%); }
+
+  .note {
+    margin-top: 48px;
+    padding: 20px;
+    background: white;
+    border-left: 3px solid var(--muted);
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .note strong { display: block; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+  <div class="picker">
+    <h1>Three design directions</h1>
+    <p>Each direction is a fully-built homepage showing how the same content feels in a different aesthetic. Tap one to open. The real site will be built in the direction you pick.</p>
+
+    <div class="directions">
+      <a href="direction-1-field-notebook.html" class="direction d1">
+        <div class="swatch"></div>
+        <div class="subtitle">Direction 1</div>
+        <h2>Field Notebook</h2>
+        <p style="color: var(--muted); margin: 0; font-size: 14px; line-height: 1.5;">Editorial, print-inspired. Warm neutrals, brass accents, field-guide restraint. Confident without shouting.</p>
+        <div class="tags">
+          <span class="tag">Serif headings</span>
+          <span class="tag">Cream + brass</span>
+          <span class="tag">Quiet confidence</span>
+        </div>
+      </a>
+
+      <a href="direction-2-heavy-machinery.html" class="direction d2">
+        <div class="swatch"></div>
+        <div class="subtitle">Direction 2</div>
+        <h2>Heavy Machinery</h2>
+        <p style="color: var(--muted); margin: 0; font-size: 14px; line-height: 1.5;">Industrial, dark, confident. Monospace accents, safety-yellow highlights. Lets the tractors do the talking.</p>
+        <div class="tags">
+          <span class="tag">Dark theme</span>
+          <span class="tag">High contrast</span>
+          <span class="tag">Mechanical</span>
+        </div>
+      </a>
+
+      <a href="direction-3-hampshire-green.html" class="direction d3">
+        <div class="swatch"></div>
+        <div class="subtitle">Direction 3</div>
+        <h2>Hampshire Green</h2>
+        <p style="color: var(--muted); margin: 0; font-size: 14px; line-height: 1.5;">Natural, open, approachable. Rich greens and landscape photography. Aimed at horse-owner clientele.</p>
+        <div class="tags">
+          <span class="tag">Photographic</span>
+          <span class="tag">Generous whitespace</span>
+          <span class="tag">Approachable</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="note">
+      <strong>A note on copy</strong>
+      The body copy in each mockup is rewritten from your current site — I've stripped page-builder filler, sharpened claims, and tried to preserve your voice. It's a starting point we'll refine page by page during the build.
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+{
+  "name": "hpm-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Hampshire Paddock Management — Next.js + Payload site",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "payload": "payload",
+    "payload:generate-types": "payload generate:types",
+    "payload:migrate": "payload migrate",
+    "extract": "node scripts/extract.mjs",
+    "audit-seo": "node scripts/audit-seo.mjs",
+    "mirror": "bash scripts/mirror.sh",
+    "import-wp": "node scripts/import-from-wp.mjs"
+  },
+  "dependencies": {
+    "next": "15.4.11",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "payload": "^3.0.0",
+    "@payloadcms/next": "^3.0.0",
+    "@payloadcms/db-postgres": "^3.0.0",
+    "@payloadcms/richtext-lexical": "^3.0.0",
+    "@payloadcms/storage-s3": "^3.0.0",
+    "@payloadcms/ui": "^3.0.0",
+    "sharp": "^0.33.5",
+    "graphql": "^16.9.0",
+    "resend": "^4.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.6.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "15.4.11"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
