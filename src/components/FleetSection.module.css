@@ -1,0 +1,132 @@
+.fleet {
+  background: var(--ink);
+  color: #fff;
+  padding: 120px 48px;
+}
+
+.head {
+  max-width: 900px;
+  margin: 0 auto 64px;
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: var(--font-display-stack);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--jd-yellow);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.eyebrow::before,
+.eyebrow::after {
+  content: '';
+  width: 36px;
+  height: 2px;
+  background: var(--jd-yellow);
+  display: inline-block;
+}
+
+.title {
+  font-family: var(--font-display-stack);
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.15;
+  color: #fff;
+  margin-bottom: 24px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.title em { color: var(--jd-yellow); font-family: Georgia, serif; font-style: italic; }
+
+.sub {
+  font-size: 17px;
+  opacity: 0.85;
+  max-width: 640px;
+  line-height: 1.7;
+  margin: 0 auto;
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.photo {
+  aspect-ratio: 4 / 5;
+  background: linear-gradient(135deg, #3a4a2d 0%, #17330d 100%);
+  position: sticky;
+  top: 40px;
+  overflow: hidden;
+}
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.category { margin-bottom: 40px; }
+
+.categoryLabel {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--jd-yellow);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.list { list-style: none; }
+
+.list li {
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+.list li:last-child { border-bottom: none; }
+
+.name {
+  font-family: var(--font-display-stack);
+  font-size: 17px;
+  color: #fff;
+  flex: 1;
+}
+
+.spec {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.partnerNote {
+  margin-top: 40px;
+  padding: 20px;
+  background: rgba(255, 222, 0, 0.08);
+  border-left: 3px solid var(--jd-yellow);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
+}
+.partnerNote strong {
+  color: var(--jd-yellow);
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .fleet { padding-left: 24px; padding-right: 24px; }
+  .inner { grid-template-columns: 1fr; gap: 40px; }
+  .photo { position: static; aspect-ratio: 4 / 3; }
+}

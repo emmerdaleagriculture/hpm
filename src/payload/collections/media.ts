@@ -13,6 +13,10 @@ import type { CollectionConfig } from 'payload';
 export const Media: CollectionConfig = {
   slug: 'media',
   labels: { singular: 'Media', plural: 'Media' },
+  access: {
+    // Public read — the frontend renders these images on every page.
+    read: () => true,
+  },
   upload: {
     // Generate responsive sizes for <picture>/srcset
     imageSizes: [
@@ -51,6 +55,15 @@ export const Media: CollectionConfig = {
       type: 'text',
       admin: {
         description: 'Optional photo credit.',
+      },
+    },
+    {
+      name: 'showOnHomepageGallery',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description: 'Include this image in the 12-image homepage gallery grid.',
       },
     },
     {

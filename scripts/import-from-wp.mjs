@@ -307,7 +307,7 @@ function convertNode($, el, mediaMap) {
         format: '',
         version: 2,
         relationTo: 'media',
-        value: { id: mediaId },
+        value: mediaId,
       };
     }
     // Fallback: inline image without rewire — record as warning
