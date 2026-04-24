@@ -1,4 +1,5 @@
 import path from 'path';
+import sharp from 'sharp';
 import { buildConfig } from 'payload';
 import { postgresAdapter } from '@payloadcms/db-postgres';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
@@ -46,6 +47,8 @@ export default buildConfig({
   },
 
   editor: lexicalEditor({}),
+
+  sharp,
 
   collections: [
     Users,

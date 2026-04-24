@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload';
 import { seoFields } from '../fields/seo';
 import { slugField } from '../fields/slug';
 import { allContentBlocks } from '../blocks/content-blocks';
+import { autoDerive } from '../hooks/auto-derive';
 
 /**
  * Services — the 11 (and growing) service pages.
@@ -22,7 +23,7 @@ export const Services: CollectionConfig = {
   labels: { singular: 'Service', plural: 'Services' },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'slug', 'orderInMenu', 'status'],
+    defaultColumns: ['title', 'slug', 'orderInMenu', '_status'],
     description:
       'Service pages (harrowing, topping, rolling, etc.). Each maps to /<slug>.',
   },
@@ -32,6 +33,9 @@ export const Services: CollectionConfig = {
   versions: {
     drafts: { autosave: { interval: 2000 } },
     maxPerDoc: 20,
+  },
+  hooks: {
+    beforeValidate: [autoDerive({ shortDescription: true })],
   },
   defaultSort: 'orderInMenu',
   fields: [
@@ -135,8 +139,17 @@ export const Services: CollectionConfig = {
       name: 'content',
       type: 'blocks',
       blocks: allContentBlocks,
-      required: true,
     },
     ...seoFields,
+    {
+      name: 'wpId',
+      type: 'number',
+      index: true,
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'WordPress post/page ID — for migration tracking. Do not edit.',
+      },
+    },
   ],
 };
