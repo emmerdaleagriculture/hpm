@@ -51,7 +51,7 @@ function ServiceTile({ service, feature }: { service: ServiceDoc; feature?: bool
   const tileClass = `${styles.tile} ${feature ? styles.feature : ''}`.trim();
 
   return (
-    <Link href={`/${service.slug}`} className={tileClass}>
+    <Link href={`/services/${service.slug}`} className={tileClass}>
       <div className={styles.photo}>
         {url && (
           <Image

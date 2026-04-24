@@ -55,6 +55,14 @@ export const Services: CollectionConfig = {
       },
     },
     {
+      name: 'strapline',
+      type: 'text',
+      maxLength: 180,
+      admin: {
+        description: 'One-line strapline shown under the hero title on the service page. Italic fragments work — wrap with <em>…</em>.',
+      },
+    },
+    {
       name: 'heroImage',
       type: 'upload',
       relationTo: 'media',
@@ -66,6 +74,20 @@ export const Services: CollectionConfig = {
       admin: {
         position: 'sidebar',
         description: 'Lower numbers appear first on the services index. Use 10, 20, 30… so you can insert between.',
+      },
+    },
+    {
+      name: 'category',
+      type: 'select',
+      options: [
+        { label: 'Cutting & mowing', value: 'cutting-mowing' },
+        { label: 'Ground care', value: 'ground-care' },
+        { label: 'Treatment & upkeep', value: 'treatment-upkeep' },
+      ],
+      admin: {
+        position: 'sidebar',
+        description:
+          'Groups this service on the footer and /services index. Services with no category set still have their own page but won’t appear in those grouped lists.',
       },
     },
     {
@@ -129,19 +151,37 @@ export const Services: CollectionConfig = {
       name: 'equipment',
       type: 'array',
       admin: {
-        description: 'Machinery used for this service. Links to tools.',
+        description: 'Machinery used for this service. Shown in the sidebar of the service page.',
       },
       fields: [
+        { name: 'name', type: 'text', required: true },
         {
-          name: 'name',
+          name: 'spec',
           type: 'text',
-          required: true,
+          admin: {
+            description: 'Short spec shown under the name (e.g. "65 hp compact · grass tyres").',
+          },
         },
         {
           name: 'image',
           type: 'upload',
           relationTo: 'media',
+          admin: { description: 'Optional. Not currently shown on the service page.' },
         },
+      ],
+    },
+    {
+      name: 'metaHighlights',
+      type: 'group',
+      label: 'At a glance',
+      admin: {
+        description: 'Four short facts shown in the sidebar. Leave any blank to hide that row.',
+      },
+      fields: [
+        { name: 'bestTime', type: 'text', admin: { description: 'e.g. "May / August"' } },
+        { name: 'frequency', type: 'text', admin: { description: 'e.g. "1–2 × season"' } },
+        { name: 'minPaddock', type: 'text', admin: { description: 'e.g. "¼ acre"' } },
+        { name: 'quoteTurnaround', type: 'text', admin: { description: 'e.g. "Same day"' } },
       ],
     },
     {
@@ -149,6 +189,7 @@ export const Services: CollectionConfig = {
       type: 'relationship',
       relationTo: 'services',
       hasMany: true,
+      maxRows: 3,
       admin: {
         description: 'Up to 3 related services to surface at the bottom of this page.',
       },
