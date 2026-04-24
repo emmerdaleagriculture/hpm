@@ -1,0 +1,71 @@
+.intro {
+  padding: 120px 48px 80px;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: var(--font-display-stack);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--jd-green);
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+}
+.eyebrow::before,
+.eyebrow::after {
+  content: '';
+  width: 36px;
+  height: 2px;
+  background: var(--jd-yellow);
+  display: inline-block;
+}
+
+.lede {
+  font-family: var(--font-display-stack);
+  font-size: clamp(30px, 3.8vw, 50px);
+  line-height: 1.18;
+  color: var(--jd-green-deep);
+  max-width: 900px;
+  margin: 0 auto 32px;
+}
+.lede em {
+  font-style: italic;
+  font-family: Georgia, serif;
+  color: var(--jd-green);
+}
+
+.body {
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--ink-2);
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--jd-green);
+  color: #fff;
+  padding: 16px 32px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 36px;
+  border-radius: 2px;
+  transition: background 0.15s;
+}
+.btn:hover { background: var(--jd-green-dark); }
+
+@media (max-width: 900px) {
+  .intro { padding-left: 24px; padding-right: 24px; }
+}

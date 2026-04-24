@@ -69,6 +69,24 @@ export const Services: CollectionConfig = {
       },
     },
     {
+      name: 'featuredOnHomepage',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description: 'Feature this service on the homepage. Pick exactly 5 — the first is shown as a large feature tile, the other 4 as smaller tiles.',
+      },
+    },
+    {
+      name: 'homepageTagline',
+      type: 'text',
+      maxLength: 40,
+      admin: {
+        description: 'Short tag shown above the service name on the homepage tile (e.g. "Most popular", "Countryside · verges"). Kept short deliberately.',
+        condition: (_, siblingData) => Boolean(siblingData?.featuredOnHomepage),
+      },
+    },
+    {
       name: 'pricing',
       type: 'group',
       admin: {
