@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Paddock topping — Hampshire Paddock Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --jd-green: #367c2b;
+    --jd-green-dark: #245018;
+    --jd-green-deep: #17330d;
+    --jd-green-light: #4a9a3a;
+    --jd-green-pale: #e8f0e3;
+    --jd-yellow: #ffde00;
+    --jd-yellow-dark: #e8c800;
+    --ink: #1a1f15;
+    --ink-2: #4a4f45;
+    --ink-3: #7a7f75;
+    --cream: #fafaf5;
+    --white: #ffffff;
+    --rule: #d8dcd2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', -apple-system, system-ui, sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== NAV ===== */
+  nav.site-nav {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 10;
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+  }
+  .brand {
+    font-family: 'Tenor Sans', serif;
+    font-size: 18px;
+    letter-spacing: 0.03em;
+    color: #fff;
+    text-decoration: none;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  nav ul a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.88;
+  }
+  nav ul a:hover { opacity: 1; }
+  nav ul a.active {
+    border-bottom: 2px solid var(--jd-yellow);
+    padding-bottom: 4px;
+  }
+  .nav-cta {
+    background: var(--jd-yellow);
+    color: var(--jd-green-deep);
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+  }
+  .nav-cta:hover { background: var(--jd-yellow-dark); }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    height: 70vh;
+    min-height: 560px;
+    background: var(--jd-green-dark);
+    overflow: hidden;
+  }
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.05) 30%, rgba(23,51,13,0.85) 100%),
+      linear-gradient(180deg, #2d3240 0%, #5a6b3a 60%, #2d4a1a 100%);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.3);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .hero-photo::after {
+    content: "[ paddock topping hero photo ]";
+  }
+  .hero-content {
+    position: absolute;
+    bottom: 64px;
+    left: 48px;
+    right: 48px;
+    color: #fff;
+    z-index: 2;
+    max-width: 900px;
+  }
+  .breadcrumb {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 24px;
+  }
+  .breadcrumb a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.7;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    padding-bottom: 2px;
+  }
+  .breadcrumb a:hover { opacity: 1; }
+  .breadcrumb .sep {
+    margin: 0 10px;
+    opacity: 0.5;
+  }
+  .breadcrumb .current {
+    color: var(--jd-yellow);
+    font-weight: 600;
+  }
+  .hero-title {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(44px, 6.5vw, 84px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.015em;
+    margin-bottom: 24px;
+  }
+  .hero-strapline {
+    font-size: 18px;
+    max-width: 560px;
+    opacity: 0.95;
+    line-height: 1.5;
+    font-family: 'Tenor Sans', serif;
+  }
+  .hero-strapline em {
+    font-family: Georgia, serif;
+    font-style: italic;
+    color: var(--jd-yellow);
+  }
+
+  /* ===== CONTENT LAYOUT ===== */
+  .content-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 48px;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: 80px;
+    align-items: start;
+  }
+  .content-main { min-width: 0; }
+  .content-aside {
+    position: sticky;
+    top: 40px;
+  }
+
+  /* ===== MAIN CONTENT ===== */
+  .lede {
+    font-family: 'Tenor Sans', serif;
+    font-size: 26px;
+    line-height: 1.35;
+    color: var(--jd-green-deep);
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .lede em { font-family: Georgia, serif; font-style: italic; color: var(--jd-green); }
+
+  .body-content h2 {
+    font-family: 'Tenor Sans', serif;
+    font-size: 26px;
+    line-height: 1.3;
+    color: var(--jd-green-deep);
+    margin: 56px 0 16px;
+    font-weight: 400;
+  }
+  .body-content h2:first-child { margin-top: 0; }
+  .body-content h3 {
+    font-family: 'Tenor Sans', serif;
+    font-size: 20px;
+    color: var(--jd-green-deep);
+    margin: 40px 0 12px;
+    font-weight: 400;
+  }
+  .body-content p {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--ink-2);
+    margin-bottom: 20px;
+  }
+  .body-content ul, .body-content ol {
+    margin: 20px 0 28px 24px;
+  }
+  .body-content li {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ink-2);
+    margin-bottom: 10px;
+  }
+  .body-content strong { color: var(--ink); font-weight: 600; }
+  .body-content a {
+    color: var(--jd-green);
+    border-bottom: 1px solid var(--jd-yellow);
+    text-decoration: none;
+  }
+
+  /* Inline callout — for "when to book" or seasonal guidance */
+  .callout {
+    background: var(--jd-green-pale);
+    border-left: 4px solid var(--jd-green);
+    padding: 24px 28px;
+    margin: 40px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--jd-green);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .callout-body {
+    font-family: 'Tenor Sans', serif;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--jd-green-deep);
+  }
+
+  /* ===== ASIDE — EQUIPMENT + META ===== */
+  .aside-card {
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    padding: 32px;
+    border-radius: 4px;
+    margin-bottom: 24px;
+  }
+  .aside-label {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--jd-green);
+    margin-bottom: 20px;
+    font-weight: 600;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--jd-yellow);
+  }
+  .equipment-list {
+    list-style: none;
+  }
+  .equipment-list li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .equipment-list li:last-child { border-bottom: none; padding-bottom: 0; }
+  .equipment-list li:first-child { padding-top: 0; }
+  .equipment-name {
+    font-family: 'Tenor Sans', serif;
+    font-size: 16px;
+    color: var(--jd-green-deep);
+    margin-bottom: 2px;
+  }
+  .equipment-spec {
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+
+  .aside-meta {
+    list-style: none;
+  }
+  .aside-meta li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 14px;
+  }
+  .aside-meta li:first-child { padding-top: 0; }
+  .aside-meta li:last-child { border-bottom: none; }
+  .aside-meta .meta-label { color: var(--ink-3); }
+  .aside-meta .meta-value {
+    color: var(--jd-green-deep);
+    font-family: 'Tenor Sans', serif;
+    font-size: 15px;
+  }
+
+  /* ===== RELATED SERVICES ===== */
+  .related {
+    background: var(--jd-green-pale);
+    padding: 100px 48px;
+  }
+  .related-head { text-align: center; max-width: 720px; margin: 0 auto 56px; }
+  .section-eyebrow {
+    font-family: 'Tenor Sans', serif;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--jd-green);
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-eyebrow::before,
+  .section-eyebrow::after {
+    content: "";
+    width: 36px; height: 2px;
+    background: var(--jd-yellow);
+    display: inline-block;
+  }
+  .related-title {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(28px, 3.4vw, 40px);
+    line-height: 1.2;
+    color: var(--jd-green-deep);
+  }
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .related-tile {
+    aspect-ratio: 4 / 5;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: #fff;
+    background: var(--jd-green-dark);
+  }
+  .related-photo {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #3d5428, #17330d);
+    transition: transform 0.6s cubic-bezier(0.2,0.8,0.2,1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.3);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .related-tile:nth-child(2) .related-photo { background: linear-gradient(135deg, #4a5660, #2d3438); }
+  .related-tile:nth-child(3) .related-photo { background: linear-gradient(135deg, #6a5a4a, #3d342a); }
+  .related-tile:hover .related-photo { transform: scale(1.04); }
+  .related-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.75) 100%);
+  }
+  .related-meta {
+    position: absolute;
+    bottom: 24px; left: 24px; right: 24px;
+    z-index: 2;
+  }
+  .related-tag {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--jd-yellow);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .related-name {
+    font-family: 'Tenor Sans', serif;
+    font-size: 22px;
+    line-height: 1.2;
+  }
+
+  /* ===== CTA BLOCK (page bottom) ===== */
+  .cta-block {
+    background: var(--jd-green);
+    color: #fff;
+    padding: 100px 48px;
+    text-align: center;
+    border-top: 4px solid var(--jd-yellow);
+  }
+  .cta-inner { max-width: 720px; margin: 0 auto; }
+  .cta-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--jd-yellow);
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+  .cta-headline {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(32px, 4.5vw, 52px);
+    line-height: 1.15;
+    margin-bottom: 24px;
+  }
+  .cta-headline em { font-family: Georgia, serif; font-style: italic; color: var(--jd-yellow); }
+  .cta-sub {
+    font-size: 17px;
+    opacity: 0.95;
+    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+  .cta-actions {
+    display: inline-flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .btn-yellow {
+    background: var(--jd-yellow);
+    color: var(--jd-green-deep);
+    padding: 18px 36px;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-yellow:hover { background: var(--jd-yellow-dark); }
+  .cta-or { opacity: 0.7; font-size: 13px; letter-spacing: 0.06em; }
+  .cta-phone {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    font-family: 'Tenor Sans', serif;
+    border-bottom: 2px solid var(--jd-yellow);
+    padding-bottom: 4px;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--jd-green-deep);
+    color: rgba(255,255,255,0.75);
+    padding: 60px 48px 32px;
+    font-size: 13px;
+  }
+  .foot-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; max-width: 1400px; }
+  .foot-brand { font-family: 'Tenor Sans', serif; color: #fff; font-size: 18px; margin-bottom: 16px; letter-spacing: 0.03em; }
+  .foot-desc { max-width: 320px; line-height: 1.7; opacity: 0.75; }
+  .foot-col h4 { font-family: 'Tenor Sans', serif; color: var(--jd-yellow); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 16px; font-weight: 400; }
+  .foot-col ul { list-style: none; }
+  .foot-col li { margin-bottom: 8px; }
+  .foot-col a { color: rgba(255,255,255,0.8); text-decoration: none; }
+  .foot-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-size: 12px; color: rgba(255,255,255,0.5); }
+
+  /* ===== STICKY QUOTE BUTTON + EXPANDING FORM ===== */
+  .quote-fab-wrap {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 50;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .quote-fab-wrap.hidden { opacity: 0; transform: translateY(20px); pointer-events: none; }
+  .quote-fab {
+    background: var(--jd-yellow);
+    color: var(--jd-green-deep);
+    border: none;
+    padding: 16px 24px;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: inherit;
+  }
+  .quote-fab::before {
+    content: "";
+    width: 8px; height: 8px;
+    background: var(--jd-green);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .quote-form {
+    display: none;
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 24px;
+    width: 360px;
+    max-width: calc(100vw - 48px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  }
+  .quote-form.open { display: block; }
+
+  .quote-form-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  .quote-form-title {
+    font-family: 'Tenor Sans', serif;
+    font-size: 20px;
+    color: var(--jd-green-deep);
+    line-height: 1.2;
+  }
+  .quote-form-title-sub {
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-top: 4px;
+  }
+  .quote-form-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--ink-3);
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+  }
+  .quote-form label {
+    display: block;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 6px;
+    margin-top: 14px;
+    font-weight: 600;
+  }
+  .quote-form input,
+  .quote-form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    background: var(--cream);
+    color: var(--ink);
+  }
+  .quote-form input:focus,
+  .quote-form textarea:focus {
+    outline: none;
+    border-color: var(--jd-green);
+    background: #fff;
+  }
+  .quote-form textarea { resize: vertical; min-height: 70px; }
+  .quote-form-submit {
+    margin-top: 18px;
+    width: 100%;
+    background: var(--jd-green);
+    color: #fff;
+    padding: 14px;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+    font-family: inherit;
+  }
+  .quote-form-submit:hover { background: var(--jd-green-dark); }
+  .quote-form-footnote {
+    margin-top: 14px;
+    font-size: 11px;
+    color: var(--ink-3);
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 900px) {
+    nav.site-nav { padding: 20px 24px; }
+    nav ul { display: none; }
+    .hero-content { left: 24px; right: 24px; bottom: 40px; }
+    .content-wrap { padding: 60px 24px; grid-template-columns: 1fr; gap: 48px; }
+    .content-aside { position: static; }
+    .related { padding: 80px 24px; }
+    .related-grid { grid-template-columns: 1fr; }
+    .cta-block, footer { padding-left: 24px; padding-right: 24px; }
+    .foot-row { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .quote-fab-wrap {
+      bottom: 0;
+      right: 0;
+      left: 0;
+    }
+    .quote-fab {
+      width: 100%;
+      justify-content: center;
+      border-radius: 0;
+      padding: 18px;
+    }
+    .quote-form {
+      width: 100%;
+      max-width: 100%;
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+      border-bottom: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <nav class="site-nav">
+    <a href="/" class="brand">Hampshire Paddock Management</a>
+    <ul>
+      <li><a href="/services" class="active">Services</a></li>
+      <li><a href="/fleet">The fleet</a></li>
+      <li><a href="/gallery">Gallery</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+    <a href="/contact" class="nav-cta">Get a quote</a>
+  </nav>
+
+  <div class="hero-photo"></div>
+
+  <div class="hero-content">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/services">Services</a><span class="sep">/</span><span class="current">Paddock topping</span>
+    </div>
+    <h1 class="hero-title">Paddock topping.</h1>
+    <p class="hero-strapline">Flail or rotary. Grass tyres, <em>no compaction.</em> Same-week bookings across Hampshire.</p>
+  </div>
+</section>
+
+<!-- ============ MAIN CONTENT ============ -->
+<div class="content-wrap">
+  <!-- LEFT: body content -->
+  <main class="content-main">
+    <p class="lede">
+      Topping is the foundation of paddock care — a single pass cuts back rank grass, weeds, and seed heads, evens the sward, and resets the field for the next cycle of grazing or conservation. Done properly, <em>once or twice a season is all it takes.</em>
+    </p>
+
+    <div class="body-content">
+      <h2>What paddock topping actually does</h2>
+      <p>Over a grazing season, horses graze selectively — cropping the grass they like close to the ground and leaving tall, woody stems, dock, thistle, nettle, and seeded-out grass standing. The result is a patchy, uneven paddock where productive grass is outcompeted and weeds set seed for next year.</p>
+      <p>Topping cuts the whole field to an even height, typically 75–100mm. This removes the rank vegetation, prevents weeds from seeding, encourages the productive grasses to tiller and thicken, and gives you a paddock that's ready to recover before the next rotation.</p>
+
+      <h2>Why compact machinery matters</h2>
+      <p>Most contractors turn up with a 120–180 hp agricultural tractor on standard tyres. On your paddock, that means deep ruts, soil compaction, and long-term damage to drainage and grass recovery — particularly on wet ground.</p>
+      <p>We use lightweight compact tractors with <strong>wide turf tyres</strong>, specifically spec'd for sensitive ground. Minimal compaction, no ruts, and your paddock recovers faster because the soil structure hasn't been crushed.</p>
+
+      <div class="callout">
+        <div class="callout-label">When to book</div>
+        <div class="callout-body">Most paddocks need topping twice a year — once in late spring (late May / early June) to catch weeds before seeding, and again in late summer (August / early September) to reset before autumn.</div>
+      </div>
+
+      <h2>What's included</h2>
+      <ul>
+        <li>Pre-cut walk of the paddock to identify and mark hazards (stones, debris, horse droppings that should be cleared)</li>
+        <li>Topping with flail or rotary mower depending on growth density and field condition</li>
+        <li>Even cut height across the whole paddock — no scalping on ridges, no missed patches</li>
+        <li>Tidying passes around fence lines, gate posts, trees, and water troughs</li>
+        <li>Cut material left to mulch naturally, or collected if you'd prefer (optional — see dung sweeping and flail collection)</li>
+      </ul>
+
+      <h2>Pricing</h2>
+      <p>Every paddock is different, so quotes reflect the actual field — size, access, growth condition, and how often you'd like us to visit. Most horse-owner paddocks fall into a predictable range; we'll give you a firm figure either on the phone or after a no-cost site visit if it's a larger or more complex job.</p>
+      <p>Regular customers who book a topping schedule (spring + late summer, or quarterly) receive a reduced rate. Ask when you call.</p>
+    </div>
+  </main>
+
+  <!-- RIGHT: equipment + meta -->
+  <aside class="content-aside">
+    <div class="aside-card">
+      <div class="aside-label">— Equipment used</div>
+      <ul class="equipment-list">
+        <li>
+          <div class="equipment-name">John Deere 4066R</div>
+          <div class="equipment-spec">65 hp compact · grass tyres</div>
+        </li>
+        <li>
+          <div class="equipment-name">John Deere 2038R</div>
+          <div class="equipment-spec">37 hp · tight-space work</div>
+        </li>
+        <li>
+          <div class="equipment-name">Kuhn BP 20</div>
+          <div class="equipment-spec">2.0m flail topper</div>
+        </li>
+        <li>
+          <div class="equipment-name">Wessex CMT 210</div>
+          <div class="equipment-spec">Finishing mower · 3-rotor</div>
+        </li>
+        <li>
+          <div class="equipment-name">Flat topper</div>
+          <div class="equipment-spec">General topping</div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="aside-card">
+      <div class="aside-label">— At a glance</div>
+      <ul class="aside-meta">
+        <li><span class="meta-label">Best time</span><span class="meta-value">May / August</span></li>
+        <li><span class="meta-label">Frequency</span><span class="meta-value">1–2 × season</span></li>
+        <li><span class="meta-label">Min paddock</span><span class="meta-value">¼ acre</span></li>
+        <li><span class="meta-label">Quote in</span><span class="meta-value">Same day</span></li>
+      </ul>
+    </div>
+  </aside>
+</div>
+
+<!-- ============ RELATED SERVICES ============ -->
+<section class="related">
+  <div class="related-head">
+    <div class="section-eyebrow">You might also want</div>
+    <h2 class="related-title">Related services.</h2>
+  </div>
+  <div class="related-grid">
+    <a class="related-tile" href="#">
+      <div class="related-photo">[ chain harrowing ]</div>
+      <div class="related-overlay"></div>
+      <div class="related-meta">
+        <div class="related-tag">Pairs with topping</div>
+        <div class="related-name">Chain harrowing</div>
+      </div>
+    </a>
+    <a class="related-tile" href="#">
+      <div class="related-photo">[ overseeding ]</div>
+      <div class="related-overlay"></div>
+      <div class="related-meta">
+        <div class="related-tag">Seasonal</div>
+        <div class="related-name">Overseeding</div>
+      </div>
+    </a>
+    <a class="related-tile" href="#">
+      <div class="related-photo">[ ragwort control ]</div>
+      <div class="related-overlay"></div>
+      <div class="related-meta">
+        <div class="related-tag">Licensed · PA1/PA2</div>
+        <div class="related-name">Ragwort control</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta-block">
+  <div class="cta-inner">
+    <div class="cta-eyebrow">Ready when you are</div>
+    <h2 class="cta-headline">Tell us about <em>your paddock.</em></h2>
+    <p class="cta-sub">Most quotes come back the same day. If it's straightforward we'll give you a figure on the phone. If it needs a visit, we come out at no cost.</p>
+    <div class="cta-actions">
+      <a href="/contact" class="btn-yellow">Request a free quote →</a>
+      <span class="cta-or">or call</span>
+      <a href="tel:07825156062" class="cta-phone">07825 156062</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="foot-row">
+    <div>
+      <div class="foot-brand">Hampshire Paddock Management</div>
+      <p class="foot-desc">Modern paddock &amp; smallholding management for horse owners and landowners across Hampshire and the surrounding counties.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="/services/paddock-topping">Paddock topping</a></li>
+        <li><a href="/services/chain-harrowing">Chain harrowing</a></li>
+        <li><a href="/services/overseeding">Overseeding</a></li>
+        <li><a href="/services/ragwort-control">Ragwort control</a></li>
+        <li><a href="/services">All services</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>More</h4>
+      <ul>
+        <li><a href="/fleet">The fleet</a></li>
+        <li><a href="/gallery">Gallery</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:07825156062">07825 156062</a></li>
+        <li><a href="mailto:tom@hampshirepaddockmanagement.com">tom@hampshirepaddockmanagement.com</a></li>
+        <li style="margin-top: 10px;">Hampshire, United Kingdom</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Emmerdale Agriculture Ltd · Company No. 14950816</span>
+    <span>Made with care in Hampshire</span>
+  </div>
+</footer>
+
+<!-- ============ STICKY QUOTE CTA ============ -->
+<div class="quote-fab-wrap hidden" id="quoteFab">
+  <button class="quote-fab" id="quoteFabBtn">
+    Quote for paddock topping
+  </button>
+  <div class="quote-form" id="quoteForm">
+    <div class="quote-form-head">
+      <div>
+        <div class="quote-form-title">Quote for paddock topping</div>
+        <div class="quote-form-title-sub">Usually back the same day.</div>
+      </div>
+      <button class="quote-form-close" id="quoteFormClose" aria-label="Close">×</button>
+    </div>
+    <form onsubmit="event.preventDefault(); alert('Form submission would send via Resend in the real build.');">
+      <label for="qf-name">Name</label>
+      <input type="text" id="qf-name" required>
+      <label for="qf-phone">Phone</label>
+      <input type="tel" id="qf-phone" required>
+      <label for="qf-location">Paddock location (nearest village)</label>
+      <input type="text" id="qf-location" required>
+      <label for="qf-message">Anything we should know?</label>
+      <textarea id="qf-message" placeholder="Size, condition, when you'd like it done..."></textarea>
+      <button type="submit" class="quote-form-submit">Send quote request →</button>
+      <div class="quote-form-footnote">We'll be in touch by phone or email within 24 hours.</div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Show sticky CTA after the user scrolls past the hero
+  const fab = document.getElementById('quoteFab');
+  const fabBtn = document.getElementById('quoteFabBtn');
+  const form = document.getElementById('quoteForm');
+  const closeBtn = document.getElementById('quoteFormClose');
+  let shown = false;
+
+  window.addEventListener('scroll', () => {
+    const heroHeight = document.querySelector('.hero').offsetHeight;
+    if (window.scrollY > heroHeight * 0.8) {
+      if (!shown) {
+        fab.classList.remove('hidden');
+        shown = true;
+      }
+    }
+  });
+
+  fabBtn.addEventListener('click', () => {
+    form.classList.toggle('open');
+    fabBtn.style.display = form.classList.contains('open') ? 'none' : 'flex';
+  });
+
+  closeBtn.addEventListener('click', () => {
+    form.classList.remove('open');
+    fabBtn.style.display = 'flex';
+  });
+</script>
+
+</body>
+</html>

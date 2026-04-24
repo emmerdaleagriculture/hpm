@@ -5,6 +5,11 @@ const nextConfig = {
   // React 19 strict mode — catches accidental side-effects
   reactStrictMode: true,
 
+  // Let middleware handle trailing-slash redirects so legacy WP URLs
+  // (/paddock-topping/ → /services/paddock-topping) resolve in a single
+  // 301 instead of a 308 → 301 chain.
+  skipTrailingSlashRedirect: true,
+
   // Image optimisation: allow Supabase storage as an approved remote host
   images: {
     remotePatterns: [

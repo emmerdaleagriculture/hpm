@@ -1,0 +1,58 @@
+.card {
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  padding: 32px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+
+.label {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--jd-green);
+  margin-bottom: 20px;
+  font-weight: 600;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--jd-yellow);
+}
+
+.equipmentList { list-style: none; }
+.equipmentList li {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.equipmentList li:first-child { padding-top: 0; }
+.equipmentList li:last-child { border-bottom: none; padding-bottom: 0; }
+
+.equipmentName {
+  font-family: var(--font-display-stack);
+  font-size: 16px;
+  color: var(--jd-green-deep);
+  margin-bottom: 2px;
+}
+
+.equipmentSpec {
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.metaList { list-style: none; }
+.metaList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 14px;
+}
+.metaList li:first-child { padding-top: 0; }
+.metaList li:last-child { border-bottom: none; }
+
+.metaLabel { color: var(--ink-3); }
+.metaValue {
+  color: var(--jd-green-deep);
+  font-family: var(--font-display-stack);
+  font-size: 15px;
+  text-align: right;
+}
