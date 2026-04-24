@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload';
 import { seoFields } from '../fields/seo';
 import { slugField } from '../fields/slug';
 import { allContentBlocks } from '../blocks/content-blocks';
+import { autoDerive } from '../hooks/auto-derive';
 
 /**
  * Pages — generic content pages with arbitrary content blocks.
@@ -16,7 +17,7 @@ export const Pages: CollectionConfig = {
   labels: { singular: 'Page', plural: 'Pages' },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'slug', 'status', 'updatedAt'],
+    defaultColumns: ['title', 'slug', '_status', 'updatedAt'],
     description:
       'Static content pages. Each page maps to /<slug>. Use this for About, Costs, Contact, and similar.',
   },
@@ -31,6 +32,9 @@ export const Pages: CollectionConfig = {
     },
     maxPerDoc: 20,
   },
+  hooks: {
+    beforeValidate: [autoDerive()],
+  },
   fields: [
     {
       name: 'title',
@@ -42,8 +46,17 @@ export const Pages: CollectionConfig = {
       name: 'content',
       type: 'blocks',
       blocks: allContentBlocks,
-      required: true,
     },
     ...seoFields,
+    {
+      name: 'wpId',
+      type: 'number',
+      index: true,
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'WordPress post/page ID — for migration tracking. Do not edit.',
+      },
+    },
   ],
 };

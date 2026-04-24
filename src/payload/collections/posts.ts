@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload';
 import { seoFields } from '../fields/seo';
 import { slugField } from '../fields/slug';
 import { allContentBlocks } from '../blocks/content-blocks';
+import { autoDerive } from '../hooks/auto-derive';
 
 /**
  * Posts — blog posts.
@@ -18,7 +19,7 @@ export const Posts: CollectionConfig = {
   labels: { singular: 'Blog post', plural: 'Blog posts' },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'category', 'status', 'publishedAt'],
+    defaultColumns: ['title', 'category', '_status', 'publishedAt'],
     description: 'Blog posts. Each maps to /<slug>.',
   },
   access: {
@@ -30,6 +31,9 @@ export const Posts: CollectionConfig = {
       schedulePublish: true,
     },
     maxPerDoc: 20,
+  },
+  hooks: {
+    beforeValidate: [autoDerive({ excerpt: true, tags: true })],
   },
   defaultSort: '-publishedAt',
   fields: [
@@ -98,8 +102,17 @@ export const Posts: CollectionConfig = {
       name: 'content',
       type: 'blocks',
       blocks: allContentBlocks,
-      required: true,
     },
     ...seoFields,
+    {
+      name: 'wpId',
+      type: 'number',
+      index: true,
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'WordPress post/page ID — for migration tracking. Do not edit.',
+      },
+    },
   ],
 };

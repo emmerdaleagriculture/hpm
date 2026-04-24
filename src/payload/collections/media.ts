@@ -53,5 +53,25 @@ export const Media: CollectionConfig = {
         description: 'Optional photo credit.',
       },
     },
+    {
+      name: 'wpId',
+      type: 'number',
+      index: true,
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'WordPress post/page ID — for migration tracking. Do not edit.',
+      },
+    },
+    {
+      name: 'wpUrl',
+      type: 'text',
+      index: true,
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'Original WordPress URL at time of import. Do not edit.',
+      },
+    },
   ],
 };
