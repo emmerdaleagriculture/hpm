@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gallery — Hampshire Paddock Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --jd-green: #367c2b;
+    --jd-green-dark: #245018;
+    --jd-green-deep: #17330d;
+    --jd-green-light: #4a9a3a;
+    --jd-green-pale: #e8f0e3;
+    --jd-yellow: #ffde00;
+    --jd-yellow-dark: #e8c800;
+    --ink: #1a1f15;
+    --ink-2: #4a4f45;
+    --ink-3: #7a7f75;
+    --cream: #fafaf5;
+    --white: #ffffff;
+    --rule: #d8dcd2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', -apple-system, system-ui, sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  nav.site-nav {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 10;
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+  }
+  .brand {
+    font-family: 'Tenor Sans', serif;
+    font-size: 18px;
+    letter-spacing: 0.03em;
+    color: #fff;
+    text-decoration: none;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  nav ul a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.88;
+  }
+  nav ul a:hover { opacity: 1; }
+  nav ul a.active {
+    border-bottom: 2px solid var(--jd-yellow);
+    padding-bottom: 4px;
+  }
+  .nav-cta {
+    background: var(--jd-yellow);
+    color: var(--jd-green-deep);
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+  .nav-cta:hover { background: var(--jd-yellow-dark); }
+
+  .hero {
+    position: relative;
+    height: 42vh;
+    min-height: 340px;
+    background: var(--jd-green-dark);
+    overflow: hidden;
+  }
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(135deg, rgba(23, 51, 13, 0.55) 0%, rgba(36, 80, 24, 0.3) 50%, rgba(23, 51, 13, 0.5) 100%),
+                      url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=2000');
+    background-size: cover;
+    background-position: center;
+  }
+  .hero-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 56px;
+    color: #fff;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--jd-yellow);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .hero h1 {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .hero h1 em {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-yellow);
+  }
+  .hero p {
+    font-size: 17px;
+    max-width: 540px;
+    opacity: 0.9;
+    line-height: 1.5;
+  }
+
+  .gallery-wrap {
+    padding: 64px 48px 96px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .masonry {
+    columns: 4;
+    column-gap: 16px;
+  }
+  .tile {
+    break-inside: avoid;
+    margin-bottom: 16px;
+    position: relative;
+    cursor: zoom-in;
+    overflow: hidden;
+    background: var(--jd-green-pale);
+  }
+  .tile img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.5s ease;
+  }
+  .tile:hover img {
+    transform: scale(1.03);
+  }
+
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 15, 8, 0.96);
+    z-index: 100;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.25s;
+    align-items: center;
+    justify-content: center;
+  }
+  .lightbox.open {
+    display: flex;
+    opacity: 1;
+  }
+  .lightbox img {
+    max-width: calc(100vw - 160px);
+    max-height: calc(100vh - 80px);
+    object-fit: contain;
+    display: block;
+  }
+
+  .lightbox-btn {
+    position: fixed;
+    width: 48px;
+    height: 48px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.14);
+    color: #fff;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, border-color 0.15s;
+    z-index: 10;
+    font-family: inherit;
+  }
+  .lightbox-btn:hover {
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(255,222,0,0.5);
+  }
+  .lightbox-close {
+    top: 28px;
+    right: 28px;
+    font-size: 22px;
+    font-weight: 300;
+  }
+  .lightbox-nav {
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 28px;
+    font-weight: 300;
+  }
+  .lightbox-prev { left: 28px; }
+  .lightbox-next { right: 28px; }
+  .lightbox-counter {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.55);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  footer {
+    background: var(--jd-green-deep);
+    color: rgba(255,255,255,0.72);
+    padding: 64px 48px 32px;
+  }
+  .footer-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr 0.8fr 0.8fr;
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+  .footer-brand {
+    font-family: 'Tenor Sans', serif;
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  .footer-tag {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-yellow);
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .footer-blurb { font-size: 14px; line-height: 1.6; max-width: 320px; }
+  .footer-col h5 {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--jd-yellow);
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 10px; }
+  .footer-col a {
+    color: rgba(255,255,255,0.72);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.15s;
+  }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  @media (max-width: 1100px) {
+    .masonry { columns: 3; }
+    .footer-grid { grid-template-columns: 1fr 1fr 1fr; gap: 32px; }
+  }
+  @media (max-width: 768px) {
+    nav.site-nav { padding: 20px 24px; }
+    nav ul { display: none; }
+    .hero-inner { padding: 0 24px 40px; }
+    .gallery-wrap { padding: 40px 16px 64px; }
+    .masonry { columns: 2; column-gap: 8px; }
+    .tile { margin-bottom: 8px; }
+    .lightbox img {
+      max-width: calc(100vw - 24px);
+      max-height: calc(100vh - 120px);
+    }
+    .lightbox-nav { width: 40px; height: 40px; }
+    .lightbox-prev { left: 12px; }
+    .lightbox-next { right: 12px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/" class="brand">Hampshire Paddock Management</a>
+  <ul>
+    <li><a href="/services">Services</a></li>
+    <li><a href="/gallery" class="active">Gallery</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <a href="/contact" class="nav-cta">Get a quote</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-photo"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Gallery</div>
+    <h1>The kit, and the <em>work</em></h1>
+    <p>Machines we run and paddocks we've put right. All shot on site.</p>
+  </div>
+</section>
+
+<section class="gallery-wrap">
+  <div class="masonry" id="masonry"></div>
+</section>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-btn lightbox-close" id="lbClose" aria-label="Close">×</button>
+  <button class="lightbox-btn lightbox-nav lightbox-prev" id="lbPrev" aria-label="Previous">‹</button>
+  <button class="lightbox-btn lightbox-nav lightbox-next" id="lbNext" aria-label="Next">›</button>
+  <img id="lbImage" src="" alt="">
+  <div class="lightbox-counter" id="lbCounter">1 / 24</div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Hampshire Paddock Management</div>
+      <div class="footer-tag">Paddocks, put right.</div>
+      <p class="footer-blurb">Modern, well-equipped paddock management across Hampshire and surrounding counties. Trading as Emmerdale Agriculture Ltd.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Cutting &amp; mowing</h5>
+      <ul>
+        <li><a href="/services/paddock-topping">Paddock topping</a></li>
+        <li><a href="/services/flailing">Flailing</a></li>
+        <li><a href="/services/flail-collecting">Flail collecting</a></li>
+        <li><a href="/services/finish-mowing">Finish mowing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Ground care</h5>
+      <ul>
+        <li><a href="/services/harrowing">Harrowing</a></li>
+        <li><a href="/services/rolling">Rolling</a></li>
+        <li><a href="/services/rotavating">Rotavating</a></li>
+        <li><a href="/services/mole-ploughing">Mole ploughing</a></li>
+        <li><a href="/services/stone-burying">Stone burying</a></li>
+        <li><a href="/services/land-ditch-clearance">Land &amp; ditch clearance</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Treatment &amp; upkeep</h5>
+      <ul>
+        <li><a href="/services/weed-control">Weed control</a></li>
+        <li><a href="/services/spraying">Spraying</a></li>
+        <li><a href="/services/fertiliser-application">Fertiliser application</a></li>
+        <li><a href="/services/overseeding">Overseeding</a></li>
+        <li><a href="/services/manure-sweeping">Manure sweeping</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="/about">About</a></li>
+        <li><a href="/gallery">Gallery</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="tel:">Call the yard</a></li>
+        <li><a href="mailto:">Email us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Emmerdale Agriculture Ltd · Company No. 14950816</span>
+    <span>Made with care in Hampshire</span>
+  </div>
+</footer>
+
+<script>
+  const photos = [
+    'https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=1200',
+    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200',
+    'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=1200',
+    'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=1200',
+    'https://images.unsplash.com/photo-1444858291040-58f756a3bdd6?w=1200',
+    'https://images.unsplash.com/photo-1500076656116-558758c991c1?w=1200',
+    'https://images.unsplash.com/photo-1507668077129-56e32842fceb?w=1200',
+    'https://images.unsplash.com/photo-1464198789344-b70bd1f7772a?w=1200',
+    'https://images.unsplash.com/photo-1595855759920-86582396756a?w=1200',
+    'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1200',
+    'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=1200',
+    'https://images.unsplash.com/photo-1533035353720-f1c6a75cd8ab?w=1200',
+    'https://images.unsplash.com/photo-1511797290112-e6f1ed39b7aa?w=1200',
+    'https://images.unsplash.com/photo-1492496913980-501348b61469?w=1200',
+    'https://images.unsplash.com/photo-1560493676-04071c5f467b?w=1200',
+    'https://images.unsplash.com/photo-1580407836088-2f4eb93efae3?w=1200',
+    'https://images.unsplash.com/photo-1589923188900-85dae523342b?w=1200',
+    'https://images.unsplash.com/photo-1586771107445-d3ca888129ff?w=1200',
+    'https://images.unsplash.com/photo-1530267981375-f0de937f5f13?w=1200',
+    'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1200',
+    'https://images.unsplash.com/photo-1605185189468-b2636977e44e?w=1200',
+    'https://images.unsplash.com/photo-1560493676-04071c5f467b?w=1200',
+    'https://images.unsplash.com/photo-1500076656116-558758c991c1?w=1200',
+    'https://images.unsplash.com/photo-1464198789344-b70bd1f7772a?w=1200'
+  ];
+
+  const masonry = document.getElementById('masonry');
+  masonry.innerHTML = photos.map((src, i) => `
+    <div class="tile" data-index="${i}">
+      <img src="${src}" alt="" loading="lazy" />
+    </div>
+  `).join('');
+
+  document.querySelectorAll('.tile').forEach(tile => {
+    tile.addEventListener('click', () => openLightbox(parseInt(tile.dataset.index)));
+  });
+
+  const lightbox = document.getElementById('lightbox');
+  const lbImage = document.getElementById('lbImage');
+  const lbCounter = document.getElementById('lbCounter');
+  const lbClose = document.getElementById('lbClose');
+  const lbPrev = document.getElementById('lbPrev');
+  const lbNext = document.getElementById('lbNext');
+
+  let currentIndex = 0;
+
+  function openLightbox(index) {
+    currentIndex = index;
+    updateLightbox();
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function updateLightbox() {
+    lbImage.src = photos[currentIndex].replace('w=1200', 'w=1800');
+    lbCounter.textContent = `${currentIndex + 1} / ${photos.length}`;
+  }
+
+  function navigate(direction) {
+    currentIndex = (currentIndex + direction + photos.length) % photos.length;
+    updateLightbox();
+  }
+
+  lbClose.addEventListener('click', closeLightbox);
+  lbPrev.addEventListener('click', (e) => { e.stopPropagation(); navigate(-1); });
+  lbNext.addEventListener('click', (e) => { e.stopPropagation(); navigate(1); });
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigate(-1);
+    if (e.key === 'ArrowRight') navigate(1);
+  });
+</script>
+
+</body>
+</html>
