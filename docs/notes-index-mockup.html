@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Notes from the field — Hampshire Paddock Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --jd-green: #367c2b;
+    --jd-green-dark: #245018;
+    --jd-green-deep: #17330d;
+    --jd-green-light: #4a9a3a;
+    --jd-green-pale: #e8f0e3;
+    --jd-yellow: #ffde00;
+    --jd-yellow-dark: #e8c800;
+    --ink: #1a1f15;
+    --ink-2: #4a4f45;
+    --ink-3: #7a7f75;
+    --cream: #fafaf5;
+    --white: #ffffff;
+    --rule: #d8dcd2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', -apple-system, system-ui, sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== NAV ===== */
+  nav.site-nav {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 10;
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+  }
+  .brand {
+    font-family: 'Tenor Sans', serif;
+    font-size: 18px;
+    letter-spacing: 0.03em;
+    color: #fff;
+    text-decoration: none;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  nav ul a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.88;
+  }
+  nav ul a:hover { opacity: 1; }
+  nav ul a.active {
+    border-bottom: 2px solid var(--jd-yellow);
+    padding-bottom: 4px;
+  }
+  .nav-cta {
+    background: var(--jd-yellow);
+    color: var(--jd-green-deep);
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+  .nav-cta:hover { background: var(--jd-yellow-dark); }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    height: 38vh;
+    min-height: 300px;
+    background: var(--jd-green-dark);
+    overflow: hidden;
+  }
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(135deg, rgba(23, 51, 13, 0.6) 0%, rgba(36, 80, 24, 0.35) 50%, rgba(23, 51, 13, 0.55) 100%),
+                      url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=2000');
+    background-size: cover;
+    background-position: center;
+  }
+  .hero-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 48px;
+    color: #fff;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--jd-yellow);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .hero h1 {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(36px, 5.5vw, 64px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin-bottom: 14px;
+  }
+  .hero h1 em {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-yellow);
+  }
+  .hero p {
+    font-size: 17px;
+    max-width: 560px;
+    opacity: 0.9;
+  }
+
+  /* ===== FEATURED ===== */
+  .featured-wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 72px 48px 0;
+  }
+  .featured-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--jd-green);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .featured {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 48px;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 72px;
+  }
+  .featured-photo {
+    aspect-ratio: 4/3;
+    background-image: url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=1600');
+    background-size: cover;
+    background-position: center;
+    background-color: var(--jd-green-pale);
+    transition: transform 0.4s ease;
+  }
+  .featured:hover .featured-photo { transform: scale(1.02); }
+  .featured-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 16px;
+  }
+  .tag-pill {
+    display: inline-block;
+    background: var(--jd-green-pale);
+    color: var(--jd-green-dark);
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+  .featured h2 {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(32px, 3.6vw, 48px);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+  }
+  .featured h2 em {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-green);
+  }
+  .featured p {
+    font-size: 17px;
+    color: var(--ink-2);
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  .featured-cta {
+    display: inline-block;
+    color: var(--jd-green-dark);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--jd-yellow);
+    padding-bottom: 4px;
+    transition: color 0.15s;
+  }
+  .featured:hover .featured-cta { color: var(--jd-green); }
+
+  /* ===== TAG FILTER ===== */
+  .filter-bar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--white);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 18px 48px;
+    transition: box-shadow 0.2s;
+  }
+  .filter-bar.scrolled {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  }
+  .filter-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .filter-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .filter-chips {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex: 1;
+  }
+  .chip {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 16px;
+    background: transparent;
+    color: var(--ink-2);
+    border: 1px solid var(--rule);
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .chip:hover {
+    border-color: var(--jd-green);
+    color: var(--jd-green-dark);
+  }
+  .chip.active {
+    background: var(--jd-green-dark);
+    border-color: var(--jd-green-dark);
+    color: #fff;
+  }
+  .count-pill {
+    font-size: 12px;
+    color: var(--ink-3);
+    white-space: nowrap;
+  }
+
+  /* ===== POSTS GRID (MASONRY) ===== */
+  .posts-wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 56px 48px 96px;
+  }
+  .posts-grid {
+    columns: 3;
+    column-gap: 32px;
+  }
+  .post-card {
+    break-inside: avoid;
+    margin-bottom: 32px;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.2s ease;
+  }
+  .post-card.hidden { display: none; }
+  .post-photo-wrap {
+    overflow: hidden;
+    margin-bottom: 16px;
+    background: var(--jd-green-pale);
+  }
+  .post-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+  .post-card:hover .post-photo { transform: scale(1.04); }
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+  .post-card h3 {
+    font-family: 'Tenor Sans', serif;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    transition: color 0.15s;
+  }
+  .post-card:hover h3 { color: var(--jd-green-dark); }
+  .post-excerpt {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+
+  /* ===== LOAD MORE ===== */
+  .load-more-wrap {
+    text-align: center;
+    padding: 16px 0 32px;
+  }
+  .load-more {
+    background: transparent;
+    border: 1px solid var(--rule);
+    color: var(--ink-2);
+    padding: 14px 32px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s;
+  }
+  .load-more:hover {
+    border-color: var(--jd-green);
+    color: var(--jd-green-dark);
+    background: var(--jd-green-pale);
+  }
+  .load-more.hidden { display: none; }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--ink-3);
+    font-size: 15px;
+    display: none;
+  }
+  .empty.show { display: block; }
+
+  /* ===== CTA BAND ===== */
+  .cta-band {
+    background: var(--jd-green-deep);
+    padding: 80px 48px;
+    text-align: center;
+    color: #fff;
+  }
+  .cta-band h3 {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(28px, 3.5vw, 42px);
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cta-band h3 em {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-yellow);
+  }
+  .cta-band p {
+    font-size: 16px;
+    opacity: 0.85;
+    margin-bottom: 32px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .btn-primary {
+    display: inline-block;
+    background: var(--jd-yellow);
+    color: var(--jd-green-deep);
+    padding: 16px 32px;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+  .btn-primary:hover { background: var(--jd-yellow-dark); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--jd-green-deep);
+    color: rgba(255,255,255,0.72);
+    padding: 64px 48px 32px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .footer-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr 0.8fr 0.8fr;
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+  .footer-brand {
+    font-family: 'Tenor Sans', serif;
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  .footer-tag {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-yellow);
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .footer-blurb { font-size: 14px; line-height: 1.6; max-width: 320px; }
+  .footer-col h5 {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--jd-yellow);
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 10px; }
+  .footer-col a {
+    color: rgba(255,255,255,0.72);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.15s;
+  }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1100px) {
+    .featured { grid-template-columns: 1fr; gap: 28px; }
+    .posts-grid { columns: 2; column-gap: 24px; }
+    .footer-grid { grid-template-columns: 1fr 1fr 1fr; gap: 32px; }
+  }
+  @media (max-width: 768px) {
+    nav.site-nav { padding: 20px 24px; }
+    nav ul { display: none; }
+    .hero-inner { padding: 0 24px 32px; }
+    .featured-wrap { padding: 48px 20px 0; }
+    .featured { margin-bottom: 48px; }
+    .filter-bar { padding: 14px 20px; }
+    .filter-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .filter-chips { overflow-x: auto; flex-wrap: nowrap; width: 100%; padding-bottom: 4px; }
+    .posts-wrap { padding: 40px 20px 64px; }
+    .posts-grid { columns: 1; column-gap: 0; }
+    .post-card { margin-bottom: 32px; }
+    .cta-band { padding: 56px 20px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="site-nav">
+  <a href="/" class="brand">Hampshire Paddock Management</a>
+  <ul>
+    <li><a href="/services">Services</a></li>
+    <li><a href="/gallery">Gallery</a></li>
+    <li><a href="/notes" class="active">Notes</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <a href="/contact" class="nav-cta">Get a quote</a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-photo"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Notes from the field</div>
+    <h1>Things <em>worth knowing</em></h1>
+    <p>Practical advice on paddocks, weeds, kit, and seasonal jobs — written from the seat of a tractor.</p>
+  </div>
+</section>
+
+<!-- ============ FEATURED ============ -->
+<section class="featured-wrap">
+  <div class="featured-eyebrow">Featured</div>
+  <a href="/notes/when-to-top-a-paddock" class="featured">
+    <div class="featured-photo"></div>
+    <div class="featured-text">
+      <div class="featured-meta">
+        <span class="tag-pill">Topping</span>
+        <span>·</span>
+        <span>March 2026</span>
+        <span>·</span>
+        <span>6 min read</span>
+      </div>
+      <h2>When to top a paddock — and when to <em>leave it</em></h2>
+      <p>Topping at the wrong moment costs grass quality for the rest of the season. A practical guide to timing, frequency, and reading the field — built from twenty years of getting it right and wrong.</p>
+      <span class="featured-cta">Read the post →</span>
+    </div>
+  </a>
+</section>
+
+<!-- ============ FILTER BAR ============ -->
+<div class="filter-bar" id="filterBar">
+  <div class="filter-inner">
+    <span class="filter-label">Browse by topic</span>
+    <div class="filter-chips" id="filterChips">
+      <button class="chip active" data-tag="all">All notes</button>
+      <button class="chip" data-tag="topping">Topping</button>
+      <button class="chip" data-tag="weeds">Weeds</button>
+      <button class="chip" data-tag="seasonal">Seasonal</button>
+      <button class="chip" data-tag="equipment">Equipment</button>
+      <button class="chip" data-tag="ground-care">Ground care</button>
+      <button class="chip" data-tag="advice">Advice</button>
+    </div>
+    <span class="count-pill" id="countPill">48 posts</span>
+  </div>
+</div>
+
+<!-- ============ POSTS GRID ============ -->
+<section class="posts-wrap">
+  <div class="posts-grid" id="postsGrid">
+    <!-- Posts injected by JS to demonstrate masonry + filter behaviour -->
+  </div>
+
+  <div class="empty" id="emptyState">
+    No posts under this topic yet. Try another.
+  </div>
+
+  <div class="load-more-wrap">
+    <button class="load-more" id="loadMoreBtn">Load more →</button>
+  </div>
+</section>
+
+<!-- ============ CTA BAND ============ -->
+<section class="cta-band">
+  <h3>Reading is fine. <em>Doing is better.</em></h3>
+  <p>If your paddock needs work and you'd rather someone else handled it, get in touch.</p>
+  <a href="/contact" class="btn-primary">Get a quote →</a>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Hampshire Paddock Management</div>
+      <div class="footer-tag">Paddocks, put right.</div>
+      <p class="footer-blurb">Modern, well-equipped paddock management across Hampshire and surrounding counties. Trading as Emmerdale Agriculture Ltd.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Cutting &amp; mowing</h5>
+      <ul>
+        <li><a href="/services/paddock-topping">Paddock topping</a></li>
+        <li><a href="/services/flailing">Flailing</a></li>
+        <li><a href="/services/flail-collecting">Flail collecting</a></li>
+        <li><a href="/services/finish-mowing">Finish mowing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Ground care</h5>
+      <ul>
+        <li><a href="/services/harrowing">Harrowing</a></li>
+        <li><a href="/services/rolling">Rolling</a></li>
+        <li><a href="/services/rotavating">Rotavating</a></li>
+        <li><a href="/services/mole-ploughing">Mole ploughing</a></li>
+        <li><a href="/services/stone-burying">Stone burying</a></li>
+        <li><a href="/services/land-ditch-clearance">Land &amp; ditch clearance</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Treatment &amp; upkeep</h5>
+      <ul>
+        <li><a href="/services/weed-control">Weed control</a></li>
+        <li><a href="/services/spraying">Spraying</a></li>
+        <li><a href="/services/fertiliser-application">Fertiliser application</a></li>
+        <li><a href="/services/overseeding">Overseeding</a></li>
+        <li><a href="/services/manure-sweeping">Manure sweeping</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="/about">About</a></li>
+        <li><a href="/gallery">Gallery</a></li>
+        <li><a href="/notes">Notes</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="tel:+447825156062">07825 156062</a></li>
+        <li><a href="mailto:">Email us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Emmerdale Agriculture Ltd · Company No. 14950816</span>
+    <span>Made with care in Hampshire</span>
+  </div>
+</footer>
+
+<script>
+  // ============ DEMO POSTS ============
+  // In the real build, these come from Payload's Posts collection
+  const stockPhotos = [
+    'https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=800',
+    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800',
+    'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=800',
+    'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800',
+    'https://images.unsplash.com/photo-1444858291040-58f756a3bdd6?w=800',
+    'https://images.unsplash.com/photo-1500076656116-558758c991c1?w=800',
+    'https://images.unsplash.com/photo-1507668077129-56e32842fceb?w=800',
+    'https://images.unsplash.com/photo-1464198789344-b70bd1f7772a?w=800',
+    'https://images.unsplash.com/photo-1595855759920-86582396756a?w=800',
+    'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800',
+    'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800',
+    'https://images.unsplash.com/photo-1533035353720-f1c6a75cd8ab?w=800'
+  ];
+
+  const titles = [
+    'How to spot ragwort before it spreads',
+    'The case for chain harrowing every spring',
+    'When rolling helps and when it does damage',
+    'Reading paddock condition by season',
+    'Why most paddocks need overseeding sooner than you think',
+    'Mole ploughing — what it actually does',
+    'A simple guide to fertiliser timing',
+    'Flailing vs topping — knowing the difference',
+    'What proper kit costs (and why it matters)',
+    'Stone burying — the underrated job',
+    'Why paddocks fail in their second year',
+    'Manure heaps and what to do with them',
+    'Spring paddock checklist',
+    'Autumn jobs that pay back twice',
+    'Drainage problems you can fix yourself',
+    'Hedge cutting — when, why, how often',
+    'The cost of leaving ragwort alone',
+    'Planning a year of paddock work',
+    'How wet is too wet to top?',
+    'Equipment service intervals worth keeping'
+  ];
+
+  const tags = ['topping', 'weeds', 'seasonal', 'equipment', 'ground-care', 'advice'];
+  const tagLabels = {
+    topping: 'Topping',
+    weeds: 'Weeds',
+    seasonal: 'Seasonal',
+    equipment: 'Equipment',
+    'ground-care': 'Ground care',
+    advice: 'Advice'
+  };
+
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const excerpts = [
+    'A practical, no-fuss guide drawn from the actual seat of a tractor.',
+    'What goes wrong when this gets timed wrong, and how to avoid it.',
+    'The bit nobody tells you about, but that makes the difference.',
+    'Short answer first, then the longer one if you want it.',
+    'Worth doing properly. Here is why and how.'
+  ];
+
+  // Build a 48-post demo set with varied tag combos
+  const posts = Array.from({ length: 48 }, (_, i) => {
+    const primaryTag = tags[i % tags.length];
+    const month = months[i % 12];
+    return {
+      title: titles[i % titles.length],
+      photo: stockPhotos[i % stockPhotos.length],
+      tag: primaryTag,
+      tagLabel: tagLabels[primaryTag],
+      date: `${month} 2025`,
+      excerpt: excerpts[i % excerpts.length],
+      slug: `post-${i + 1}`
+    };
+  });
+
+  // ============ STATE ============
+  const POSTS_PER_PAGE = 12;
+  let activeTag = 'all';
+  let visibleCount = POSTS_PER_PAGE;
+
+  const grid = document.getElementById('postsGrid');
+  const emptyState = document.getElementById('emptyState');
+  const countPill = document.getElementById('countPill');
+  const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+  function filteredPosts() {
+    if (activeTag === 'all') return posts;
+    return posts.filter(p => p.tag === activeTag);
+  }
+
+  function render() {
+    const filtered = filteredPosts();
+    const toShow = filtered.slice(0, visibleCount);
+
+    grid.innerHTML = toShow.map(p => `
+      <a href="/notes/${p.slug}" class="post-card">
+        <div class="post-photo-wrap">
+          <img src="${p.photo}" alt="" class="post-photo" loading="lazy" />
+        </div>
+        <div class="post-meta">
+          <span class="tag-pill">${p.tagLabel}</span>
+          <span>${p.date}</span>
+        </div>
+        <h3>${p.title}</h3>
+        <p class="post-excerpt">${p.excerpt}</p>
+      </a>
+    `).join('');
+
+    countPill.textContent = `${filtered.length} post${filtered.length === 1 ? '' : 's'}`;
+    emptyState.classList.toggle('show', filtered.length === 0);
+    loadMoreBtn.classList.toggle('hidden', visibleCount >= filtered.length || filtered.length === 0);
+  }
+
+  // ============ FILTER ============
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeTag = chip.dataset.tag;
+      visibleCount = POSTS_PER_PAGE;
+      render();
+    });
+  });
+
+  // ============ LOAD MORE ============
+  loadMoreBtn.addEventListener('click', () => {
+    visibleCount += POSTS_PER_PAGE;
+    render();
+  });
+
+  // ============ STICKY FILTER SHADOW ============
+  const filterBar = document.getElementById('filterBar');
+  window.addEventListener('scroll', () => {
+    const rect = filterBar.getBoundingClientRect();
+    filterBar.classList.toggle('scrolled', rect.top <= 0);
+  });
+
+  render();
+</script>
+
+</body>
+</html>

@@ -42,6 +42,15 @@ const nextConfig = {
     ];
   },
 
+  // Permanent redirects for legacy WordPress URL patterns.
+  // Posts moved from /blog/<slug> → /notes/<slug>; the /blog index → /notes.
+  async redirects() {
+    return [
+      { source: '/blog', destination: '/notes', permanent: true },
+      { source: '/blog/:slug', destination: '/notes/:slug', permanent: true },
+    ];
+  },
+
   // Security headers applied to every response
   async headers() {
     return [

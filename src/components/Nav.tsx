@@ -11,6 +11,7 @@ type Props = {
 const LINKS = [
   { href: '/services', label: 'Services', match: (p: string) => p === '/services' || p.startsWith('/services/') },
   { href: '/gallery',  label: 'Gallery',  match: (p: string) => p === '/gallery' || p.startsWith('/gallery/') },
+  { href: '/notes',    label: 'Notes',    match: (p: string) => p === '/notes' || p.startsWith('/notes/') },
   { href: '/about',    label: 'About',    match: (p: string) => p === '/about' },
   { href: '/contact',  label: 'Contact',  match: (p: string) => p === '/contact' },
 ];
