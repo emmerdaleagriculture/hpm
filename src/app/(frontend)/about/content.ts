@@ -10,8 +10,7 @@
 export const PHOTOS = {
   // Wide landscape — establishing shot
   hero: 51,
-  // Portrait — intro photo column (placeholder until a real photo of
-  // Tom is supplied)
+  // Portrait — Tom (intro photo column)
   intro: 41,
   // Wide landscape — full-bleed break section
   break: 174,
