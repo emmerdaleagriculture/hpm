@@ -43,11 +43,53 @@ const nextConfig = {
   },
 
   // Permanent redirects for legacy WordPress URL patterns.
-  // Posts moved from /blog/<slug> → /notes/<slug>; the /blog index → /notes.
+  // See `audit-slugs-report.md` (regenerate with scripts/audit-slugs.mjs).
   async redirects() {
     return [
-      { source: '/blog', destination: '/notes', permanent: true },
-      { source: '/blog/:slug', destination: '/notes/:slug', permanent: true },
+      // Services renamed during the rebuild
+      { source: '/services/dung-sweeping',       destination: '/services/manure-sweeping',       permanent: true },
+      { source: '/services/fertiliser-spraying', destination: '/services/fertiliser-application', permanent: true },
+      { source: '/services/field-harrowing',     destination: '/services/harrowing',              permanent: true },
+      { source: '/services/field-rotavating',    destination: '/services/rotavating',             permanent: true },
+      { source: '/services/paddock-rolling',     destination: '/services/rolling',                permanent: true },
+      { source: '/services/ragwort-pulling',     destination: '/services/weed-control',           permanent: true },
+      { source: '/services/field-ploughing', destination: '/services/rotavating', permanent: true },
+      // /services/hedge-cutting — kept live (Tom's call); no redirect
+      // /services/seedsight — kept live; planned product reintroduction
+      //   with shop at a later date.
+
+      // Old WP root-level URLs for services we now keep live or remap.
+      // (Other root-level WP service URLs are handled by the Payload
+      // Redirects collection; these three aren't because their old DB
+      // records pointed at /services rather than the right target.)
+      { source: '/field-ploughing',  destination: '/services/rotavating',     permanent: true },
+      { source: '/field-ploughing/', destination: '/services/rotavating',     permanent: true },
+      { source: '/hedge-cutting',    destination: '/services/hedge-cutting',  permanent: true },
+      { source: '/hedge-cutting/',   destination: '/services/hedge-cutting',  permanent: true },
+      { source: '/seedsight',        destination: '/services/seedsight',      permanent: true },
+      { source: '/seedsight/',       destination: '/services/seedsight',      permanent: true },
+
+      // Blog → Notes
+      { source: '/blog',       destination: '/notes',        permanent: true },
+      { source: '/blog/:slug', destination: '/notes/:slug',  permanent: true },
+
+      // WooCommerce artefacts
+      { source: '/shop',              destination: '/', permanent: true },
+      { source: '/shop/:path*',       destination: '/', permanent: true },
+      { source: '/cart',              destination: '/', permanent: true },
+      { source: '/checkout',          destination: '/', permanent: true },
+      { source: '/my-account',        destination: '/', permanent: true },
+      { source: '/my-account/:path*', destination: '/', permanent: true },
+      { source: '/wishlist',          destination: '/', permanent: true },
+      { source: '/products-compare',  destination: '/', permanent: true },
+
+      // Other old WP paths
+      { source: '/tools',  destination: '/#fleet',   permanent: true },
+      { source: '/costs',  destination: '/services', permanent: true },
+      { source: '/videos', destination: '/notes',    permanent: true },
+
+      // /privacy-policy was the WP slug; new site uses /privacy.
+      { source: '/privacy-policy', destination: '/privacy', permanent: true },
     ];
   },
 

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mobile nav + 404 — Hampshire Paddock Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --jd-green: #367c2b;
+    --jd-green-dark: #245018;
+    --jd-green-deep: #17330d;
+    --jd-green-light: #4a9a3a;
+    --jd-green-pale: #e8f0e3;
+    --jd-yellow: #ffde00;
+    --jd-yellow-dark: #e8c800;
+    --ink: #1a1f15;
+    --ink-2: #4a4f45;
+    --ink-3: #7a7f75;
+    --cream: #fafaf5;
+    --white: #ffffff;
+    --rule: #d8dcd2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', -apple-system, system-ui, sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ============================================================
+     PAGE TOGGLE — for the mockup only, lets you switch demos
+     ============================================================ */
+  .demo-switcher {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 999;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 100px;
+    padding: 6px;
+    display: flex;
+    gap: 4px;
+    font-size: 12px;
+  }
+  .demo-switcher button {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 100px;
+    font-family: inherit;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .demo-switcher button.active {
+    background: var(--jd-yellow);
+    color: var(--jd-green-deep);
+  }
+
+  /* ============================================================
+     SHARED NAV — works at all sizes
+     ============================================================ */
+  nav.site-nav {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 22px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+  }
+  .brand {
+    font-family: 'Tenor Sans', serif;
+    font-size: 18px;
+    letter-spacing: 0.03em;
+    color: #fff;
+    text-decoration: none;
+    z-index: 60;
+    position: relative;
+  }
+  /* Desktop nav links */
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .nav-links a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.88;
+  }
+  .nav-links a:hover { opacity: 1; }
+  .nav-cta-desktop {
+    background: var(--jd-yellow);
+    color: var(--jd-green-deep);
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+
+  /* Burger button (hidden on desktop) */
+  .burger {
+    display: none;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    width: 44px;
+    height: 44px;
+    border-radius: 4px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 60;
+    position: relative;
+    transition: background 0.15s, border-color 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .burger:hover { background: rgba(255,255,255,0.08); }
+  .burger:active { background: rgba(255,255,255,0.15); }
+  .burger-icon {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 18px;
+  }
+  .burger-icon span {
+    display: block;
+    height: 2px;
+    background: #fff;
+    border-radius: 1px;
+    transition: transform 0.25s, opacity 0.15s;
+    transform-origin: center;
+  }
+  .burger.open .burger-icon span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+  .burger.open .burger-icon span:nth-child(2) {
+    opacity: 0;
+  }
+  .burger.open .burger-icon span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  /* ============================================================
+     MOBILE MENU — dropdown from top
+     ============================================================ */
+  .mobile-menu {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 55;
+    background: var(--jd-green-deep);
+    transform: translateY(-100%);
+    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 96px 32px 32px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+  .mobile-menu.open { transform: translateY(0); }
+  .mobile-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 15, 8, 0.5);
+    z-index: 54;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+  }
+  .mobile-menu-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .mobile-nav-list {
+    list-style: none;
+    margin-bottom: 32px;
+  }
+  .mobile-nav-list li {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .mobile-nav-list li:last-child { border-bottom: none; }
+  .mobile-nav-list a {
+    display: block;
+    padding: 18px 0;
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Tenor Sans', serif;
+    font-size: 22px;
+    letter-spacing: 0.01em;
+    transition: color 0.15s;
+  }
+  .mobile-nav-list a:hover { color: var(--jd-yellow); }
+  .mobile-nav-list a.active {
+    color: var(--jd-yellow);
+  }
+
+  .mobile-menu-footer {
+    margin-top: 8px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+  .mobile-phone-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--jd-yellow);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .mobile-phone-link {
+    display: block;
+    font-family: 'Tenor Sans', serif;
+    font-size: 28px;
+    color: #fff;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    margin-bottom: 4px;
+    transition: color 0.15s;
+  }
+  .mobile-phone-link:hover { color: var(--jd-yellow); }
+  .mobile-phone-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 24px;
+  }
+  .mobile-cta-btn {
+    display: block;
+    width: 100%;
+    background: var(--jd-yellow);
+    color: var(--jd-green-deep);
+    padding: 16px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+  .mobile-cta-btn:hover { background: var(--jd-yellow-dark); }
+
+  /* ============================================================
+     PAGES (containers for both demos)
+     ============================================================ */
+  .demo-page { display: none; }
+  .demo-page.active { display: block; }
+
+  /* ============================================================
+     SAMPLE PAGE (to show nav in context)
+     ============================================================ */
+  .sample-hero {
+    position: relative;
+    height: 60vh;
+    min-height: 480px;
+    background: var(--jd-green-dark);
+    overflow: hidden;
+  }
+  .sample-hero-photo {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(135deg, rgba(23, 51, 13, 0.55) 0%, rgba(36, 80, 24, 0.3) 50%, rgba(23, 51, 13, 0.5) 100%),
+                      url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=2000');
+    background-size: cover;
+    background-position: center;
+  }
+  .sample-hero-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 32px 64px;
+    color: #fff;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .sample-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--jd-yellow);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .sample-hero h1 {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(40px, 7vw, 80px);
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .sample-hero h1 em {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-yellow);
+  }
+  .sample-note {
+    padding: 64px 32px;
+    text-align: center;
+    color: var(--ink-3);
+    font-size: 14px;
+    background: var(--cream);
+  }
+
+  /* ============================================================
+     404 PAGE
+     ============================================================ */
+  .nf-page {
+    min-height: 100vh;
+    background: var(--jd-green-deep);
+    background-image: linear-gradient(160deg, rgba(23, 51, 13, 0.92) 0%, rgba(23, 51, 13, 0.78) 60%, rgba(36, 80, 24, 0.85) 100%),
+                      url('https://images.unsplash.com/photo-1444858291040-58f756a3bdd6?w=2400');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+  .nf-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 32px 80px;
+    text-align: center;
+  }
+  .nf-inner {
+    max-width: 640px;
+  }
+  .nf-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--jd-yellow);
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  .nf-page h1 {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(44px, 7vw, 88px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+  .nf-page h1 em {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-yellow);
+  }
+  .nf-page p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 40px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .nf-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 56px;
+  }
+  .nf-btn-primary {
+    background: var(--jd-yellow);
+    color: var(--jd-green-deep);
+    padding: 16px 32px;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+  .nf-btn-primary:hover { background: var(--jd-yellow-dark); }
+  .nf-btn-secondary {
+    background: transparent;
+    color: #fff;
+    padding: 16px 32px;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 2px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .nf-btn-secondary:hover {
+    border-color: var(--jd-yellow);
+    background: rgba(255,222,0,0.08);
+  }
+
+  .nf-suggested {
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding-top: 36px;
+    text-align: left;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .nf-suggested-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 16px;
+    font-weight: 500;
+    text-align: center;
+  }
+  .nf-links {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 24px;
+  }
+  .nf-links a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    padding: 8px 0;
+    display: block;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .nf-links a:hover {
+    color: var(--jd-yellow);
+    border-color: var(--jd-yellow);
+  }
+
+  /* ============================================================
+     RESPONSIVE — switch between desktop and mobile nav
+     ============================================================ */
+  @media (max-width: 900px) {
+    nav.site-nav { padding: 18px 20px; }
+    .nav-links { display: none; }
+    .nav-cta-desktop { display: none; }
+    .burger { display: flex; }
+    .sample-hero-inner { padding: 0 20px 48px; }
+    .nf-content { padding: 100px 20px 64px; }
+    .nf-links { grid-template-columns: 1fr; gap: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Demo switcher (mockup only, not in production) -->
+<div class="demo-switcher">
+  <button class="active" data-demo="sample">Nav demo</button>
+  <button data-demo="nf">404</button>
+</div>
+
+<!-- ========= SHARED NAV ========= -->
+<nav class="site-nav">
+  <a href="/" class="brand">Hampshire Paddock Management</a>
+
+  <!-- Desktop links (hidden on mobile) -->
+  <ul class="nav-links">
+    <li><a href="/services">Services</a></li>
+    <li><a href="/gallery">Gallery</a></li>
+    <li><a href="/notes">Notes</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <a href="/contact" class="nav-cta-desktop">Get a quote</a>
+
+  <!-- Burger (hidden on desktop) -->
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+    <span class="burger-icon">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+  </button>
+</nav>
+
+<!-- ========= MOBILE MENU ========= -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <ul class="mobile-nav-list">
+    <li><a href="/services">Services</a></li>
+    <li><a href="/gallery">Gallery</a></li>
+    <li><a href="/notes">Notes</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <div class="mobile-menu-footer">
+    <div class="mobile-phone-eyebrow">Call directly</div>
+    <a href="tel:+447825156062" class="mobile-phone-link">07825 156062</a>
+    <div class="mobile-phone-sub">Available any time, any day</div>
+    <a href="/contact" class="mobile-cta-btn">Get a quote →</a>
+  </div>
+</div>
+
+<!-- ========= SAMPLE PAGE (shows nav in context) ========= -->
+<div class="demo-page active" id="page-sample">
+  <section class="sample-hero">
+    <div class="sample-hero-photo"></div>
+    <div class="sample-hero-inner">
+      <div class="sample-eyebrow">Sample page</div>
+      <h1>Mobile nav <em>demo</em></h1>
+    </div>
+  </section>
+  <div class="sample-note">
+    <p>Resize your browser below 900px to see the burger.<br/>Tap to open — dropdown slides down from the top.</p>
+  </div>
+</div>
+
+<!-- ========= 404 PAGE ========= -->
+<div class="demo-page" id="page-nf">
+  <main class="nf-page">
+    <div class="nf-content">
+      <div class="nf-inner">
+        <div class="nf-eyebrow">404</div>
+        <h1>This field is <em>empty</em></h1>
+        <p>The page you were looking for has wandered off — or it was never here in the first place. Either way, let's get you back on a paddock that's actually being managed.</p>
+        <div class="nf-buttons">
+          <a href="/" class="nf-btn-primary">Back to home</a>
+          <a href="/contact" class="nf-btn-secondary">Get a quote</a>
+        </div>
+        <div class="nf-suggested">
+          <div class="nf-suggested-label">Or try one of these</div>
+          <ul class="nf-links">
+            <li><a href="/services">All services</a></li>
+            <li><a href="/gallery">Gallery</a></li>
+            <li><a href="/notes">Notes from the field</a></li>
+            <li><a href="/about">About</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  // ============ MOBILE MENU ============
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+
+  function setMenu(open) {
+    burger.classList.toggle('open', open);
+    mobileMenu.classList.toggle('open', open);
+    mobileMenuOverlay.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+
+  burger.addEventListener('click', () => {
+    setMenu(!mobileMenu.classList.contains('open'));
+  });
+  mobileMenuOverlay.addEventListener('click', () => setMenu(false));
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('open')) setMenu(false);
+  });
+  // Close when a link is tapped (in the real build, route navigation will trigger this implicitly via Next.js router events)
+  document.querySelectorAll('.mobile-nav-list a, .mobile-cta-btn').forEach(link => {
+    link.addEventListener('click', () => setMenu(false));
+  });
+
+  // ============ DEMO SWITCHER (mockup only) ============
+  document.querySelectorAll('.demo-switcher button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.demo-switcher button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.demo-page').forEach(p => p.classList.remove('active'));
+      document.getElementById(`page-${btn.dataset.demo}`).classList.add('active');
+      // Close mobile menu when switching demos
+      setMenu(false);
+    });
+  });
+</script>
+
+</body>
+</html>
