@@ -108,7 +108,7 @@
 .photo img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 .tile:hover .photo { transform: scale(1.05); }
 

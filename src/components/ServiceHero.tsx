@@ -14,7 +14,9 @@ type Props = {
 };
 
 export function ServiceHero({ title, strapline, heroImage }: Props) {
-  const url = mediaUrl(heroImage, 'hero') ?? mediaUrl(heroImage);
+  // Original image (uncropped). Payload's 'hero' variant is centre-cropped
+  // at upload time; serving the original lets next/image resize without crop.
+  const url = mediaUrl(heroImage);
   const alt =
     (typeof heroImage === 'object' && heroImage?.alt) || title;
 
@@ -30,7 +32,7 @@ export function ServiceHero({ title, strapline, heroImage }: Props) {
             fill
             priority
             sizes="100vw"
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: 'contain' }}
           />
         )}
       </div>
