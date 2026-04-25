@@ -44,11 +44,12 @@ export function ServicesGrid({ services }: Props) {
 }
 
 function ServiceTile({ service, feature }: { service: ServiceDoc; feature?: boolean }) {
-  // Use the original (uncropped) file; the `card`/`feature` Payload variants
-  // are centre-cropped at upload time and would still appear cropped even
-  // under object-fit: contain. next/image handles per-device resizing via
-  // the `sizes` attr below.
-  const url = mediaUrl(service.heroImage);
+  // Prefer the 'large' Payload variant (width-only, no crop) over the raw
+  // original — same uncropped composition but ~50% the bytes, which keeps
+  // next/image's optimizer responsive in dev. Older media without 'large'
+  // falls back to the original.
+  const url =
+    mediaUrl(service.heroImage, 'large') ?? mediaUrl(service.heroImage);
   const altText =
     (typeof service.heroImage === 'object' && service.heroImage?.alt) ||
     service.title;

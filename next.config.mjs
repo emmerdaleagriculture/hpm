@@ -26,9 +26,12 @@ const nextConfig = {
     ],
     // Modern formats — Next will serve AVIF/WebP to browsers that support them
     formats: ['image/avif', 'image/webp'],
-    // Sensible default sizes for responsive images
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    // Trimmed responsive widths — every entry here multiplies how many
+    // optimisations next/image queues per page. With ~15 service tiles
+    // each fanning out a srcset, the previous 7+8 entries hit 130+
+    // concurrent Sharp jobs and saturated the dev optimizer (504s).
+    deviceSizes: [640, 1080, 1920],
+    imageSizes: [256, 640],
   },
 
   // Security headers applied to every response

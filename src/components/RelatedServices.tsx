@@ -25,8 +25,8 @@ export function RelatedServices({ services }: Props) {
       </div>
       <div className={styles.grid}>
         {services.slice(0, 3).map((s) => {
-          // Original image (uncropped); see ServicesGrid.tsx for rationale.
-          const url = mediaUrl(s.heroImage);
+          // 'large' variant first, fall back to original; see ServicesGrid.
+          const url = mediaUrl(s.heroImage, 'large') ?? mediaUrl(s.heroImage);
           const alt =
             (typeof s.heroImage === 'object' && s.heroImage?.alt) || s.title;
           return (
