@@ -24,9 +24,31 @@ const args = process.argv.slice(2);
 const EXECUTE = args.includes('--execute');
 const ID_ARG = args.find((a) => a.startsWith('--id='))?.slice(5);
 const MISSING_ARG = args.find((a) => a.startsWith('--missing='))?.slice(10);
+const FORCE_LOCAL = args.includes('--i-know-storage-is-shared');
 
 const SUPABASE_BASE =
   'https://unakyuksioglmihvipmi.supabase.co/storage/v1/object/public/hpm-media/media/';
+
+// Guard: re-uploading via Payload deletes the previous file from storage
+// and writes a uniquified replacement. The dev DB shares its Supabase
+// bucket with prod, so running this against a local DB silently breaks
+// the prod site (prod rows still reference the now-deleted originals).
+// See scripts/sync-media-paths-to-prod.mjs for the corrective.
+if (EXECUTE) {
+  const dbUrl = process.env.DATABASE_URL ?? '';
+  const looksLocal = /(^|@|\/\/)(localhost|127\.0\.0\.1|::1)(:|\/)/i.test(dbUrl);
+  if (looksLocal && !FORCE_LOCAL) {
+    console.error(
+      'Refusing: DATABASE_URL points at a local DB but storage is shared with prod.\n' +
+      'Running this here would delete prod-referenced files from the shared bucket.\n' +
+      'Either:\n' +
+      '  • Run with DATABASE_URL set to prod (DATABASE_URL=$DATABASE_URL_PROD ...)\n' +
+      '  • Or, if your local stack genuinely has its own bucket now, pass\n' +
+      '    --i-know-storage-is-shared to override.',
+    );
+    process.exit(2);
+  }
+}
 
 const payload = await getPayload({ config });
 
