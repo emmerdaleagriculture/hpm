@@ -44,6 +44,7 @@ const CATEGORIES = [
       { name: 'Kuhn EL 62', spec: 'Rotavator' },
       { name: 'SpeedSeed 1500', spec: 'Overseeder' },
       { name: 'Winton WSS145', spec: 'Stone burier / seeder' },
+      { name: 'Deleks mole plough', spec: 'Mole ploughing' },
       { name: 'Pipe layer / subsoiler', spec: 'Drainage' },
     ],
   },
