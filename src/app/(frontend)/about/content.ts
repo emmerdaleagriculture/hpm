@@ -12,7 +12,7 @@ export const PHOTOS = {
   hero: 51,
   // Portrait — intro photo column (placeholder until a real photo of
   // Tom is supplied)
-  intro: 26,
+  intro: 41,
   // Wide landscape — full-bleed break section
   break: 174,
 } as const;
