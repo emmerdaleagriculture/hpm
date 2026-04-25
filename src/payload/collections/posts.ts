@@ -33,7 +33,10 @@ export const Posts: CollectionConfig = {
     maxPerDoc: 20,
   },
   hooks: {
-    beforeValidate: [autoDerive({ excerpt: true, tags: true })],
+    // Excerpt auto-fill on save is helpful. Auto-derived tags pulled
+    // capitalised words from titles ("Discover", "Here", "June" etc.) —
+    // disabled in favour of a curated taxonomy assigned in admin.
+    beforeValidate: [autoDerive({ excerpt: true, tags: false })],
   },
   defaultSort: '-publishedAt',
   fields: [
@@ -76,8 +79,40 @@ export const Posts: CollectionConfig = {
     {
       name: 'tags',
       type: 'array',
-      admin: { position: 'sidebar' },
+      admin: {
+        position: 'sidebar',
+        description:
+          'Curated taxonomy: topping, weeds, seasonal, equipment, ground-care, advice, drainage, kit. Lowercase, hyphenated. Drives the Notes index filter chips.',
+      },
       fields: [{ name: 'tag', type: 'text' }],
+    },
+    {
+      name: 'primaryTag',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        description:
+          'Single tag (slug form, e.g. "topping") that drives the auto-generated service CTA panel on the post page. Should match one of the tags above.',
+      },
+    },
+    {
+      name: 'featured',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description:
+          'Show this post in the large featured slot at the top of /notes. Flag at most one at a time; the most recent wins if multiple are flagged.',
+      },
+    },
+    {
+      name: 'readTime',
+      type: 'number',
+      admin: {
+        position: 'sidebar',
+        description:
+          'Optional read-time in minutes. Computed from word count if left blank.',
+      },
     },
     {
       name: 'publishedAt',
