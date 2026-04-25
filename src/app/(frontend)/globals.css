@@ -20,6 +20,7 @@
   --cream: #fafaf5;
   --white: #ffffff;
   --rule: #d8dcd2;
+  --error: #c63b1f;
 
   /* Typography (next/font sets --font-display / --font-body at the html root) */
   --font-display-stack: var(--font-display), 'Tenor Sans', Georgia, serif;

@@ -52,7 +52,7 @@ export function StickyQuoteCta({ serviceSlug, serviceTitle }: Props) {
           <div className={styles.head}>
             <div>
               <div className={styles.title}>{label}</div>
-              <div className={styles.titleSub}>Usually back the same day.</div>
+              <div className={styles.titleSub}>Usually replies within hours, day or night.</div>
             </div>
             <button
               type="button"
@@ -105,7 +105,7 @@ export function StickyQuoteCta({ serviceSlug, serviceTitle }: Props) {
                 <div className={styles.error}>{state.message}</div>
               )}
               <div className={styles.footnote}>
-                We’ll be in touch by phone or email within 24 hours.
+                Usually back within hours — day or night.
               </div>
             </form>
           )}

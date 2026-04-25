@@ -3,8 +3,9 @@
 import { getPayload } from 'payload';
 import config from '@payload-config';
 import { Resend } from 'resend';
+import { SITE_EMAIL, SITE_PHONE } from '@/lib/site';
 
-const TO = 'tom@hampshirepaddockmanagement.com';
+const TO = SITE_EMAIL;
 // Until the domain is DNS-verified in Resend, `EMAIL_FROM` can be set to a
 // verified address (e.g. onboarding@resend.dev for testing). We default to
 // the HPM address because that's what Tom wants in production.
@@ -79,7 +80,7 @@ export async function submitQuote(
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     console.error('[quote] RESEND_API_KEY missing — cannot send email');
-    return { ok: false, message: 'Sorry — our form is misconfigured. Please call 07825 156062.' };
+    return { ok: false, message: `Sorry — our form is misconfigured. Please call ${SITE_PHONE}.` };
   }
 
   const resend = new Resend(apiKey);
@@ -112,7 +113,7 @@ export async function submitQuote(
     console.error('[quote] Resend send failed:', (err as Error).message);
     return {
       ok: false,
-      message: 'Sorry — we couldn’t send that. Please call 07825 156062 or email tom@hampshirepaddockmanagement.com.',
+      message: `Sorry — we couldn’t send that. Please call ${SITE_PHONE} or email ${SITE_EMAIL}.`,
     };
   }
 

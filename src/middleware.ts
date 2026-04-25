@@ -89,6 +89,7 @@ const LIVE_PATHS = new Set<string>([
   '/services',
   '/about',
   '/contact',
+  '/quote',
   '/privacy',
 ]);
 

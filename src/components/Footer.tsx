@@ -3,6 +3,7 @@ import { unstable_cache } from 'next/cache';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 import { SERVICE_CATEGORIES } from '@/lib/services';
+import { SITE_EMAIL, SITE_PHONE, SITE_PHONE_TEL } from '@/lib/site';
 import styles from './Footer.module.css';
 
 type ServiceLink = { slug: string; title: string; category: string };
@@ -72,8 +73,8 @@ export async function Footer() {
         <div className={styles.col}>
           <h5>Contact</h5>
           <ul>
-            <li><a href="tel:07825156062">Call the yard</a></li>
-            <li><a href="mailto:tom@hampshirepaddockmanagement.com">Email us</a></li>
+            <li><a href={`tel:${SITE_PHONE_TEL}`}>{SITE_PHONE}</a></li>
+            <li><a href={`mailto:${SITE_EMAIL}`}>Email us</a></li>
           </ul>
         </div>
       </div>
