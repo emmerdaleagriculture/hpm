@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import { unstable_cache } from 'next/cache';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 
@@ -15,41 +16,46 @@ export const metadata: Metadata = {
     'Photos of the Hampshire Paddock Management fleet and paddock work across Hampshire, Wiltshire, Berkshire, Surrey, Dorset and East Sussex.',
 };
 
-export const dynamic = 'force-dynamic';
-
 // Hardcoded gallery hero — real photo from the imports (id=39 Burcombe
 // Estate Vinery paddock management). Swap in admin later if needed.
 const GALLERY_HERO_ID = 39;
 
-export default async function GalleryPage() {
-  const payload = await getPayload({ config });
+const getGalleryData = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config });
 
-  const res = await payload.find({
-    collection: 'media',
-    // `contains` is substring-matching on a single string; avoids `like`'s
-    // whitespace-tokenising quirk. Matches image/jpeg, image/png, image/webp,
-    // image/gif, image/svg+xml, etc., and excludes application/pdf + video/*.
-    where: {
-      mimeType: { contains: 'image/' },
-    },
-    sort: '-createdAt',
-    limit: 0, // 0 = no limit (Payload convention)
-    depth: 0,
-  });
-
-  const photos = res.docs;
-
-  let heroMedia: Parameters<typeof mediaUrl>[0] = null;
-  try {
-    heroMedia = await payload.findByID({
+    const res = await payload.find({
       collection: 'media',
-      id: GALLERY_HERO_ID,
+      // `contains` is substring-matching on a single string; avoids `like`'s
+      // whitespace-tokenising quirk. Matches image/jpeg, image/png, image/webp,
+      // image/gif, image/svg+xml, etc., and excludes application/pdf + video/*.
+      where: {
+        mimeType: { contains: 'image/' },
+      },
+      sort: '-createdAt',
+      limit: 0,
       depth: 0,
     });
-  } catch {
-    // If the expected hero is gone, fall back to the first photo
-    heroMedia = photos[0] ?? null;
-  }
+
+    let heroMedia: Parameters<typeof mediaUrl>[0] = null;
+    try {
+      heroMedia = await payload.findByID({
+        collection: 'media',
+        id: GALLERY_HERO_ID,
+        depth: 0,
+      });
+    } catch {
+      heroMedia = res.docs[0] ?? null;
+    }
+
+    return { photos: res.docs, heroMedia };
+  },
+  ['gallery-data'],
+  { revalidate: 300, tags: ['media'] },
+);
+
+export default async function GalleryPage() {
+  const { photos, heroMedia } = await getGalleryData();
   const heroUrl = mediaUrl(heroMedia, 'hero') ?? mediaUrl(heroMedia);
 
   return (

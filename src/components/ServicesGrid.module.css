@@ -65,7 +65,7 @@
   text-decoration: none;
   color: #fff;
   background: var(--jd-green-dark);
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 2 / 2.5;
   display: block;
 }
 .tile.feature {
