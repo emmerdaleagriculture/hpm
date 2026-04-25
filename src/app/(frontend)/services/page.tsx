@@ -5,6 +5,7 @@ import { getPayload } from 'payload';
 import config from '@payload-config';
 
 import { Nav } from '@/components/Nav';
+import { Breadcrumb } from '@/components/Breadcrumb';
 import { PhoneStrip } from '@/components/PhoneStrip';
 import { Footer } from '@/components/Footer';
 import { CtaBlock } from '@/components/CtaBlock';
@@ -81,11 +82,7 @@ export default async function ServicesIndexPage() {
           </div>
         )}
         <div className={styles.heroContent}>
-          <div className={styles.breadcrumb}>
-            <Link href="/">Home</Link>
-            <span className={styles.sep}>/</span>
-            <span className={styles.current}>Services</span>
-          </div>
+          <Breadcrumb items={[{ label: 'Services' }]} />
           <h1 className={styles.title}>Services.</h1>
           <p className={styles.strapline}>
             Cutting &amp; mowing, ground care, treatment &amp; upkeep — across

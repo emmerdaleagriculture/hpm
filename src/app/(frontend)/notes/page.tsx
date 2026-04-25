@@ -7,6 +7,7 @@ import { getPayload } from 'payload';
 import config from '@payload-config';
 
 import { Nav } from '@/components/Nav';
+import { Breadcrumb } from '@/components/Breadcrumb';
 import { Footer } from '@/components/Footer';
 import { mediaUrl } from '@/lib/media';
 import { NotesClient } from './NotesClient';
@@ -157,6 +158,7 @@ export default async function NotesIndexPage() {
           </div>
         )}
         <div className={styles.heroInner}>
+          <Breadcrumb items={[{ label: 'Notes' }]} />
           <div className={styles.eyebrowLight}>Notes from the field</div>
           <h1 className={styles.heroTitle}>
             Things <em>worth knowing</em>

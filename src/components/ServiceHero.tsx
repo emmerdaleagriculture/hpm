@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { Nav } from './Nav';
+import { Breadcrumb } from './Breadcrumb';
 import { mediaUrl } from '@/lib/media';
 import styles from './ServiceHero.module.css';
 
@@ -39,13 +39,12 @@ export function ServiceHero({ title, strapline, heroImage }: Props) {
       </div>
 
       <div className={styles.content}>
-        <div className={styles.breadcrumb}>
-          <Link href="/">Home</Link>
-          <span className={styles.sep}>/</span>
-          <Link href="/services">Services</Link>
-          <span className={styles.sep}>/</span>
-          <span className={styles.current}>{title}</span>
-        </div>
+        <Breadcrumb
+          items={[
+            { label: 'Services', href: '/services' },
+            { label: title },
+          ]}
+        />
         <h1 className={styles.title}>{title}.</h1>
         {strapline && (
           <p

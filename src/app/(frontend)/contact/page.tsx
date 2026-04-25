@@ -6,6 +6,7 @@ import { getPayload } from 'payload';
 import config from '@payload-config';
 
 import { Nav } from '@/components/Nav';
+import { Breadcrumb } from '@/components/Breadcrumb';
 import { Footer } from '@/components/Footer';
 import { mediaUrl } from '@/lib/media';
 import { SITE_PHONE, SITE_PHONE_TEL } from '@/lib/site';
@@ -63,6 +64,7 @@ export default async function ContactPage() {
           </div>
         )}
         <div className={styles.heroInner}>
+          <Breadcrumb items={[{ label: 'Contact' }]} />
           <div className={styles.eyebrowLight}>Get a quote</div>
           <h1 className={styles.heroTitle}>
             Tell me about your <em>paddock</em>
