@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About — Hampshire Paddock Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --jd-green: #367c2b;
+    --jd-green-dark: #245018;
+    --jd-green-deep: #17330d;
+    --jd-green-light: #4a9a3a;
+    --jd-green-pale: #e8f0e3;
+    --jd-yellow: #ffde00;
+    --jd-yellow-dark: #e8c800;
+    --ink: #1a1f15;
+    --ink-2: #4a4f45;
+    --ink-3: #7a7f75;
+    --cream: #fafaf5;
+    --white: #ffffff;
+    --rule: #d8dcd2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', -apple-system, system-ui, sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== NAV ===== */
+  nav.site-nav {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 10;
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+  }
+  .brand {
+    font-family: 'Tenor Sans', serif;
+    font-size: 18px;
+    letter-spacing: 0.03em;
+    color: #fff;
+    text-decoration: none;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  nav ul a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.88;
+  }
+  nav ul a:hover { opacity: 1; }
+  nav ul a.active {
+    border-bottom: 2px solid var(--jd-yellow);
+    padding-bottom: 4px;
+  }
+  .nav-cta {
+    background: var(--jd-yellow);
+    color: var(--jd-green-deep);
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+  .nav-cta:hover { background: var(--jd-yellow-dark); }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    height: 42vh;
+    min-height: 340px;
+    background: var(--jd-green-dark);
+    overflow: hidden;
+  }
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(135deg, rgba(23, 51, 13, 0.55) 0%, rgba(36, 80, 24, 0.3) 50%, rgba(23, 51, 13, 0.5) 100%),
+                      url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=2000');
+    background-size: cover;
+    background-position: center;
+  }
+  .hero-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 56px;
+    color: #fff;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--jd-yellow);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .hero h1 {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .hero h1 em {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-yellow);
+  }
+  .hero p {
+    font-size: 17px;
+    max-width: 540px;
+    opacity: 0.9;
+    line-height: 1.5;
+  }
+
+  /* ===== INTRO BLOCK (photo + opening) ===== */
+  .intro {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 96px 48px 64px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .intro-photo {
+    aspect-ratio: 4/5;
+    background-image: url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=1200');
+    background-size: cover;
+    background-position: center;
+    background-color: var(--jd-green-pale);
+  }
+  .intro-text .eyebrow-dark {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--jd-green);
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  .intro-text h2 {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(34px, 4vw, 52px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+  .intro-text h2 em {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-green);
+  }
+  .intro-text p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--ink-2);
+    margin-bottom: 18px;
+  }
+  .intro-text p:last-child { margin-bottom: 0; }
+
+  /* ===== STORY BODY ===== */
+  .story {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 48px 72px;
+  }
+  .story p {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--ink-2);
+    margin-bottom: 24px;
+  }
+  .pullquote {
+    margin: 48px 0;
+    padding: 32px 0 32px 32px;
+    border-left: 3px solid var(--jd-yellow);
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-size: 24px;
+    line-height: 1.4;
+    color: var(--jd-green-dark);
+  }
+
+  /* ===== CREDENTIALS STRIP ===== */
+  .credentials {
+    background: var(--cream);
+    padding: 80px 48px;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .credentials-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .credentials-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--jd-green);
+    margin-bottom: 12px;
+    font-weight: 600;
+    text-align: center;
+  }
+  .credentials h3 {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 56px;
+    line-height: 1.2;
+  }
+  .credentials h3 em {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-green);
+  }
+  .creds-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+  .cred {
+    text-align: center;
+    padding: 24px 16px;
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+  }
+  .cred-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: var(--jd-green-pale);
+    color: var(--jd-green-dark);
+    border-radius: 50%;
+    margin-bottom: 16px;
+    font-family: 'Tenor Sans', serif;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+  }
+  .cred-title {
+    font-family: 'Tenor Sans', serif;
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .cred-detail {
+    font-size: 13px;
+    color: var(--ink-3);
+    line-height: 1.5;
+  }
+
+  /* ===== AREA STRIP ===== */
+  .area {
+    padding: 96px 48px;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .area-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--jd-green);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .area h3 {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 24px;
+  }
+  .area h3 em {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-green);
+  }
+  .area p {
+    font-size: 17px;
+    color: var(--ink-2);
+    line-height: 1.7;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* ===== PHOTO BREAK ===== */
+  .photo-break {
+    height: 56vh;
+    min-height: 380px;
+    background-image: url('https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=2400');
+    background-size: cover;
+    background-position: center;
+    background-color: var(--jd-green-pale);
+  }
+
+  /* ===== CTA BAND ===== */
+  .cta-band {
+    background: var(--jd-green-deep);
+    padding: 88px 48px;
+    text-align: center;
+    color: #fff;
+  }
+  .cta-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .cta-band h3 {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+  .cta-band h3 em {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-yellow);
+  }
+  .cta-band p {
+    font-size: 17px;
+    opacity: 0.85;
+    margin-bottom: 36px;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--jd-yellow);
+    color: var(--jd-green-deep);
+    padding: 16px 32px;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+  .btn-primary:hover { background: var(--jd-yellow-dark); }
+  .btn-secondary {
+    background: transparent;
+    color: #fff;
+    padding: 16px 32px;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 2px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--jd-yellow);
+    background: rgba(255,222,0,0.08);
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--jd-green-deep);
+    color: rgba(255,255,255,0.72);
+    padding: 64px 48px 32px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .footer-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr 0.8fr 0.8fr;
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+  .footer-brand {
+    font-family: 'Tenor Sans', serif;
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  .footer-tag {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-yellow);
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .footer-blurb { font-size: 14px; line-height: 1.6; max-width: 320px; }
+  .footer-col h5 {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--jd-yellow);
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 10px; }
+  .footer-col a {
+    color: rgba(255,255,255,0.72);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.15s;
+  }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1100px) {
+    .intro { grid-template-columns: 1fr; gap: 40px; padding: 64px 32px 48px; }
+    .intro-photo { aspect-ratio: 16/10; max-height: 480px; }
+    .creds-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr 1fr; gap: 32px; }
+  }
+  @media (max-width: 768px) {
+    nav.site-nav { padding: 20px 24px; }
+    nav ul { display: none; }
+    .hero-inner { padding: 0 24px 40px; }
+    .intro { padding: 48px 20px 32px; gap: 32px; }
+    .story { padding: 24px 20px 56px; }
+    .story p { font-size: 16px; }
+    .pullquote { font-size: 20px; padding: 24px 0 24px 20px; margin: 32px 0; }
+    .credentials { padding: 56px 20px; }
+    .creds-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .cred { padding: 20px 12px; }
+    .area { padding: 64px 20px; }
+    .photo-break { min-height: 280px; }
+    .cta-band { padding: 64px 20px; }
+    .cta-buttons { flex-direction: column; gap: 12px; }
+    .btn-primary, .btn-secondary { width: 100%; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="site-nav">
+  <a href="/" class="brand">Hampshire Paddock Management</a>
+  <ul>
+    <li><a href="/services">Services</a></li>
+    <li><a href="/gallery">Gallery</a></li>
+    <li><a href="/about" class="active">About</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <a href="/contact" class="nav-cta">Get a quote</a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-photo"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">About</div>
+    <h1>Specialist paddock work, <em>run properly</em></h1>
+    <p>The person you call is the person on the tractor. No subcontractors, no sales team, no waiting until next month.</p>
+  </div>
+</section>
+
+<!-- ============ INTRO ============ -->
+<section class="intro">
+  <div class="intro-photo"></div>
+  <div class="intro-text">
+    <div class="eyebrow-dark">Hello</div>
+    <h2>I'm Tom — I run <em>Hampshire Paddock Management</em>.</h2>
+    <p>If you've got a paddock that's getting away from you — long grass, ragwort coming through, hooves cutting in where they shouldn't — I'm probably the person you want to call.</p>
+    <p>I do this full-time. It's not a side hustle for the quiet months between something else. The kit is mine, the work is mine, and when you ring the number on this site, I'm the one who picks up.</p>
+  </div>
+</section>
+
+<!-- ============ STORY ============ -->
+<section class="story">
+  <p>HPM started because there was a gap. Plenty of farmers will tackle a paddock if it's near their yard and they've got a slow week — but they'll fit you in around their real work, and the kit they bring is the kit they happen to own. That's fine if you're lucky. It's not fine if you're trying to keep horses on a few acres and the field's becoming a problem.</p>
+
+  <p>I run modern, well-maintained equipment that's actually right for paddock work. Tractors sized for the job — not the heavy farm gear that compacts the ground or can't get through a normal gateway. Toppers, harrows, rollers, sprayers, the lot. All kept in the yard, all serviced, all ready to go.</p>
+
+  <div class="pullquote">
+    "The work I'm proudest of is the stuff nobody notices — paddocks that just look right, year after year."
+  </div>
+
+  <p>Most of what I do is repeat work. Owners ring once, like the result, and ring again the next season. That's the bit of the business I want to keep growing — proper relationships with people who care about their land, not chasing one-off jobs across half the country.</p>
+
+  <p>When I'm not on a tractor I'm probably behind a camera. I shoot every job, which is partly why this site is wall-to-wall photographs — none of it is stock, all of it is mine. If you want to see what the work actually looks like, the gallery's the place.</p>
+</section>
+
+<!-- ============ CREDENTIALS ============ -->
+<section class="credentials">
+  <div class="credentials-inner">
+    <div class="credentials-eyebrow">Tickets &amp; cover</div>
+    <h3>Properly <em>certified</em>, properly insured.</h3>
+    <div class="creds-grid">
+      <div class="cred">
+        <div class="cred-badge">PA1</div>
+        <div class="cred-title">PA1 certified</div>
+        <div class="cred-detail">Pesticide application — foundation</div>
+      </div>
+      <div class="cred">
+        <div class="cred-badge">PA2</div>
+        <div class="cred-title">PA2 certified</div>
+        <div class="cred-detail">Boom sprayer, mounted equipment</div>
+      </div>
+      <div class="cred">
+        <div class="cred-badge">HGV</div>
+        <div class="cred-title">HGV &amp; Cat B</div>
+        <div class="cred-detail">Plant moves and transport handled</div>
+      </div>
+      <div class="cred">
+        <div class="cred-badge">£</div>
+        <div class="cred-title">Public liability</div>
+        <div class="cred-detail">£5m cover, certificate on request</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AREA ============ -->
+<section class="area">
+  <div class="area-eyebrow">Where I work</div>
+  <h3>Hampshire and the <em>surrounding counties</em>.</h3>
+  <p>If you're in Hampshire or anywhere not too far over the border — Wiltshire, West Sussex, Surrey, Berkshire, Dorset — get in touch and we'll work out whether the trip makes sense. For most jobs it does. Quote first, then decide.</p>
+</section>
+
+<!-- ============ PHOTO BREAK ============ -->
+<div class="photo-break"></div>
+
+<!-- ============ CTA ============ -->
+<section class="cta-band">
+  <div class="cta-inner">
+    <h3>Want me to take a look at <em>your paddock?</em></h3>
+    <p>Drop me a message and I'll come out, walk the field, and tell you honestly what's worth doing.</p>
+    <div class="cta-buttons">
+      <a href="/contact" class="btn-primary">Get a quote →</a>
+      <a href="/gallery" class="btn-secondary">See the work</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Hampshire Paddock Management</div>
+      <div class="footer-tag">Paddocks, put right.</div>
+      <p class="footer-blurb">Modern, well-equipped paddock management across Hampshire and surrounding counties. Trading as Emmerdale Agriculture Ltd.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Cutting &amp; mowing</h5>
+      <ul>
+        <li><a href="/services/paddock-topping">Paddock topping</a></li>
+        <li><a href="/services/flailing">Flailing</a></li>
+        <li><a href="/services/flail-collecting">Flail collecting</a></li>
+        <li><a href="/services/finish-mowing">Finish mowing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Ground care</h5>
+      <ul>
+        <li><a href="/services/harrowing">Harrowing</a></li>
+        <li><a href="/services/rolling">Rolling</a></li>
+        <li><a href="/services/rotavating">Rotavating</a></li>
+        <li><a href="/services/mole-ploughing">Mole ploughing</a></li>
+        <li><a href="/services/stone-burying">Stone burying</a></li>
+        <li><a href="/services/land-ditch-clearance">Land &amp; ditch clearance</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Treatment &amp; upkeep</h5>
+      <ul>
+        <li><a href="/services/weed-control">Weed control</a></li>
+        <li><a href="/services/spraying">Spraying</a></li>
+        <li><a href="/services/fertiliser-application">Fertiliser application</a></li>
+        <li><a href="/services/overseeding">Overseeding</a></li>
+        <li><a href="/services/manure-sweeping">Manure sweeping</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="/about">About</a></li>
+        <li><a href="/gallery">Gallery</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="tel:">Call the yard</a></li>
+        <li><a href="mailto:">Email us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Emmerdale Agriculture Ltd · Company No. 14950816</span>
+    <span>Made with care in Hampshire</span>
+  </div>
+</footer>
+
+</body>
+</html>
