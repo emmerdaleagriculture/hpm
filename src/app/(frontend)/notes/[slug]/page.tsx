@@ -21,6 +21,7 @@ export async function generateStaticParams() {
   const payload = await getPayload({ config });
   const posts = await payload.find({
     collection: 'posts',
+    where: { _status: { equals: 'published' } },
     limit: 0,
     select: { slug: true },
   });
@@ -33,7 +34,12 @@ async function getPostBySlug(slug: string) {
   const payload = await getPayload({ config });
   const res = await payload.find({
     collection: 'posts',
-    where: { slug: { equals: slug } },
+    where: {
+      and: [
+        { slug: { equals: slug } },
+        { _status: { equals: 'published' } },
+      ],
+    },
     limit: 1,
     depth: 1,
   });
@@ -187,7 +193,12 @@ export default async function NotePostPage({
   // 3. fill with most-recent if short.
   const all = await payload.find({
     collection: 'posts',
-    where: { id: { not_equals: post.id } },
+    where: {
+      and: [
+        { id: { not_equals: post.id } },
+        { _status: { equals: 'published' } },
+      ],
+    },
     sort: '-publishedAt',
     limit: 0,
     depth: 1,

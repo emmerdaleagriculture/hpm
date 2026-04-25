@@ -96,10 +96,14 @@ for (const post of res.docs) {
   const primary = matched[0] ?? null;
 
   if (matched.length === 0) {
-    console.log(`? [${post.id}] ${post.slug.slice(0, 40).padEnd(40)} no taxonomy match`);
-  } else {
-    console.log(`→ [${post.id}] ${post.slug.slice(0, 40).padEnd(40)} [${matched.join(',')}] primary=${primary}`);
+    // Don't wipe a post's existing tags just because the heuristic
+    // didn't recognise any. Leave it alone for Tom to tag manually.
+    console.log(`? [${post.id}] ${post.slug.slice(0, 40).padEnd(40)} no taxonomy match — leaving tags untouched`);
+    skipped++;
+    continue;
   }
+
+  console.log(`→ [${post.id}] ${post.slug.slice(0, 40).padEnd(40)} [${matched.join(',')}] primary=${primary}`);
 
   if (EXECUTE) {
     await payload.update({

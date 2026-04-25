@@ -81,13 +81,19 @@ const getNotesData = unstable_cache(
     const [featuredRes, postsRes, heroMedia] = await Promise.all([
       payload.find({
         collection: 'posts',
-        where: { featured: { equals: true } },
+        where: {
+          and: [
+            { featured: { equals: true } },
+            { _status: { equals: 'published' } },
+          ],
+        },
         limit: 1,
         sort: '-publishedAt',
         depth: 1,
       }),
       payload.find({
         collection: 'posts',
+        where: { _status: { equals: 'published' } },
         limit: 0,
         sort: '-publishedAt',
         depth: 1,
