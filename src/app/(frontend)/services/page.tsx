@@ -91,8 +91,9 @@ export default async function ServicesIndexPage() {
 }
 
 function ServiceCard({ service }: { service: ServiceDoc }) {
-  // Original image (uncropped); see ServicesGrid.tsx for rationale.
-  const url = mediaUrl(service.heroImage);
+  // 'large' variant first, fall back to original; see ServicesGrid.
+  const url =
+    mediaUrl(service.heroImage, 'large') ?? mediaUrl(service.heroImage);
   const alt =
     (typeof service.heroImage === 'object' && service.heroImage?.alt) ||
     service.title;

@@ -24,6 +24,9 @@ export const Media: CollectionConfig = {
       { name: 'card', width: 768, height: 512, position: 'centre' },
       { name: 'feature', width: 1200, height: 800, position: 'centre' },
       { name: 'hero', width: 2000, height: 1200, position: 'centre' },
+      // Width-only (no height ⇒ no crop). For places that want the full
+      // composition but at a sane bandwidth: hero photos, gallery lightbox.
+      { name: 'large', width: 2000 },
     ],
     // Strip EXIF / orientation — matters when owners upload phone photos
     formatOptions: {

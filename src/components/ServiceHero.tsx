@@ -14,9 +14,10 @@ type Props = {
 };
 
 export function ServiceHero({ title, strapline, heroImage }: Props) {
-  // Original image (uncropped). Payload's 'hero' variant is centre-cropped
-  // at upload time; serving the original lets next/image resize without crop.
-  const url = mediaUrl(heroImage);
+  // Prefer the 'large' variant (width 2000, no crop) over the original —
+  // serving a 6+MP raw file through next/image's optimizer in dev causes
+  // timeouts. Older media without the variant falls back to the original.
+  const url = mediaUrl(heroImage, 'large') ?? mediaUrl(heroImage);
   const alt =
     (typeof heroImage === 'object' && heroImage?.alt) || title;
 

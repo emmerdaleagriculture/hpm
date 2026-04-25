@@ -9,7 +9,7 @@
 const SUPABASE_PUBLIC_BASE =
   'https://unakyuksioglmihvipmi.supabase.co/storage/v1/object/public/hpm-media/media/';
 
-export type MediaSize = 'thumbnail' | 'card' | 'feature' | 'hero';
+export type MediaSize = 'thumbnail' | 'card' | 'feature' | 'hero' | 'large';
 
 type MediaLike = {
   filename?: string | null;
