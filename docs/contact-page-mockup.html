@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Get a quote — Hampshire Paddock Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --jd-green: #367c2b;
+    --jd-green-dark: #245018;
+    --jd-green-deep: #17330d;
+    --jd-green-light: #4a9a3a;
+    --jd-green-pale: #e8f0e3;
+    --jd-yellow: #ffde00;
+    --jd-yellow-dark: #e8c800;
+    --ink: #1a1f15;
+    --ink-2: #4a4f45;
+    --ink-3: #7a7f75;
+    --cream: #fafaf5;
+    --white: #ffffff;
+    --rule: #d8dcd2;
+    --error: #c63b1f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', -apple-system, system-ui, sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== NAV ===== */
+  nav.site-nav {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 10;
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+  }
+  .brand {
+    font-family: 'Tenor Sans', serif;
+    font-size: 18px;
+    letter-spacing: 0.03em;
+    color: #fff;
+    text-decoration: none;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  nav ul a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.88;
+  }
+  nav ul a:hover { opacity: 1; }
+  nav ul a.active {
+    border-bottom: 2px solid var(--jd-yellow);
+    padding-bottom: 4px;
+  }
+  .nav-cta {
+    background: var(--jd-yellow);
+    color: var(--jd-green-deep);
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+  .nav-cta:hover { background: var(--jd-yellow-dark); }
+
+  /* ===== COMPACT HERO ===== */
+  .hero {
+    position: relative;
+    height: 38vh;
+    min-height: 300px;
+    background: var(--jd-green-dark);
+    overflow: hidden;
+  }
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(135deg, rgba(23, 51, 13, 0.6) 0%, rgba(36, 80, 24, 0.35) 50%, rgba(23, 51, 13, 0.55) 100%),
+                      url('https://images.unsplash.com/photo-1500076656116-558758c991c1?w=2000');
+    background-size: cover;
+    background-position: center;
+  }
+  .hero-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 48px;
+    color: #fff;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--jd-yellow);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .hero h1 {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(36px, 5.5vw, 64px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin-bottom: 14px;
+  }
+  .hero h1 em {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-yellow);
+  }
+  .hero p {
+    font-size: 17px;
+    max-width: 560px;
+    opacity: 0.9;
+  }
+
+  /* ===== MAIN GRID ===== */
+  .main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 48px 96px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  /* ===== FORM ===== */
+  .form-col {
+    min-width: 0;
+  }
+  .form-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--jd-green);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .form-col h2 {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  .form-col h2 em {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-green);
+  }
+  .form-intro {
+    font-size: 16px;
+    color: var(--ink-2);
+    margin-bottom: 36px;
+    max-width: 520px;
+  }
+
+  form { display: block; }
+  .field { margin-bottom: 22px; }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+  .field-row .field { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  label .req {
+    color: var(--jd-green);
+    margin-left: 2px;
+  }
+  label .opt {
+    color: var(--ink-3);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-transform: none;
+    font-size: 11px;
+    margin-left: 6px;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    background: var(--white);
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 15px;
+    border-radius: 2px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--jd-green);
+    box-shadow: 0 0 0 3px rgba(54, 124, 43, 0.12);
+  }
+  input.error, select.error, textarea.error {
+    border-color: var(--error);
+  }
+  textarea { resize: vertical; min-height: 110px; }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%234a4f45' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 10px;
+    padding-right: 36px;
+  }
+
+  .field-hint {
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-top: 6px;
+  }
+  .field-error {
+    font-size: 12px;
+    color: var(--error);
+    margin-top: 6px;
+    display: none;
+  }
+  .field.has-error .field-error { display: block; }
+
+  .submit-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .submit-btn {
+    background: var(--jd-green);
+    color: #fff;
+    border: none;
+    padding: 16px 32px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+  .submit-btn:hover { background: var(--jd-green-dark); }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .submit-meta {
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+
+  /* Success state */
+  .success {
+    display: none;
+    background: var(--jd-green-pale);
+    border: 1px solid var(--jd-green);
+    border-radius: 2px;
+    padding: 32px;
+    text-align: center;
+  }
+  .success.show { display: block; }
+  .success-icon {
+    width: 56px;
+    height: 56px;
+    background: var(--jd-green);
+    color: #fff;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+  .success h3 {
+    font-family: 'Tenor Sans', serif;
+    font-size: 24px;
+    margin-bottom: 8px;
+    color: var(--jd-green-deep);
+  }
+  .success p {
+    font-size: 15px;
+    color: var(--ink-2);
+    margin-bottom: 20px;
+  }
+  .success-reset {
+    background: transparent;
+    border: 1px solid var(--jd-green);
+    color: var(--jd-green-dark);
+    padding: 10px 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.15s;
+    font-family: inherit;
+  }
+  .success-reset:hover { background: rgba(54, 124, 43, 0.08); }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar {
+    min-width: 0;
+  }
+
+  .panel {
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 32px;
+    margin-bottom: 20px;
+  }
+  .panel-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--jd-green);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .panel h4 {
+    font-family: 'Tenor Sans', serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 18px;
+    line-height: 1.2;
+  }
+
+  /* Steps */
+  .steps { list-style: none; }
+  .steps li {
+    display: flex;
+    gap: 16px;
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .steps li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: var(--jd-yellow);
+    color: var(--jd-green-deep);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Tenor Sans', serif;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .step-body { padding-top: 4px; }
+  .step-title {
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 2px;
+    font-size: 15px;
+  }
+  .step-detail {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+
+  /* Call panel */
+  .call-panel {
+    background: var(--jd-green-deep);
+    color: #fff;
+    border: none;
+  }
+  .call-panel .panel-eyebrow { color: var(--jd-yellow); }
+  .call-panel h4 { color: #fff; margin-bottom: 8px; }
+  .call-panel-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 20px;
+  }
+  .phone-link {
+    display: block;
+    font-family: 'Tenor Sans', serif;
+    font-size: 28px;
+    color: var(--jd-yellow);
+    text-decoration: none;
+    margin-bottom: 12px;
+    letter-spacing: 0.01em;
+    transition: color 0.15s;
+  }
+  .phone-link:hover { color: #fff; }
+  .call-hours {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.6;
+  }
+
+  /* Area panel */
+  .area-panel { background: var(--white); }
+  .area-panel p {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--jd-green-deep);
+    color: rgba(255,255,255,0.72);
+    padding: 64px 48px 32px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .footer-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr 0.8fr 0.8fr;
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+  .footer-brand {
+    font-family: 'Tenor Sans', serif;
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  .footer-tag {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-yellow);
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .footer-blurb { font-size: 14px; line-height: 1.6; max-width: 320px; }
+  .footer-col h5 {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--jd-yellow);
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 10px; }
+  .footer-col a {
+    color: rgba(255,255,255,0.72);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.15s;
+  }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1100px) {
+    .main { grid-template-columns: 1fr; gap: 48px; padding: 64px 32px 64px; }
+    .footer-grid { grid-template-columns: 1fr 1fr 1fr; gap: 32px; }
+  }
+  @media (max-width: 768px) {
+    nav.site-nav { padding: 20px 24px; }
+    nav ul { display: none; }
+    .hero-inner { padding: 0 24px 32px; }
+    .main { padding: 48px 20px; gap: 32px; }
+    .field-row { grid-template-columns: 1fr; gap: 0; margin-bottom: 0; }
+    .field-row .field { margin-bottom: 22px; }
+    .panel { padding: 24px; }
+    .phone-link { font-size: 26px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="site-nav">
+  <a href="/" class="brand">Hampshire Paddock Management</a>
+  <ul>
+    <li><a href="/services">Services</a></li>
+    <li><a href="/gallery">Gallery</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/contact" class="active">Contact</a></li>
+  </ul>
+  <a href="/contact" class="nav-cta">Get a quote</a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-photo"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Get a quote</div>
+    <h1>Tell me about your <em>paddock</em></h1>
+    <p>Usually replies within hours, day or night. No obligation, no follow-up sales calls if you don't want one.</p>
+  </div>
+</section>
+
+<!-- ============ MAIN ============ -->
+<section class="main">
+
+  <!-- ===== FORM COLUMN ===== -->
+  <div class="form-col">
+    <div class="form-eyebrow">Send a message</div>
+    <h2>Quick form, <em>honest reply</em></h2>
+    <p class="form-intro">Fill in what you can. The more you tell me about the field, the better the quote — but if you'd rather just leave a number, that works too.</p>
+
+    <!-- Form -->
+    <form id="quoteForm" novalidate>
+      <div class="field-row">
+        <div class="field">
+          <label for="name">Name <span class="req">*</span></label>
+          <input type="text" id="name" name="name" required autocomplete="name" />
+          <div class="field-error">Please give me a name to put on the reply.</div>
+        </div>
+        <div class="field">
+          <label for="phone">Phone <span class="req">*</span></label>
+          <input type="tel" id="phone" name="phone" required autocomplete="tel" />
+          <div class="field-error">A phone number works best — I'll usually call back.</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email <span class="opt">(optional)</span></label>
+        <input type="email" id="email" name="email" autocomplete="email" />
+      </div>
+
+      <div class="field">
+        <label for="location">Paddock location <span class="req">*</span></label>
+        <input type="text" id="location" name="location" placeholder="Nearest village or postcode" required />
+        <div class="field-hint">Helps me work out travel before I quote.</div>
+        <div class="field-error">Even a rough area helps — village name is fine.</div>
+      </div>
+
+      <div class="field">
+        <label for="service">Service</label>
+        <select id="service" name="service">
+          <option value="">Not sure yet — I'll explain when we talk</option>
+          <optgroup label="Cutting & mowing">
+            <option value="paddock-topping">Paddock topping</option>
+            <option value="flailing">Flailing</option>
+            <option value="flail-collecting">Flail collecting</option>
+            <option value="finish-mowing">Finish mowing</option>
+          </optgroup>
+          <optgroup label="Ground care">
+            <option value="harrowing">Harrowing</option>
+            <option value="rolling">Rolling</option>
+            <option value="rotavating">Rotavating</option>
+            <option value="mole-ploughing">Mole ploughing</option>
+            <option value="stone-burying">Stone burying</option>
+            <option value="land-ditch-clearance">Land &amp; ditch clearance</option>
+          </optgroup>
+          <optgroup label="Treatment & upkeep">
+            <option value="weed-control">Weed control</option>
+            <option value="spraying">Spraying</option>
+            <option value="fertiliser-application">Fertiliser application</option>
+            <option value="overseeding">Overseeding</option>
+            <option value="manure-sweeping">Manure sweeping</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="message">Anything I should know? <span class="opt">(optional)</span></label>
+        <textarea id="message" name="message" placeholder="Size, condition, timing, access — whatever's on your mind."></textarea>
+      </div>
+
+      <div class="submit-row">
+        <button type="submit" class="submit-btn" id="submitBtn">Send enquiry →</button>
+        <span class="submit-meta">Usually replies within hours</span>
+      </div>
+    </form>
+
+    <!-- Success state (hidden until submit) -->
+    <div class="success" id="successBox">
+      <div class="success-icon">✓</div>
+      <h3>Got it — thanks.</h3>
+      <p>I'll be in touch on the number you've given me — usually within hours.</p>
+      <button class="success-reset" id="resetBtn">Send another →</button>
+    </div>
+  </div>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+
+    <!-- What happens next -->
+    <div class="panel">
+      <div class="panel-eyebrow">What happens next</div>
+      <h4>Three steps, no fuss</h4>
+      <ol class="steps">
+        <li>
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">I'll reply quickly</div>
+            <div class="step-detail">Usually within hours, day or night. By phone first — quicker than email tag.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">A quick chat about the field</div>
+            <div class="step-detail">Most jobs I can quote over the phone from a description. Trickier ones I'll come and walk with you — no charge for that.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Honest quote, no obligation</div>
+            <div class="step-detail">Fixed price where I can, ballparks where I can't. Decide in your own time.</div>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <!-- Call directly -->
+    <div class="panel call-panel">
+      <div class="panel-eyebrow">Or call directly</div>
+      <h4>Faster on the phone</h4>
+      <p class="call-panel-sub">If you'd rather skip the form, give me a ring.</p>
+      <a href="tel:+447825156062" class="phone-link">07825 156062</a>
+      <div class="call-hours">Available any time, any day.<br/>If I can't pick up, leave a message and I'll come back to you.</div>
+    </div>
+
+    <!-- Service area reminder -->
+    <div class="panel area-panel">
+      <div class="panel-eyebrow">Where I work</div>
+      <h4>Hampshire and surrounding counties</h4>
+      <p>Most jobs across Hampshire, Wiltshire, West Sussex, Surrey, Berkshire and Dorset. Further afield by arrangement — ask.</p>
+    </div>
+
+  </aside>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Hampshire Paddock Management</div>
+      <div class="footer-tag">Paddocks, put right.</div>
+      <p class="footer-blurb">Modern, well-equipped paddock management across Hampshire and surrounding counties. Trading as Emmerdale Agriculture Ltd.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Cutting &amp; mowing</h5>
+      <ul>
+        <li><a href="/services/paddock-topping">Paddock topping</a></li>
+        <li><a href="/services/flailing">Flailing</a></li>
+        <li><a href="/services/flail-collecting">Flail collecting</a></li>
+        <li><a href="/services/finish-mowing">Finish mowing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Ground care</h5>
+      <ul>
+        <li><a href="/services/harrowing">Harrowing</a></li>
+        <li><a href="/services/rolling">Rolling</a></li>
+        <li><a href="/services/rotavating">Rotavating</a></li>
+        <li><a href="/services/mole-ploughing">Mole ploughing</a></li>
+        <li><a href="/services/stone-burying">Stone burying</a></li>
+        <li><a href="/services/land-ditch-clearance">Land &amp; ditch clearance</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Treatment &amp; upkeep</h5>
+      <ul>
+        <li><a href="/services/weed-control">Weed control</a></li>
+        <li><a href="/services/spraying">Spraying</a></li>
+        <li><a href="/services/fertiliser-application">Fertiliser application</a></li>
+        <li><a href="/services/overseeding">Overseeding</a></li>
+        <li><a href="/services/manure-sweeping">Manure sweeping</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="/about">About</a></li>
+        <li><a href="/gallery">Gallery</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="tel:+447825156062">07825 156062</a></li>
+        <li><a href="mailto:">Email us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Emmerdale Agriculture Ltd · Company No. 14950816</span>
+    <span>Made with care in Hampshire</span>
+  </div>
+</footer>
+
+<script>
+  // ============ SERVICE PRESELECTION FROM URL PARAM ============
+  // ?service=paddock-topping pre-selects that service in the dropdown
+  const params = new URLSearchParams(window.location.search);
+  const preselect = params.get('service');
+  if (preselect) {
+    const select = document.getElementById('service');
+    const option = select.querySelector(`option[value="${preselect}"]`);
+    if (option) option.selected = true;
+  }
+
+  // ============ FORM VALIDATION + SUBMIT ============
+  // Client-side stub only — real implementation hits the Resend pipeline server-side
+  const form = document.getElementById('quoteForm');
+  const successBox = document.getElementById('successBox');
+  const resetBtn = document.getElementById('resetBtn');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    // Clear prior errors
+    form.querySelectorAll('.field').forEach(f => f.classList.remove('has-error'));
+    form.querySelectorAll('input, select, textarea').forEach(i => i.classList.remove('error'));
+
+    // Validate required fields
+    const required = ['name', 'phone', 'location'];
+    let valid = true;
+    required.forEach(name => {
+      const input = form.querySelector(`[name="${name}"]`);
+      if (!input.value.trim()) {
+        input.classList.add('error');
+        input.closest('.field').classList.add('has-error');
+        valid = false;
+      }
+    });
+
+    if (!valid) {
+      // Focus the first errored field
+      form.querySelector('.error')?.focus();
+      return;
+    }
+
+    // In the real build: POST to /api/contact, which sends via Resend
+    // For mockup, just show success state
+    form.style.display = 'none';
+    successBox.classList.add('show');
+    successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  resetBtn.addEventListener('click', () => {
+    form.reset();
+    form.style.display = 'block';
+    successBox.classList.remove('show');
+    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Re-apply URL param preselection if there was one
+    if (preselect) {
+      const select = document.getElementById('service');
+      const option = select.querySelector(`option[value="${preselect}"]`);
+      if (option) option.selected = true;
+    }
+  });
+</script>
+
+</body>
+</html>

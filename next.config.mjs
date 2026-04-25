@@ -34,6 +34,14 @@ const nextConfig = {
     imageSizes: [256, 640],
   },
 
+  // /quote serves the contact page without a redirect — both URLs are
+  // first-class CTA targets and we want the URL the user typed to stick.
+  async rewrites() {
+    return [
+      { source: '/quote', destination: '/contact' },
+    ];
+  },
+
   // Security headers applied to every response
   async headers() {
     return [

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { getPayload } from 'payload';
 import config from '@payload-config';
+import { SITE_EMAIL, SITE_PHONE_TEL } from '@/lib/site';
 
 import { ServiceHero } from '@/components/ServiceHero';
 import { ServiceBody } from '@/components/ServiceBody';
@@ -158,8 +159,8 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
     provider: {
       '@type': 'LocalBusiness',
       name: 'Hampshire Paddock Management',
-      telephone: '+447825156062',
-      email: 'tom@hampshirepaddockmanagement.com',
+      telephone: SITE_PHONE_TEL,
+      email: SITE_EMAIL,
       address: {
         '@type': 'PostalAddress',
         addressRegion: 'Hampshire',
