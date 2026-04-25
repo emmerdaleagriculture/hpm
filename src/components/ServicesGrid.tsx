@@ -44,7 +44,11 @@ export function ServicesGrid({ services }: Props) {
 }
 
 function ServiceTile({ service, feature }: { service: ServiceDoc; feature?: boolean }) {
-  const url = mediaUrl(service.heroImage, feature ? 'feature' : 'card');
+  // Use the original (uncropped) file; the `card`/`feature` Payload variants
+  // are centre-cropped at upload time and would still appear cropped even
+  // under object-fit: contain. next/image handles per-device resizing via
+  // the `sizes` attr below.
+  const url = mediaUrl(service.heroImage);
   const altText =
     (typeof service.heroImage === 'object' && service.heroImage?.alt) ||
     service.title;

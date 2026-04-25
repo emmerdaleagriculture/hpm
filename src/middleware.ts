@@ -79,6 +79,22 @@ async function lookup(pathname: string, origin: string): Promise<CachedRedirect 
   return value;
 }
 
+// Live routes owned by the Next app — never need a DB redirect lookup.
+// Anything matching these short-circuits before middleware hits Payload.
+// Service detail pages (/services/[slug]) deliberately aren't whitelisted:
+// individual slugs may have legacy redirects in the DB.
+const LIVE_PATHS = new Set<string>([
+  '/',
+  '/gallery',
+  '/services',
+  '/about',
+  '/contact',
+  '/privacy',
+]);
+
+// Static asset extensions Next dev/prod might let through to middleware.
+const ASSET_EXT = /\.(?:png|jpe?g|gif|svg|webp|avif|ico|css|js|map|txt|xml|woff2?|ttf|otf|mp4|webm|pdf)$/i;
+
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
@@ -87,8 +103,18 @@ export async function middleware(req: NextRequest) {
     pathname.startsWith('/_next/') ||
     pathname.startsWith('/api/') ||
     pathname.startsWith('/admin') ||
-    pathname === '/favicon.ico'
+    pathname === '/favicon.ico' ||
+    ASSET_EXT.test(pathname)
   ) {
+    return NextResponse.next();
+  }
+
+  // Fast path: live app routes have no legacy redirects, so skip the DB hit.
+  // Strip a single trailing slash for the match (Next normalises these anyway).
+  const normalised = pathname.length > 1 && pathname.endsWith('/')
+    ? pathname.slice(0, -1)
+    : pathname;
+  if (LIVE_PATHS.has(normalised)) {
     return NextResponse.next();
   }
 
