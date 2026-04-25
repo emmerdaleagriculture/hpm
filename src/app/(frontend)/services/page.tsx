@@ -91,7 +91,8 @@ export default async function ServicesIndexPage() {
 }
 
 function ServiceCard({ service }: { service: ServiceDoc }) {
-  const url = mediaUrl(service.heroImage, 'card');
+  // Original image (uncropped); see ServicesGrid.tsx for rationale.
+  const url = mediaUrl(service.heroImage);
   const alt =
     (typeof service.heroImage === 'object' && service.heroImage?.alt) ||
     service.title;
@@ -104,7 +105,7 @@ function ServiceCard({ service }: { service: ServiceDoc }) {
             alt={alt}
             fill
             sizes="(max-width: 900px) 100vw, 33vw"
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: 'contain' }}
           />
         )}
       </div>

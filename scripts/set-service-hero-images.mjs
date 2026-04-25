@@ -14,14 +14,16 @@
 import { getPayload } from 'payload';
 import config from '../src/payload/payload.config.ts';
 
+// IDs are Media-collection rows (resolved from the gallery's display
+// position; gallery sorts by -createdAt, image-only).
 const ASSIGNMENTS = [
-  { slug: 'flail-collecting',     heroImage: 141 },
-  { slug: 'mole-ploughing',       heroImage: 27  },
-  { slug: 'stone-burying',        heroImage: 124 },
-  { slug: 'land-ditch-clearance', heroImage: 149 },
-  { slug: 'weed-control',         heroImage: 44  },
-  { slug: 'spraying',             heroImage: 45  },
-  { slug: 'overseeding',          heroImage: 142 },
+  { slug: 'flail-collecting',     heroImage: 34  }, // gallery pos 141
+  { slug: 'mole-ploughing',       heroImage: 148 }, // gallery pos 27
+  { slug: 'stone-burying',        heroImage: 51  }, // gallery pos 124
+  { slug: 'land-ditch-clearance', heroImage: 26  }, // gallery pos 149
+  { slug: 'weed-control',         heroImage: 131 }, // gallery pos 44
+  { slug: 'spraying',             heroImage: 130 }, // gallery pos 45
+  { slug: 'overseeding',          heroImage: 33  }, // gallery pos 142
 ];
 
 const EXECUTE = process.argv.includes('--execute');

@@ -25,7 +25,8 @@ export function RelatedServices({ services }: Props) {
       </div>
       <div className={styles.grid}>
         {services.slice(0, 3).map((s) => {
-          const url = mediaUrl(s.heroImage, 'card');
+          // Original image (uncropped); see ServicesGrid.tsx for rationale.
+          const url = mediaUrl(s.heroImage);
           const alt =
             (typeof s.heroImage === 'object' && s.heroImage?.alt) || s.title;
           return (
@@ -37,7 +38,7 @@ export function RelatedServices({ services }: Props) {
                     alt={alt}
                     fill
                     sizes="(max-width: 900px) 100vw, 30vw"
-                    style={{ objectFit: 'cover' }}
+                    style={{ objectFit: 'contain' }}
                   />
                 )}
               </div>
