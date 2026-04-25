@@ -53,11 +53,21 @@ const nextConfig = {
       { source: '/services/field-rotavating',    destination: '/services/rotavating',             permanent: true },
       { source: '/services/paddock-rolling',     destination: '/services/rolling',                permanent: true },
       { source: '/services/ragwort-pulling',     destination: '/services/weed-control',           permanent: true },
-      // /services/seedsight intentionally NOT redirected — the seedsight
-      // service still has a live DB record. Delete the record first if
-      // we want this redirect to fire.
-      // /services/field-ploughing and /services/hedge-cutting:
-      // pending Tom's call (see audit report). Add lines here when decided.
+      { source: '/services/field-ploughing', destination: '/services/rotavating', permanent: true },
+      // /services/hedge-cutting — kept live (Tom's call); no redirect
+      // /services/seedsight — kept live; planned product reintroduction
+      //   with shop at a later date.
+
+      // Old WP root-level URLs for services we now keep live or remap.
+      // (Other root-level WP service URLs are handled by the Payload
+      // Redirects collection; these three aren't because their old DB
+      // records pointed at /services rather than the right target.)
+      { source: '/field-ploughing',  destination: '/services/rotavating',     permanent: true },
+      { source: '/field-ploughing/', destination: '/services/rotavating',     permanent: true },
+      { source: '/hedge-cutting',    destination: '/services/hedge-cutting',  permanent: true },
+      { source: '/hedge-cutting/',   destination: '/services/hedge-cutting',  permanent: true },
+      { source: '/seedsight',        destination: '/services/seedsight',      permanent: true },
+      { source: '/seedsight/',       destination: '/services/seedsight',      permanent: true },
 
       // Blog → Notes
       { source: '/blog',       destination: '/notes',        permanent: true },

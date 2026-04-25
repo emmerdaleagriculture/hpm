@@ -25,7 +25,8 @@ import { getPayload } from 'payload';
 import config from '../src/payload/payload.config.ts';
 
 // New-site canonical service slugs (sourced from ContactForm SERVICE_GROUPS,
-// the footer's hardcoded list, and the curated taxonomy).
+// the footer's hardcoded list, and the curated taxonomy). Promoted
+// in nav / footer / contact form.
 const CANONICAL_SERVICES = new Set([
   'paddock-topping',
   'flailing',
@@ -44,6 +45,13 @@ const CANONICAL_SERVICES = new Set([
   'manure-sweeping',
 ]);
 
+// Services that are intentionally live but not promoted in the main nav.
+// Audit treats these as known/OK rather than flagging for decisions.
+const LIVE_UNPROMOTED = new Set([
+  'hedge-cutting',  // Tom's call — keep live, low-promotion
+  'seedsight',      // Reserved for product reintroduction with shop
+]);
+
 // Old-WP slug → new canonical slug. Anything that's a known straight
 // rename goes here. Drop-in for the next.config redirects block.
 const KNOWN_REMAPS = {
@@ -53,7 +61,7 @@ const KNOWN_REMAPS = {
   'field-rotavating':      'rotavating',
   'paddock-rolling':       'rolling',
   'ragwort-pulling':       'weed-control',
-  'seedsight':             'overseeding',
+  'field-ploughing':       'rotavating',
 };
 
 const payload = await getPayload({ config });
@@ -68,9 +76,11 @@ const liveServiceSlugs = new Set(services.docs.map((s) => s.slug).filter(Boolean
 
 // Categorise live service slugs
 const inCanonical = [];
-const orphanInDb  = []; // exists in DB but not in canonical list — needs Tom's call
+const liveUnpromoted = [];
+const orphanInDb  = []; // exists in DB but not canonical / unpromoted — needs Tom's call
 for (const slug of liveServiceSlugs) {
   if (CANONICAL_SERVICES.has(slug)) inCanonical.push(slug);
+  else if (LIVE_UNPROMOTED.has(slug)) liveUnpromoted.push(slug);
   else orphanInDb.push(slug);
 }
 
@@ -108,6 +118,13 @@ if (missingFromDb.length > 0) {
   md(`### Canonical but missing from DB (${missingFromDb.length})`);
   md('These appear in nav/footer/form but have no live record — would 404:');
   md(missingFromDb.sort().map((s) => `- \`${s}\``).join('\n'));
+  md('');
+}
+
+if (liveUnpromoted.length > 0) {
+  md(`### Live but unpromoted (${liveUnpromoted.length})`);
+  md('Pages exist and respond, but aren\'t in the nav/footer/contact form. Intentional.');
+  md(liveUnpromoted.sort().map((s) => `- \`${s}\``).join('\n'));
   md('');
 }
 
