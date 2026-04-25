@@ -32,7 +32,7 @@ export function ServiceHero({ title, strapline, heroImage }: Props) {
             fill
             priority
             sizes="100vw"
-            style={{ objectFit: 'contain' }}
+            style={{ objectFit: 'cover' }}
           />
         )}
       </div>
