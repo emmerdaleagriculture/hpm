@@ -43,11 +43,43 @@ const nextConfig = {
   },
 
   // Permanent redirects for legacy WordPress URL patterns.
-  // Posts moved from /blog/<slug> → /notes/<slug>; the /blog index → /notes.
+  // See `audit-slugs-report.md` (regenerate with scripts/audit-slugs.mjs).
   async redirects() {
     return [
-      { source: '/blog', destination: '/notes', permanent: true },
-      { source: '/blog/:slug', destination: '/notes/:slug', permanent: true },
+      // Services renamed during the rebuild
+      { source: '/services/dung-sweeping',       destination: '/services/manure-sweeping',       permanent: true },
+      { source: '/services/fertiliser-spraying', destination: '/services/fertiliser-application', permanent: true },
+      { source: '/services/field-harrowing',     destination: '/services/harrowing',              permanent: true },
+      { source: '/services/field-rotavating',    destination: '/services/rotavating',             permanent: true },
+      { source: '/services/paddock-rolling',     destination: '/services/rolling',                permanent: true },
+      { source: '/services/ragwort-pulling',     destination: '/services/weed-control',           permanent: true },
+      // /services/seedsight intentionally NOT redirected — the seedsight
+      // service still has a live DB record. Delete the record first if
+      // we want this redirect to fire.
+      // /services/field-ploughing and /services/hedge-cutting:
+      // pending Tom's call (see audit report). Add lines here when decided.
+
+      // Blog → Notes
+      { source: '/blog',       destination: '/notes',        permanent: true },
+      { source: '/blog/:slug', destination: '/notes/:slug',  permanent: true },
+
+      // WooCommerce artefacts
+      { source: '/shop',              destination: '/', permanent: true },
+      { source: '/shop/:path*',       destination: '/', permanent: true },
+      { source: '/cart',              destination: '/', permanent: true },
+      { source: '/checkout',          destination: '/', permanent: true },
+      { source: '/my-account',        destination: '/', permanent: true },
+      { source: '/my-account/:path*', destination: '/', permanent: true },
+      { source: '/wishlist',          destination: '/', permanent: true },
+      { source: '/products-compare',  destination: '/', permanent: true },
+
+      // Other old WP paths
+      { source: '/tools',  destination: '/#fleet',   permanent: true },
+      { source: '/costs',  destination: '/services', permanent: true },
+      { source: '/videos', destination: '/notes',    permanent: true },
+
+      // /privacy-policy was the WP slug; new site uses /privacy.
+      { source: '/privacy-policy', destination: '/privacy', permanent: true },
     ];
   },
 

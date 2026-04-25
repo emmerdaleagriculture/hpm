@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 import { Hero } from '@/components/Hero';
@@ -13,6 +14,14 @@ import { Footer } from '@/components/Footer';
 // Re-read on every request in dev; ISR-like caching in production will be
 // added at build time. The admin expects saves to be visible without a rebuild.
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  // Use the layout default title (no template wrap on the homepage)
+  title: 'Hampshire Paddock Management — Proper care for your land',
+  description:
+    'Specialist paddock work across Hampshire and surrounding counties. Topping, harrowing, weed control, drainage, more. Modern compact kit. The person you call is the person on the tractor.',
+  alternates: { canonical: '/' },
+};
 
 export default async function HomePage() {
   const payload = await getPayload({ config });
