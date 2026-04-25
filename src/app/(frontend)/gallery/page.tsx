@@ -5,6 +5,7 @@ import { getPayload } from 'payload';
 import config from '@payload-config';
 
 import { Nav } from '@/components/Nav';
+import { Breadcrumb } from '@/components/Breadcrumb';
 import { Footer } from '@/components/Footer';
 import { Gallery } from '@/components/Gallery';
 import { mediaUrl } from '@/lib/media';
@@ -76,6 +77,7 @@ export default async function GalleryPage() {
           <div className={styles.heroGradient} />
         </div>
         <div className={styles.heroInner}>
+          <Breadcrumb items={[{ label: 'Gallery' }]} />
           <div className={styles.eyebrow}>Gallery</div>
           <h1 className={styles.title}>
             The kit, and the <em>work</em>

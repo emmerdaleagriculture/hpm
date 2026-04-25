@@ -7,6 +7,7 @@ import { getPayload } from 'payload';
 import config from '@payload-config';
 
 import { Nav } from '@/components/Nav';
+import { Breadcrumb } from '@/components/Breadcrumb';
 import { Footer } from '@/components/Footer';
 import { mediaUrl } from '@/lib/media';
 import { renderLexical, collectUploadIds } from '@/lib/lexical';
@@ -284,11 +285,15 @@ export default async function NotePostPage({
           </div>
         )}
         <div className={styles.postHeroInner}>
-          <div className={styles.breadcrumb}>
-            <Link href="/notes">Notes</Link>
-            <span className={styles.breadcrumbSep}>/</span>
-            <Link href={breadcrumbHref}>{breadcrumbLabel}</Link>
-          </div>
+          {/* Title appears in the h1 below, so it isn't repeated as a
+              terminal crumb — the trail just gets the user back to the
+              filtered index for the same tag. */}
+          <Breadcrumb
+            items={[
+              { label: 'Notes', href: '/notes' },
+              { label: breadcrumbLabel, href: primaryTag ? breadcrumbHref : undefined },
+            ]}
+          />
           <h1 className={styles.postTitle}>{post.title}</h1>
           <div className={styles.postHeroMeta}>
             {primaryTag && <span className={styles.postHeroTag}>{primaryTag}</span>}

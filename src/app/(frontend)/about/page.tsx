@@ -6,6 +6,7 @@ import { getPayload } from 'payload';
 import config from '@payload-config';
 
 import { Nav } from '@/components/Nav';
+import { Breadcrumb } from '@/components/Breadcrumb';
 import { Footer } from '@/components/Footer';
 import { mediaUrl } from '@/lib/media';
 import { AREA, CREDENTIALS, CTA, HERO, INTRO, PHOTOS, STORY } from './content';
@@ -69,6 +70,7 @@ export default async function AboutPage() {
           </div>
         )}
         <div className={styles.heroInner}>
+          <Breadcrumb items={[{ label: 'About' }]} />
           <div className={styles.eyebrowLight}>{HERO.eyebrow}</div>
           <h1
             className={styles.heroTitle}
