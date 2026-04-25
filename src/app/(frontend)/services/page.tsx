@@ -30,6 +30,9 @@ type ServiceDoc = {
   heroImage?: Parameters<typeof mediaUrl>[0];
 };
 
+// John Deere 6250R — flagship tractor photo used as the /services hero.
+const SERVICES_HERO_MEDIA_ID = 174;
+
 export default async function ServicesIndexPage() {
   const payload = await getPayload({ config });
   const res = await payload.find({
@@ -39,6 +42,21 @@ export default async function ServicesIndexPage() {
     depth: 1,
     where: { category: { exists: true } },
   });
+
+  let heroMedia: Parameters<typeof mediaUrl>[0] = null;
+  try {
+    heroMedia = await payload.findByID({
+      collection: 'media',
+      id: SERVICES_HERO_MEDIA_ID,
+      depth: 0,
+    });
+  } catch {
+    heroMedia = null;
+  }
+  const heroUrl = mediaUrl(heroMedia, 'large') ?? mediaUrl(heroMedia);
+  const heroAlt =
+    (typeof heroMedia === 'object' && heroMedia?.alt) ||
+    'John Deere 6250R — Hampshire Paddock Management';
 
   const byCategory: Record<string, ServiceDoc[]> = {};
   for (const doc of res.docs as unknown as ServiceDoc[]) {
@@ -50,6 +68,18 @@ export default async function ServicesIndexPage() {
     <>
       <section className={styles.hero}>
         <Nav variant="overlay" />
+        {heroUrl && (
+          <div className={styles.heroPhoto}>
+            <Image
+              src={heroUrl}
+              alt={heroAlt}
+              fill
+              priority
+              sizes="100vw"
+              style={{ objectFit: 'cover' }}
+            />
+          </div>
+        )}
         <div className={styles.heroContent}>
           <div className={styles.breadcrumb}>
             <Link href="/">Home</Link>
@@ -106,7 +136,7 @@ function ServiceCard({ service }: { service: ServiceDoc }) {
             alt={alt}
             fill
             sizes="(max-width: 900px) 100vw, 33vw"
-            style={{ objectFit: 'contain' }}
+            style={{ objectFit: 'cover' }}
           />
         )}
       </div>

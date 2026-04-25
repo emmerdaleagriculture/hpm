@@ -24,6 +24,7 @@ const ASSIGNMENTS = [
   { slug: 'weed-control',         heroImage: 131 }, // gallery pos 44
   { slug: 'spraying',             heroImage: 130 }, // gallery pos 45
   { slug: 'overseeding',          heroImage: 33  }, // gallery pos 142
+  { slug: 'rolling',               heroImage: 48  }, // gallery pos 127
 ];
 
 const EXECUTE = process.argv.includes('--execute');
