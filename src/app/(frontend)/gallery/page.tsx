@@ -32,6 +32,13 @@ const getGalleryData = unstable_cache(
       // image/gif, image/svg+xml, etc., and excludes application/pdf + video/*.
       where: {
         mimeType: { contains: 'image/' },
+        // not_equals true matches false rows; the `or` also matches NULL
+        // rows (defensive — every existing row is currently `false`, but
+        // anything that bypasses Payload's defaultValue could leave NULL).
+        or: [
+          { hideFromGallery: { equals: false } },
+          { hideFromGallery: { exists: false } },
+        ],
       },
       sort: '-createdAt',
       limit: 0,
