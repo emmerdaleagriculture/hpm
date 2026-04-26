@@ -7,6 +7,7 @@ const TABS = [
   { href: '/admin-stats/queries', label: 'Queries' },
   { href: '/admin-stats/pages', label: 'Pages' },
   { href: '/admin-stats/segments', label: 'Segments' },
+  { href: '/admin-stats/plan', label: 'Plan' },
 ];
 
 export function SubNav({ active }: { active: string }) {
