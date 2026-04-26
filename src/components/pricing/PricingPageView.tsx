@@ -1,6 +1,7 @@
 import Image from 'next/image'
 
 import { Breadcrumb } from '@/components/Breadcrumb'
+import { Nav } from '@/components/Nav'
 import type { PricingPageData, PricingType } from '@/lib/pricing-types'
 import {
   ModelIcon,
@@ -55,6 +56,7 @@ export function PricingPageView({
   return (
     <>
       <section className={styles.heroPhoto}>
+        <Nav variant="overlay" />
         <div className={styles.heroPhotoImage}>
           {heroUrl && (
             <Image
@@ -66,8 +68,8 @@ export function PricingPageView({
               style={{ objectFit: 'cover' }}
             />
           )}
-          <div className={styles.heroPhotoGradient} />
         </div>
+        <div className={styles.heroPhotoGradient} />
         <div className={styles.heroPhotoInner}>
           <Breadcrumb items={[{ label: 'Pricing' }]} />
           <p className={styles.heroPhotoEyebrow}>{data.eyebrow}</p>

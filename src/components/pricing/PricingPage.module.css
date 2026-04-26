@@ -32,7 +32,6 @@
 .heroPhoto {
   position: relative;
   min-height: 480px;
-  isolation: isolate;
   color: #ffffff;
   display: flex;
   align-items: flex-end;
@@ -42,7 +41,6 @@
 .heroPhotoImage {
   position: absolute;
   inset: 0;
-  z-index: -1;
   background: #1a1f15;
 }
 
@@ -59,6 +57,8 @@
 }
 
 .heroPhotoInner {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 1180px;
   margin: 0 auto;
@@ -140,43 +140,6 @@
   color: #2c2c2a;
   font-family: var(--font-dm);
   background: #ffffff;
-}
-
-/* Hero */
-.hero {
-  background: #367c2b;
-  color: #ffffff;
-  padding: 3rem 1.75rem;
-  border-radius: 12px;
-  margin-bottom: 1.5rem;
-}
-
-.heroEyebrow {
-  font-family: var(--font-dm);
-  font-size: 12px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  margin: 0 0 0.75rem;
-  color: #ffde00;
-  font-weight: 500;
-}
-
-.heroHeading {
-  font-family: var(--font-tenor);
-  font-size: clamp(28px, 4vw, 36px);
-  font-weight: 400;
-  line-height: 1.15;
-  margin: 0 0 0.75rem;
-  color: #ffffff;
-}
-
-.heroSubheading {
-  font-family: var(--font-dm);
-  font-size: 16px;
-  line-height: 1.6;
-  margin: 0;
-  max-width: 540px;
-  opacity: 0.94;
 }
 
 /* Intro quote */
