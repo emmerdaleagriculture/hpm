@@ -17,7 +17,8 @@
     "extract": "node scripts/extract.mjs",
     "audit-seo": "node scripts/audit-seo.mjs",
     "mirror": "bash scripts/mirror.sh",
-    "import-wp": "node scripts/import-from-wp.mjs"
+    "import-wp": "node scripts/import-from-wp.mjs",
+    "analyze": "ANALYZE=true npm run build"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.0.0",
@@ -37,6 +38,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.2.4",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
