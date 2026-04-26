@@ -85,7 +85,8 @@ const nextConfig = {
 
       // Other old WP paths
       { source: '/tools',  destination: '/#fleet',   permanent: true },
-      { source: '/costs',  destination: '/services', permanent: true },
+      { source: '/costs',  destination: '/pricing', permanent: true },
+      { source: '/costs/', destination: '/pricing', permanent: true },
       { source: '/videos', destination: '/notes',    permanent: true },
 
       // /privacy-policy was the WP slug; new site uses /privacy.

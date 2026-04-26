@@ -19,6 +19,7 @@ import { Enquiries } from './collections/enquiries';
 
 import { Homepage } from './globals/homepage';
 import { SiteSettings } from './globals/site-settings';
+import { PricingPage } from './globals/pricing-page';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -63,7 +64,7 @@ export default buildConfig({
     Enquiries,
   ],
 
-  globals: [Homepage, SiteSettings],
+  globals: [Homepage, SiteSettings, PricingPage],
 
   db: postgresAdapter({
     pool: {

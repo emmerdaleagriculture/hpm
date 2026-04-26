@@ -25,6 +25,13 @@
   /* Typography (next/font sets --font-display / --font-body at the html root) */
   --font-display-stack: var(--font-display), 'Tenor Sans', Georgia, serif;
   --font-body-stack: var(--font-body), 'DM Sans', -apple-system, system-ui, sans-serif;
+
+  /* Aliases used by /pricing's CSS module — keeps that page's stylesheet
+   * portable without forking it. These resolve through the same next/font
+   * variables, so there's only ever one source of truth for the font face. */
+  --font-tenor: var(--font-display-stack);
+  --font-dm: var(--font-body-stack);
+  --font-serif: Georgia, 'Times New Roman', serif;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
