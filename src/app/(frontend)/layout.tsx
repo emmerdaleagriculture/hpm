@@ -44,6 +44,11 @@ export const metadata: Metadata = {
   },
 };
 
+// Google Analytics 4 measurement ID. Override via env if a separate
+// property is ever wired up (e.g. for staging).
+const GA_MEASUREMENT_ID =
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-B56TGXHP73';
+
 export default function RootLayout({
   children,
 }: {
@@ -56,6 +61,10 @@ export default function RootLayout({
   const enablePlausible =
     process.env.NODE_ENV === 'production' && plausibleDomain;
 
+  // GA4 alongside Plausible — production-only so dev navigation doesn't
+  // pollute the live dashboard.
+  const enableGA = process.env.NODE_ENV === 'production' && GA_MEASUREMENT_ID;
+
   return (
     <html lang="en-GB" className={`${tenor.variable} ${dm.variable}`}>
       <body>{children}</body>
@@ -66,6 +75,22 @@ export default function RootLayout({
           src="https://plausible.io/js/script.js"
           strategy="afterInteractive"
         />
+      )}
+      {enableGA && (
+        <>
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+            strategy="afterInteractive"
+          />
+          <Script id="ga4-init" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GA_MEASUREMENT_ID}');
+            `}
+          </Script>
+        </>
       )}
     </html>
   );
