@@ -45,6 +45,11 @@ export default buildConfig({
     meta: {
       titleSuffix: ' — HPM Admin',
     },
+    components: {
+      beforeNavLinks: [
+        '@/payload/admin/SearchConsoleNavLink#SearchConsoleNavLink',
+      ],
+    },
   },
 
   editor: lexicalEditor({}),
