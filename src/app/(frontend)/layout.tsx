@@ -24,11 +24,14 @@ const dm = DM_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
   title: {
-    default: 'Hampshire Paddock Management — Proper care for your land',
+    // GSC audit (2026-04-26) showed "paddock maintenance" at 303 impressions
+    // with avg position 19.8 — page 2. Including the exact phrase in the
+    // homepage title nudges it onto page 1 over time.
+    default: 'Paddock Maintenance Hampshire — Hampshire Paddock Management',
     template: '%s | Hampshire Paddock Management',
   },
   description:
-    'Paddock and small-holding management across Hampshire, Wiltshire, Berkshire, Surrey, Dorset and East Sussex. Compact machinery, grass tyres, no ruts.',
+    'Professional paddock maintenance across Hampshire, Wiltshire, Berkshire, Surrey, Dorset and East Sussex. Topping, harrowing, rolling, drainage, fertiliser — compact machinery on grass tyres, no ruts.',
   openGraph: {
     type: 'website',
     locale: 'en_GB',
