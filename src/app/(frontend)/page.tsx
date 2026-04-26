@@ -16,10 +16,12 @@ import { Footer } from '@/components/Footer';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  // Use the layout default title (no template wrap on the homepage)
-  title: 'Hampshire Paddock Management — Proper care for your land',
+  // GSC audit (2026-04-26) showed "paddock maintenance" at 303 imp,
+  // pos 19.8 (page 2). Leading the homepage title with the exact
+  // phrase to nudge it onto page 1.
+  title: 'Paddock Maintenance Hampshire — Hampshire Paddock Management',
   description:
-    'Specialist paddock work across Hampshire and surrounding counties. Topping, harrowing, weed control, drainage, more. Modern compact kit. The person you call is the person on the tractor.',
+    'Professional paddock maintenance across Hampshire, Wiltshire, Berkshire, Surrey, Dorset and East Sussex. Topping, harrowing, rolling, drainage, fertiliser — compact machinery on grass tyres, no ruts. The person you call is the person on the tractor.',
   alternates: { canonical: '/' },
 };
 
