@@ -151,7 +151,9 @@
   color: var(--ink);
   padding: 12px 14px;
   font-family: inherit;
-  font-size: 15px;
+  /* 16px not 15px — iOS Safari forcibly zooms into any input below 16px
+   * on focus, a real conversion killer on the lead-capture form. */
+  font-size: 16px;
   border-radius: 2px;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
