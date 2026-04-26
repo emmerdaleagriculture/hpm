@@ -64,10 +64,6 @@
   max-height: 600px;
 }
 
-.answer[hidden] {
-  display: block; /* keep transition smooth — we'd lose it with display:none */
-}
-
 .answerInner {
   padding: 0 0 1.75rem;
   font-size: 16px;

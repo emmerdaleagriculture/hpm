@@ -49,11 +49,14 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
                 +
               </span>
             </button>
+            {/* `inert` removes the closed panel from tab order and AT
+                without preventing the max-height CSS transition. We avoid
+                `role="region"` (would need an accessible name) and `hidden`
+                (would block the transition). */}
             <div
               id={panelId}
               className={styles.answer}
-              role="region"
-              hidden={!isOpen}
+              inert={!isOpen}
             >
               <div className={styles.answerInner}>{item.rich ?? <p>{item.a}</p>}</div>
             </div>

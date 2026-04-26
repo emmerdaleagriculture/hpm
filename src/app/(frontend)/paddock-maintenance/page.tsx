@@ -199,10 +199,8 @@ export default async function PaddockMaintenancePage() {
       telephone: SITE_PHONE_TEL,
       areaServed: ['Hampshire', 'Wiltshire', 'West Sussex', 'Surrey', 'Berkshire', 'Dorset'],
     },
-    areaServed: {
-      '@type': 'Place',
-      name: 'Hampshire and surrounding counties',
-    },
+    // areaServed lives on `provider` only — the bare top-level Place
+    // with just a name is useless to Google's geo parser.
   };
 
   const faqJsonLd = {
@@ -479,10 +477,10 @@ export default async function PaddockMaintenancePage() {
       </section>
 
       {/* CTA BAND */}
-      <section className={styles.ctaBand}>
-        <h3 className={styles.ctaBandHeading}>
+      <section className={styles.ctaBand} aria-labelledby="paddock-maintenance-cta-heading">
+        <h2 id="paddock-maintenance-cta-heading" className={styles.ctaBandHeading}>
           Want a paddock that <em>actually gets looked after?</em>
-        </h3>
+        </h2>
         <p>Drop me a line — phone, message, or the form. I&apos;ll usually come back to you within hours.</p>
         <Link href="/contact" className={styles.ctaButton}>
           Get a quote →
