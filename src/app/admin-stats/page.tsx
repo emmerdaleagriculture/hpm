@@ -134,8 +134,8 @@ export default async function AdminStatsPage({
   try {
     const [t, q, p] = await Promise.all([
       gscQuery({ startDate, endDate, dimensions: [], rowLimit: 1 }),
-      gscQuery({ startDate, endDate, dimensions: ['query'], rowLimit: 25 }),
-      gscQuery({ startDate, endDate, dimensions: ['page'], rowLimit: 25 }),
+      gscQuery({ startDate, endDate, dimensions: ['query'], rowLimit: 100 }),
+      gscQuery({ startDate, endDate, dimensions: ['page'], rowLimit: 100 }),
     ]);
     totals = t[0]
       ? {
@@ -205,6 +205,11 @@ export default async function AdminStatsPage({
       {queries.length > 0 && (
         <section className={styles.tableSection}>
           <h2>Top queries</h2>
+          <p className={styles.tableNote}>
+            Top {queries.length} queries by clicks. Google withholds rare
+            queries for user privacy — those clicks count in the totals
+            above but don&apos;t appear here.
+          </p>
           <table className={styles.table}>
             <thead>
               <tr>
@@ -233,6 +238,9 @@ export default async function AdminStatsPage({
       {pages.length > 0 && (
         <section className={styles.tableSection}>
           <h2>Top pages</h2>
+          <p className={styles.tableNote}>
+            Top {pages.length} pages by clicks.
+          </p>
           <table className={styles.table}>
             <thead>
               <tr>
