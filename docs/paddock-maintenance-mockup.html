@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Paddock maintenance — Hampshire Paddock Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --jd-green: #367c2b;
+    --jd-green-dark: #245018;
+    --jd-green-deep: #17330d;
+    --jd-green-light: #4a9a3a;
+    --jd-green-pale: #e8f0e3;
+    --jd-yellow: #ffde00;
+    --jd-yellow-dark: #e8c800;
+    --ink: #1a1f15;
+    --ink-2: #4a4f45;
+    --ink-3: #7a7f75;
+    --cream: #fafaf5;
+    --white: #ffffff;
+    --rule: #d8dcd2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', -apple-system, system-ui, sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== NAV ===== */
+  nav.site-nav {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 10;
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+  }
+  .brand {
+    font-family: 'Tenor Sans', serif;
+    font-size: 18px;
+    letter-spacing: 0.03em;
+    color: #fff;
+    text-decoration: none;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  nav ul a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.88;
+  }
+  nav ul a:hover { opacity: 1; }
+  .nav-cta {
+    background: var(--jd-yellow);
+    color: var(--jd-green-deep);
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+  .nav-cta:hover { background: var(--jd-yellow-dark); }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    height: 56vh;
+    min-height: 440px;
+    background: var(--jd-green-dark);
+    overflow: hidden;
+  }
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(135deg, rgba(23, 51, 13, 0.6) 0%, rgba(36, 80, 24, 0.3) 50%, rgba(23, 51, 13, 0.55) 100%),
+                      url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=2400');
+    background-size: cover;
+    background-position: center;
+  }
+  .hero-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 64px;
+    color: #fff;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--jd-yellow);
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .hero h1 {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(48px, 7vw, 88px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin-bottom: 20px;
+    max-width: 900px;
+  }
+  .hero h1 em {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-yellow);
+  }
+  .hero p {
+    font-size: 19px;
+    max-width: 640px;
+    opacity: 0.92;
+    line-height: 1.5;
+  }
+
+  /* ===== INTRO ===== */
+  .intro {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 88px 48px 32px;
+  }
+  .intro p {
+    font-size: 21px;
+    line-height: 1.65;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+  .intro p strong {
+    color: var(--jd-green-dark);
+    font-weight: 600;
+  }
+  .intro p:last-child { margin-bottom: 0; }
+
+  /* ===== SECTION HEADERS ===== */
+  .section-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--jd-green);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .section-heading {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+  .section-heading em {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-green);
+  }
+  .section-intro {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    max-width: 680px;
+    margin-bottom: 48px;
+  }
+
+  /* ===== SEASONAL ===== */
+  .seasonal {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 56px 48px 88px;
+  }
+  .seasonal-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .season {
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .season-banner {
+    background: var(--jd-green-dark);
+    color: #fff;
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .season-banner .season-name {
+    font-family: 'Tenor Sans', serif;
+    font-size: 22px;
+    letter-spacing: 0.01em;
+  }
+  .season-banner .season-months {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--jd-yellow);
+    font-weight: 500;
+  }
+  .season-body {
+    padding: 24px;
+    flex: 1;
+  }
+  .season-lead {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    margin-bottom: 18px;
+    font-style: italic;
+  }
+  .season-jobs {
+    list-style: none;
+  }
+  .season-jobs li {
+    padding-left: 18px;
+    position: relative;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .season-jobs li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 6px;
+    height: 6px;
+    background: var(--jd-yellow);
+    border-radius: 50%;
+  }
+  .season-jobs a {
+    color: var(--jd-green-dark);
+    text-decoration: none;
+    border-bottom: 1px solid var(--jd-yellow);
+    transition: color 0.15s;
+  }
+  .season-jobs a:hover { color: var(--jd-green); }
+
+  /* ===== ALL SERVICES GRID ===== */
+  .services-block {
+    background: var(--cream);
+    padding: 88px 48px;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .services-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 24px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .service-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--jd-green);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  }
+  .service-card-category {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--jd-green);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .service-card h4 {
+    font-family: 'Tenor Sans', serif;
+    font-size: 21px;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+  .service-card p {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.55;
+    margin-bottom: 16px;
+    flex: 1;
+  }
+  .service-card-arrow {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--jd-green-dark);
+    font-weight: 600;
+    transition: color 0.15s;
+  }
+  .service-card:hover .service-card-arrow { color: var(--jd-green); }
+
+  /* ===== COST ===== */
+  .cost {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 88px 48px;
+  }
+  .cost-points {
+    list-style: none;
+    margin-top: 32px;
+  }
+  .cost-points li {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+  .cost-points li:last-child { border-bottom: none; }
+  .cost-num {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-size: 28px;
+    color: var(--jd-yellow-dark);
+    line-height: 1;
+    padding-top: 4px;
+  }
+  .cost-text strong {
+    display: block;
+    font-family: 'Tenor Sans', serif;
+    font-size: 19px;
+    font-weight: 400;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .cost-text {
+    font-size: 15px;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+  .cost-footnote {
+    margin-top: 32px;
+    padding: 24px;
+    background: var(--jd-green-pale);
+    border-left: 3px solid var(--jd-green);
+    font-size: 15px;
+    color: var(--jd-green-dark);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* ===== CONTRACT ===== */
+  .contract {
+    background: var(--jd-green-deep);
+    color: #fff;
+    padding: 96px 48px;
+  }
+  .contract-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .contract-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--jd-yellow);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .contract h2 {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+  .contract h2 em {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-yellow);
+  }
+  .contract-lead {
+    font-size: 18px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 32px;
+  }
+  .contract-features {
+    list-style: none;
+    margin-bottom: 36px;
+  }
+  .contract-features li {
+    padding: 14px 0;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+  .contract-features li:last-child {
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+  .contract-tick {
+    width: 22px;
+    height: 22px;
+    background: var(--jd-yellow);
+    color: var(--jd-green-deep);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .contract-features strong {
+    display: block;
+    font-family: 'Tenor Sans', serif;
+    font-size: 17px;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .contract-features li > div {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.5;
+  }
+  .contract-cta {
+    display: inline-block;
+    background: var(--jd-yellow);
+    color: var(--jd-green-deep);
+    padding: 16px 32px;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+  .contract-cta:hover { background: var(--jd-yellow-dark); }
+
+  .contract-photo {
+    aspect-ratio: 4/5;
+    background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200');
+    background-size: cover;
+    background-position: center;
+    background-color: var(--jd-green-dark);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* ===== FAQ ===== */
+  .faq {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 96px 48px;
+  }
+  .faq-list {
+    margin-top: 24px;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--rule);
+  }
+  .faq-item:first-child { border-top: 1px solid var(--rule); }
+  .faq-question {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 24px 0;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    font-family: 'Tenor Sans', serif;
+    font-size: 21px;
+    font-weight: 400;
+    color: var(--ink);
+    transition: color 0.15s;
+  }
+  .faq-question:hover { color: var(--jd-green-dark); }
+  .faq-toggle {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--jd-green-dark);
+    transition: transform 0.2s, background 0.15s;
+    font-size: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+  }
+  .faq-item.open .faq-toggle {
+    transform: rotate(45deg);
+    background: var(--jd-yellow);
+    border-color: var(--jd-yellow);
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .faq-item.open .faq-answer {
+    max-height: 400px;
+  }
+  .faq-answer-inner {
+    padding: 0 0 28px;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-2);
+  }
+  .faq-answer-inner p { margin-bottom: 12px; }
+  .faq-answer-inner p:last-child { margin-bottom: 0; }
+  .faq-answer-inner a {
+    color: var(--jd-green-dark);
+    text-decoration: none;
+    border-bottom: 1px solid var(--jd-yellow);
+  }
+
+  /* ===== CTA BAND ===== */
+  .cta-band {
+    background: var(--jd-green-pale);
+    padding: 88px 48px;
+    text-align: center;
+    border-top: 1px solid var(--rule);
+  }
+  .cta-band h3 {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(28px, 3.5vw, 42px);
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--ink);
+  }
+  .cta-band h3 em {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--jd-green);
+  }
+  .cta-band p {
+    font-size: 16px;
+    color: var(--ink-2);
+    margin-bottom: 32px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .btn-primary {
+    display: inline-block;
+    background: var(--jd-green-dark);
+    color: #fff;
+    padding: 16px 32px;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+  .btn-primary:hover { background: var(--jd-green); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--jd-green-deep);
+    color: rgba(255,255,255,0.72);
+    padding: 64px 48px 32px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .footer-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr 0.8fr 0.8fr;
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+  .footer-brand { font-family: 'Tenor Sans', serif; color: #fff; font-size: 20px; margin-bottom: 12px; }
+  .footer-tag { font-family: 'Georgia', serif; font-style: italic; color: var(--jd-yellow); font-size: 14px; margin-bottom: 16px; }
+  .footer-blurb { font-size: 14px; line-height: 1.6; max-width: 320px; }
+  .footer-col h5 { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--jd-yellow); margin-bottom: 18px; font-weight: 500; }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 10px; }
+  .footer-col a { color: rgba(255,255,255,0.72); text-decoration: none; font-size: 14px; transition: color 0.15s; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { max-width: 1400px; margin: 0 auto; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.5); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1100px) {
+    .seasonal-grid { grid-template-columns: repeat(2, 1fr); }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .contract-inner { grid-template-columns: 1fr; gap: 40px; }
+    .contract-photo { aspect-ratio: 16/10; max-width: 600px; }
+    .footer-grid { grid-template-columns: 1fr 1fr 1fr; gap: 32px; }
+  }
+  @media (max-width: 768px) {
+    nav.site-nav { padding: 20px 24px; }
+    nav ul { display: none; }
+    .hero-inner { padding: 0 24px 48px; }
+    .intro { padding: 56px 20px 24px; }
+    .intro p { font-size: 18px; }
+    .seasonal { padding: 32px 20px 64px; }
+    .seasonal-grid { grid-template-columns: 1fr; }
+    .services-block { padding: 64px 20px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .cost { padding: 64px 20px; }
+    .contract { padding: 64px 20px; }
+    .faq { padding: 64px 20px; }
+    .faq-question { font-size: 18px; padding: 20px 0; gap: 16px; }
+    .cta-band { padding: 56px 20px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="site-nav">
+  <a href="/" class="brand">Hampshire Paddock Management</a>
+  <ul>
+    <li><a href="/services">Services</a></li>
+    <li><a href="/gallery">Gallery</a></li>
+    <li><a href="/notes">Notes</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <a href="/contact" class="nav-cta">Get a quote</a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-photo"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Paddock maintenance</div>
+    <h1>Everything your paddock <em>actually needs</em></h1>
+    <p>The complete picture — what paddock maintenance involves, when each job matters, how it's priced, and how to get someone reliable doing it for you.</p>
+  </div>
+</section>
+
+<!-- ============ INTRO / DEFINITION ============ -->
+<section class="intro">
+  <p><strong>Paddock maintenance</strong> is the ongoing work that keeps a horse paddock healthy, safe, and grazing-ready year-round. It covers everything from cutting and harrowing through to weed control, fertiliser, and ground repair — done at the right time, in the right order, with the right kit.</p>
+  <p>Most paddocks need attention three or four times a year. Get the timing right and the field stays in condition with relatively little effort. Get it wrong — or skip a season — and the work needed to recover the field is several times what regular maintenance would have cost.</p>
+</section>
+
+<!-- ============ SEASONAL ============ -->
+<section class="seasonal">
+  <div class="section-eyebrow">Year round</div>
+  <h2 class="section-heading">A season-by-season <em>schedule</em></h2>
+  <p class="section-intro">Paddock work is timing-led. Here's what each season usually wants — though the right schedule depends on your stocking density, soil type, and how the previous year went.</p>
+
+  <div class="seasonal-grid">
+
+    <div class="season">
+      <div class="season-banner">
+        <span class="season-name">Spring</span>
+        <span class="season-months">Mar — May</span>
+      </div>
+      <div class="season-body">
+        <p class="season-lead">Wake the field up. Get on top of weeds before they bolt.</p>
+        <ul class="season-jobs">
+          <li><a href="/services/harrowing">Chain harrowing</a> to lift thatch and spread muck</li>
+          <li><a href="/services/rolling">Rolling</a> to firm up frost-heaved ground</li>
+          <li>First <a href="/services/weed-control">weed control</a> pass — ragwort, docks, thistles</li>
+          <li>Spring <a href="/services/fertiliser-application">fertiliser application</a></li>
+          <li><a href="/services/overseeding">Overseeding</a> bare patches</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="season">
+      <div class="season-banner">
+        <span class="season-name">Summer</span>
+        <span class="season-months">Jun — Aug</span>
+      </div>
+      <div class="season-body">
+        <p class="season-lead">Keep the grass productive. Knock back what the horses won't.</p>
+        <ul class="season-jobs">
+          <li>First <a href="/services/paddock-topping">topping</a> after seed-set</li>
+          <li><a href="/services/weed-control">Spot-spraying</a> persistent weeds</li>
+          <li><a href="/services/manure-sweeping">Manure sweeping</a> to keep parasites down</li>
+          <li>Possible second topping in late August</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="season">
+      <div class="season-banner">
+        <span class="season-name">Autumn</span>
+        <span class="season-months">Sep — Nov</span>
+      </div>
+      <div class="season-body">
+        <p class="season-lead">Set the field up for winter and the spring after.</p>
+        <ul class="season-jobs">
+          <li>Final <a href="/services/paddock-topping">topping</a> if needed</li>
+          <li><a href="/services/overseeding">Overseeding</a> while ground is warm</li>
+          <li><a href="/services/mole-ploughing">Mole ploughing</a> for drainage on wet fields</li>
+          <li><a href="/services/fertiliser-application">Autumn fertiliser</a> on poorer ground</li>
+          <li><a href="/services/land-ditch-clearance">Ditch clearance</a> before winter rain</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="season">
+      <div class="season-banner">
+        <span class="season-name">Winter</span>
+        <span class="season-months">Dec — Feb</span>
+      </div>
+      <div class="season-body">
+        <p class="season-lead">Heavy ground work and structural jobs while grass isn't growing.</p>
+        <ul class="season-jobs">
+          <li><a href="/services/rotavating">Rotavating</a> tired sections for renovation</li>
+          <li><a href="/services/stone-burying">Stone burying</a> on rough ground</li>
+          <li><a href="/services/land-ditch-clearance">Land &amp; ditch clearance</a></li>
+          <li>Planning the year's spray and fertiliser programme</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ ALL SERVICES GRID ============ -->
+<section class="services-block">
+  <div class="services-inner">
+    <div class="section-eyebrow">All services</div>
+    <h2 class="section-heading">Every job, <em>covered</em></h2>
+    <p class="section-intro">Whether you need one-off help with a specific problem or year-round maintenance, the full menu is below. Each links to a page with detail, kit used, and how it's priced.</p>
+
+    <div class="services-grid">
+      <a href="/services/paddock-topping" class="service-card">
+        <div class="service-card-category">Cutting &amp; mowing</div>
+        <h4>Paddock topping</h4>
+        <p>The bread-and-butter cut. Knocks back ungrazed patches and weeds before they seed.</p>
+        <span class="service-card-arrow">See more →</span>
+      </a>
+      <a href="/services/flailing" class="service-card">
+        <div class="service-card-category">Cutting &amp; mowing</div>
+        <h4>Flailing</h4>
+        <p>For rougher ground or heavier vegetation than a topper handles cleanly.</p>
+        <span class="service-card-arrow">See more →</span>
+      </a>
+      <a href="/services/flail-collecting" class="service-card">
+        <div class="service-card-category">Cutting &amp; mowing</div>
+        <h4>Flail collecting</h4>
+        <p>Cuts and collects in one pass — no piles to rake or move afterwards.</p>
+        <span class="service-card-arrow">See more →</span>
+      </a>
+      <a href="/services/finish-mowing" class="service-card">
+        <div class="service-card-category">Cutting &amp; mowing</div>
+        <h4>Finish mowing</h4>
+        <p>Tidier, lower cut for high-presentation paddocks and amenity grass.</p>
+        <span class="service-card-arrow">See more →</span>
+      </a>
+      <a href="/services/harrowing" class="service-card">
+        <div class="service-card-category">Ground care</div>
+        <h4>Harrowing</h4>
+        <p>Lifts thatch, spreads muck, levels hoof prints. The single most useful spring job.</p>
+        <span class="service-card-arrow">See more →</span>
+      </a>
+      <a href="/services/rolling" class="service-card">
+        <div class="service-card-category">Ground care</div>
+        <h4>Rolling</h4>
+        <p>Firms ground after frost and improves seed-to-soil contact after overseeding.</p>
+        <span class="service-card-arrow">See more →</span>
+      </a>
+      <a href="/services/rotavating" class="service-card">
+        <div class="service-card-category">Ground care</div>
+        <h4>Rotavating</h4>
+        <p>For full renovation — breaks ground up before reseeding a tired field.</p>
+        <span class="service-card-arrow">See more →</span>
+      </a>
+      <a href="/services/mole-ploughing" class="service-card">
+        <div class="service-card-category">Ground care</div>
+        <h4>Mole ploughing</h4>
+        <p>Cuts drainage channels under the surface — fixes wet fields without trenching.</p>
+        <span class="service-card-arrow">See more →</span>
+      </a>
+      <a href="/services/stone-burying" class="service-card">
+        <div class="service-card-category">Ground care</div>
+        <h4>Stone burying</h4>
+        <p>Buries surface stones rather than picking them — fast on stony ground.</p>
+        <span class="service-card-arrow">See more →</span>
+      </a>
+      <a href="/services/land-ditch-clearance" class="service-card">
+        <div class="service-card-category">Ground care</div>
+        <h4>Land &amp; ditch clearance</h4>
+        <p>Boundary tidying, ditch reinstatement, removing scrub or hedge encroachment.</p>
+        <span class="service-card-arrow">See more →</span>
+      </a>
+      <a href="/services/weed-control" class="service-card">
+        <div class="service-card-category">Treatment &amp; upkeep</div>
+        <h4>Weed control</h4>
+        <p>Ragwort, docks, thistles, nettles — selective spraying or spot treatment.</p>
+        <span class="service-card-arrow">See more →</span>
+      </a>
+      <a href="/services/spraying" class="service-card">
+        <div class="service-card-category">Treatment &amp; upkeep</div>
+        <h4>Spraying</h4>
+        <p>Tractor-mounted boom spraying for larger areas. PA1/PA2 certified.</p>
+        <span class="service-card-arrow">See more →</span>
+      </a>
+      <a href="/services/fertiliser-application" class="service-card">
+        <div class="service-card-category">Treatment &amp; upkeep</div>
+        <h4>Fertiliser application</h4>
+        <p>Granular application, calibrated rates, timed to the field's actual need.</p>
+        <span class="service-card-arrow">See more →</span>
+      </a>
+      <a href="/services/overseeding" class="service-card">
+        <div class="service-card-category">Treatment &amp; upkeep</div>
+        <h4>Overseeding</h4>
+        <p>Refreshes thinning paddocks without full renovation. Direct-drilled or broadcast.</p>
+        <span class="service-card-arrow">See more →</span>
+      </a>
+      <a href="/services/manure-sweeping" class="service-card">
+        <div class="service-card-category">Treatment &amp; upkeep</div>
+        <h4>Manure sweeping</h4>
+        <p>Mechanical sweeping to keep parasite burden and nutrient hot-spots down.</p>
+        <span class="service-card-arrow">See more →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COST ============ -->
+<section class="cost">
+  <div class="section-eyebrow">What does it cost?</div>
+  <h2 class="section-heading">How <em>pricing works</em></h2>
+  <p class="section-intro">There's no fixed price for paddock maintenance because no two paddocks are the same. A fair quote depends on the size, the condition, the access, and what specifically wants doing. Here's roughly how it shakes out.</p>
+
+  <ul class="cost-points">
+    <li>
+      <div class="cost-num">i</div>
+      <div class="cost-text">
+        <strong>Most jobs are priced per acre or per hour</strong>
+        Cutting, harrowing, rolling, and spraying are typically per-acre. Specialist or short-duration work — small jobs, awkward access — is more often quoted by the hour.
+      </div>
+    </li>
+    <li>
+      <div class="cost-num">ii</div>
+      <div class="cost-text">
+        <strong>Travel matters more than acreage on small jobs</strong>
+        Two acres an hour from the yard versus two acres ninety minutes away are different jobs. I'm honest about this on the call rather than baking it into a flat rate that hurts everyone.
+      </div>
+    </li>
+    <li>
+      <div class="cost-num">iii</div>
+      <div class="cost-text">
+        <strong>Materials are passed through at cost</strong>
+        Fertiliser, seed, herbicide — you pay what I pay, with no markup. The only thing I charge for is the work and the kit running.
+      </div>
+    </li>
+    <li>
+      <div class="cost-num">iv</div>
+      <div class="cost-text">
+        <strong>Bundled or contract maintenance is cheaper than one-offs</strong>
+        Knowing in advance that I'll be on your field three times a year means I can plan routes and time-of-year, which keeps your costs down. See the contract section below.
+      </div>
+    </li>
+  </ul>
+
+  <div class="cost-footnote">
+    Most jobs I can quote over the phone from a description of the field. For trickier ones — heavy renovation, drainage, jobs with awkward access — I'll come and walk it with you, no charge.
+  </div>
+</section>
+
+<!-- ============ CONTRACT ============ -->
+<section class="contract">
+  <div class="contract-inner">
+    <div>
+      <div class="contract-eyebrow">Year-round contract</div>
+      <h2>Or just <em>let me handle it</em></h2>
+      <p class="contract-lead">If you'd rather not think about timing or remember to call when the ragwort comes up, an annual contract puts the whole thing on autopilot. I plan the year, do the work at the right moments, and keep your field in condition without the back-and-forth.</p>
+
+      <ul class="contract-features">
+        <li>
+          <span class="contract-tick">✓</span>
+          <div>
+            <strong>Annual plan, fixed budget</strong>
+            We agree what's needed and roughly when, at the start of the year. Predictable cost, no surprise invoices.
+          </div>
+        </li>
+        <li>
+          <span class="contract-tick">✓</span>
+          <div>
+            <strong>Right work, right time</strong>
+            I get the timing right because I'm watching the calendar and the weather, not waiting to be asked.
+          </div>
+        </li>
+        <li>
+          <span class="contract-tick">✓</span>
+          <div>
+            <strong>Priority over one-off jobs</strong>
+            Contract clients go to the front of the queue when it gets busy.
+          </div>
+        </li>
+        <li>
+          <span class="contract-tick">✓</span>
+          <div>
+            <strong>Better rates, lower hassle</strong>
+            Bundled work is cheaper to schedule, so it's cheaper for you. Plus you skip every "got time for me this week?" phone call.
+          </div>
+        </li>
+      </ul>
+
+      <a href="/contact?subject=contract" class="contract-cta">Talk about a contract →</a>
+    </div>
+    <div class="contract-photo"></div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq">
+  <div class="section-eyebrow">Common questions</div>
+  <h2 class="section-heading">People <em>often ask</em></h2>
+
+  <div class="faq-list">
+
+    <div class="faq-item open">
+      <button class="faq-question">
+        <span>How often does my paddock actually need maintenance?</span>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>For a horse paddock that's grazed normally, three to four visits a year is standard — typically a spring service (harrowing, rolling, weed control), a summer topping, and an autumn job (overseeding, fertiliser, sometimes a second topping). Heavily stocked fields or paddocks coming back from neglect need more.</p>
+          <p>The mistake I see most often is owners only calling when the field looks visibly bad. By that point the work is bigger and more expensive. Regular small jobs are far cheaper than recovery work.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        <span>Do you do one-off jobs or only year-round contracts?</span>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Both. Most of my work is one-off — somebody rings about a specific job, I do it, they ring again next season. Contracts are for owners who'd rather not think about timing at all. Either is fine.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        <span>What's the smallest paddock you'll come out for?</span>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>No fixed minimum, but very small fields (under an acre or so) work better as part of a route — i.e. if I'm already in the area for someone else. Let me know where you are and what's needed and I'll be straight about whether the trip makes sense.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        <span>Can you handle paddocks I've let get away from me?</span>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Yes. Heavy <a href="/services/flailing">flailing</a>, ragwort clearance, and renovation work are bread-and-butter jobs. Bringing a neglected paddock back usually takes a season or two — start with knocking it down, follow with weed control, then build the sward back with overseeding and the right fertiliser. Worth the work.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        <span>Where do you work?</span>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Hampshire mainly, with regular work in Wiltshire, West Sussex, Surrey, Berkshire, and Dorset. Anywhere further afield is by arrangement — ask, and we'll work out whether it makes sense.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ CTA BAND ============ -->
+<section class="cta-band">
+  <h3>Want a paddock that <em>actually gets looked after?</em></h3>
+  <p>Drop me a line — phone, message, or the form. I'll usually come back to you within hours.</p>
+  <a href="/contact" class="btn-primary">Get a quote →</a>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Hampshire Paddock Management</div>
+      <div class="footer-tag">Paddocks, put right.</div>
+      <p class="footer-blurb">Modern, well-equipped paddock management across Hampshire and surrounding counties. Trading as Emmerdale Agriculture Ltd.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Cutting &amp; mowing</h5>
+      <ul>
+        <li><a href="/services/paddock-topping">Paddock topping</a></li>
+        <li><a href="/services/flailing">Flailing</a></li>
+        <li><a href="/services/flail-collecting">Flail collecting</a></li>
+        <li><a href="/services/finish-mowing">Finish mowing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Ground care</h5>
+      <ul>
+        <li><a href="/services/harrowing">Harrowing</a></li>
+        <li><a href="/services/rolling">Rolling</a></li>
+        <li><a href="/services/rotavating">Rotavating</a></li>
+        <li><a href="/services/mole-ploughing">Mole ploughing</a></li>
+        <li><a href="/services/stone-burying">Stone burying</a></li>
+        <li><a href="/services/land-ditch-clearance">Land &amp; ditch clearance</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Treatment &amp; upkeep</h5>
+      <ul>
+        <li><a href="/services/weed-control">Weed control</a></li>
+        <li><a href="/services/spraying">Spraying</a></li>
+        <li><a href="/services/fertiliser-application">Fertiliser application</a></li>
+        <li><a href="/services/overseeding">Overseeding</a></li>
+        <li><a href="/services/manure-sweeping">Manure sweeping</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="/paddock-maintenance">Paddock maintenance</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/gallery">Gallery</a></li>
+        <li><a href="/notes">Notes</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="tel:+447825156062">07825 156062</a></li>
+        <li><a href="mailto:">Email us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Emmerdale Agriculture Ltd · Company No. 14950816</span>
+    <span>Made with care in Hampshire</span>
+  </div>
+</footer>
+
+<script>
+  // FAQ accordion
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    });
+  });
+</script>
+
+</body>
+</html>

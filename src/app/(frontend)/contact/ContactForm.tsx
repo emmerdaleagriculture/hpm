@@ -51,6 +51,10 @@ type Status = 'idle' | 'submitting' | 'success' | 'error';
 export function ContactForm() {
   const params = useSearchParams();
   const preselected = params.get('service') ?? '';
+  // /paddock-maintenance's contract CTA links here with ?subject=contract.
+  // We forward it to the API so the Resend email subject is flagged
+  // distinctly in Tom's inbox without putting words in the customer's mouth.
+  const enquirySubject = params.get('subject') ?? '';
 
   const [service, setService] = useState(preselected);
   const [status, setStatus] = useState<Status>('idle');
@@ -94,6 +98,7 @@ export function ContactForm() {
       location: String(data.get('location') ?? ''),
       service: String(data.get('service') ?? ''),
       message: String(data.get('message') ?? ''),
+      enquirySubject,
       website: String(data.get('website') ?? ''), // honeypot
     };
 
