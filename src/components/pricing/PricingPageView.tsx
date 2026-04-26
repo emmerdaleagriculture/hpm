@@ -1,3 +1,6 @@
+import Image from 'next/image'
+
+import { Breadcrumb } from '@/components/Breadcrumb'
 import type { PricingPageData, PricingType } from '@/lib/pricing-types'
 import {
   ModelIcon,
@@ -7,8 +10,13 @@ import {
 } from './icons'
 import styles from './PricingPage.module.css'
 
+type RailPhoto = { url: string; alt: string; id: number | string }
+
 interface PricingPageViewProps {
   data: PricingPageData
+  heroUrl?: string | null
+  heroAlt?: string
+  railPhotos?: RailPhoto[]
 }
 
 const badgeClassFor: Record<PricingType, string> = {
@@ -25,22 +33,75 @@ const badgeLabelFor: Record<PricingType, string> = {
   programme: 'Programme',
 }
 
-export function PricingPageView({ data }: PricingPageViewProps) {
-  return (
-    <article className={styles.page}>
-      <header className={styles.hero}>
-        <p className={styles.heroEyebrow}>{data.eyebrow}</p>
-        <h1 className={styles.heroHeading}>{data.heading}</h1>
-        <p className={styles.heroSubheading}>{data.subheading}</p>
-      </header>
+// CMS-supplied; fall back to /contact if an editor pastes something unsafe
+// (e.g. `javascript:`). Accepts site-relative paths and common safe schemes.
+function safeHref(value: string | null | undefined): string {
+  const v = (value ?? '').trim()
+  if (!v) return '/contact'
+  if (/^(\/|https?:\/\/|mailto:|tel:|#)/i.test(v)) return v
+  return '/contact'
+}
 
-      <blockquote className={styles.introQuote}>{data.introQuote}</blockquote>
+export function PricingPageView({
+  data,
+  heroUrl,
+  heroAlt = 'Hampshire paddock work',
+  railPhotos = [],
+}: PricingPageViewProps) {
+  const half = Math.ceil(railPhotos.length / 2)
+  const leftPhotos = railPhotos.slice(0, half)
+  const rightPhotos = railPhotos.slice(half)
+
+  return (
+    <>
+      <section className={styles.heroPhoto}>
+        <div className={styles.heroPhotoImage}>
+          {heroUrl && (
+            <Image
+              src={heroUrl}
+              alt={heroAlt}
+              fill
+              priority
+              sizes="100vw"
+              style={{ objectFit: 'cover' }}
+            />
+          )}
+          <div className={styles.heroPhotoGradient} />
+        </div>
+        <div className={styles.heroPhotoInner}>
+          <Breadcrumb items={[{ label: 'Pricing' }]} />
+          <p className={styles.heroPhotoEyebrow}>{data.eyebrow}</p>
+          <h1 className={styles.heroPhotoHeading}>{data.heading}</h1>
+          <p className={styles.heroPhotoSub}>{data.subheading}</p>
+        </div>
+      </section>
+
+      <div className={styles.pageWrap}>
+        <aside
+          className={styles.sideRail}
+          aria-label="Photos of Hampshire paddock work"
+        >
+          {leftPhotos.map((p) => (
+            <div key={p.id} className={styles.sideRailItem}>
+              <Image
+                src={p.url}
+                alt={p.alt}
+                fill
+                sizes="(max-width: 1100px) 0px, 140px"
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
+          ))}
+        </aside>
+
+        <article className={styles.page}>
+          <blockquote className={styles.introQuote}>{data.introQuote}</blockquote>
 
       <h2 className={styles.sectionHeading}>{data.modelsHeading}</h2>
       <p className={styles.sectionIntro}>{data.modelsIntro}</p>
 
       <div className={styles.modelGrid}>
-        {data.pricingModels.map((model) => (
+        {(data.pricingModels ?? []).map((model) => (
           <div key={model.id ?? model.title} className={styles.modelCard}>
             <div className={styles.modelCardHeader}>
               <span className={styles.modelIcon} aria-hidden="true">
@@ -75,7 +136,7 @@ export function PricingPageView({ data }: PricingPageViewProps) {
             Priced by
           </p>
         </div>
-        {data.serviceRows.map((row) => (
+        {(data.serviceRows ?? []).map((row) => (
           <div
             key={row.id ?? row.name}
             className={styles.serviceRow}
@@ -97,7 +158,7 @@ export function PricingPageView({ data }: PricingPageViewProps) {
       <h2 className={styles.sectionHeading}>{data.factorsHeading}</h2>
 
       <div className={styles.factorsGrid}>
-        {data.factors.map((factor) => (
+        {(data.factors ?? []).map((factor) => (
           <div key={factor.id ?? factor.title} className={styles.factorCard}>
             <p className={styles.factorTitle}>{factor.title}</p>
             <p className={styles.factorBody}>{factor.body}</p>
@@ -108,7 +169,7 @@ export function PricingPageView({ data }: PricingPageViewProps) {
       <h2 className={styles.sectionHeading}>{data.processHeading}</h2>
 
       <ol className={styles.processList}>
-        {data.processSteps.map((step, index) => (
+        {(data.processSteps ?? []).map((step, index) => (
           <li key={step.id ?? step.title} className={styles.processStep}>
             <span className={styles.processNumber} aria-hidden="true">
               {String(index + 1).padStart(2, '0')}
@@ -127,7 +188,7 @@ export function PricingPageView({ data }: PricingPageViewProps) {
         </h2>
         <p className={styles.ctaSubheading}>{data.ctaSubheading}</p>
         <div className={styles.ctaButtons}>
-          <a href={data.ctaPrimaryHref} className={styles.ctaPrimary}>
+          <a href={safeHref(data.ctaPrimaryHref)} className={styles.ctaPrimary}>
             {data.ctaPrimaryLabel}
           </a>
           <a
@@ -139,15 +200,31 @@ export function PricingPageView({ data }: PricingPageViewProps) {
         </div>
       </section>
 
-      <footer className={styles.trust}>
-        <span className={styles.trustIcon} aria-hidden="true">
-          <ShieldIcon />
-        </span>
-        <div>
-          <p className={styles.trustHeading}>{data.trustHeading}</p>
-          <p className={styles.trustBody}>{data.trustBody}</p>
-        </div>
-      </footer>
-    </article>
+          <footer className={styles.trust}>
+            <span className={styles.trustIcon} aria-hidden="true">
+              <ShieldIcon />
+            </span>
+            <div>
+              <p className={styles.trustHeading}>{data.trustHeading}</p>
+              <p className={styles.trustBody}>{data.trustBody}</p>
+            </div>
+          </footer>
+        </article>
+
+        <aside className={styles.sideRail} aria-hidden="true">
+          {rightPhotos.map((p) => (
+            <div key={p.id} className={styles.sideRailItem}>
+              <Image
+                src={p.url}
+                alt={p.alt}
+                fill
+                sizes="(max-width: 1100px) 0px, 140px"
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
+          ))}
+        </aside>
+      </div>
+    </>
   )
 }
