@@ -50,7 +50,7 @@ export async function Footer() {
 
         {SERVICE_CATEGORIES.map((cat) => (
           <div key={cat.key} className={styles.col}>
-            <h5>{cat.label}</h5>
+            <h3>{cat.label}</h3>
             <ul>
               {(byCat[cat.key] ?? []).map((s) => (
                 <li key={s.slug}>
@@ -62,7 +62,7 @@ export async function Footer() {
         ))}
 
         <div className={styles.col}>
-          <h5>Company</h5>
+          <h3>Company</h3>
           <ul>
             <li><Link href="/paddock-maintenance">Paddock maintenance</Link></li>
             <li><Link href="/about">About</Link></li>
@@ -73,7 +73,7 @@ export async function Footer() {
         </div>
 
         <div className={styles.col}>
-          <h5>Contact</h5>
+          <h3>Contact</h3>
           <ul>
             <li><a href={`tel:${SITE_PHONE_TEL}`}>{SITE_PHONE}</a></li>
             <li><a href={`mailto:${SITE_EMAIL}`}>Email us</a></li>

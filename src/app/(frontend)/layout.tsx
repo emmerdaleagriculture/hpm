@@ -6,18 +6,28 @@ import './globals.css';
 // Hampshire Green typography stack.
 // Tenor Sans = display headings (gentle, editorial)
 // DM Sans    = body (clean, reads well at small sizes)
+// `display: 'optional'` on Tenor (the hero h1 font) prevents the
+// FOUT-driven CLS that pushed homepage CLS to 0.121. The browser waits
+// up to 100ms for the custom font, then permanently uses the fallback —
+// no swap, no shift. `adjustFontFallback` is the default in Next 15.x
+// but stated explicitly so future rotations don't lose the size-adjust
+// metrics.
 const tenor = Tenor_Sans({
   subsets: ['latin'],
   weight: '400',
   variable: '--font-display',
-  display: 'swap',
+  display: 'optional',
+  adjustFontFallback: true,
 });
 
+// Body font stays on `swap` — DM Sans's metrics are close enough to the
+// system fallback that the swap doesn't cause a measurable shift.
 const dm = DM_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-body',
   display: 'swap',
+  adjustFontFallback: true,
 });
 
 // Default metadata — individual pages override as needed.
@@ -81,11 +91,14 @@ export default function RootLayout({
       )}
       {enableGA && (
         <>
+          {/* `lazyOnload` defers GA until after the page is idle, so the
+              ~170 KiB / ~150 ms it costs doesn't sit on the critical path
+              or contribute to TBT. The pageview still fires reliably. */}
           <Script
             src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-            strategy="afterInteractive"
+            strategy="lazyOnload"
           />
-          <Script id="ga4-init" strategy="afterInteractive">
+          <Script id="ga4-init" strategy="lazyOnload">
             {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
