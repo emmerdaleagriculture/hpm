@@ -17,22 +17,49 @@ set -euo pipefail
 
 ORIGIN="${1:-https://hampshirepaddockmanagement.com}"
 
-# Pulled from the handover doc + next.config.mjs. Keep in sync as the
+# Mirrors the redirects() block in next.config.mjs. Param patterns
+# (/blog/:slug, /shop/:path*, /my-account/:path*) are tested with a
+# representative concrete value. Keep this list in sync as the
 # redirect map evolves.
 PATHS=(
+  # /costs → /pricing
   "/costs"
   "/costs/"
-  "/services/fertiliser-spraying"
+
+  # Renamed services
   "/services/dung-sweeping"
+  "/services/fertiliser-spraying"
   "/services/field-harrowing"
+  "/services/field-ploughing"
+  "/services/field-rotavating"
   "/services/paddock-rolling"
   "/services/ragwort-pulling"
+
+  # Old root-level WP service URLs
+  "/field-ploughing"
+  "/field-ploughing/"
+  "/hedge-cutting"
+  "/hedge-cutting/"
+  "/seedsight"
+  "/seedsight/"
+
+  # Blog → Notes
   "/blog"
-  "/blog/some-post"
+  "/blog/example-post-slug"
+
+  # WooCommerce artefacts
   "/shop"
+  "/shop/some-product"
   "/cart"
+  "/checkout"
   "/my-account"
+  "/my-account/orders"
+  "/wishlist"
+  "/products-compare"
+
+  # Other old WP paths
   "/tools"
+  "/videos"
   "/privacy-policy"
 )
 
