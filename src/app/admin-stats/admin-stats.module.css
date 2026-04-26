@@ -132,8 +132,101 @@
 .totalValue {
   font-family: var(--font-display), Georgia, serif;
   font-size: clamp(1.5rem, 2.5vw, 2rem);
-  margin: 0;
+  margin: 0 0 0.25rem;
   color: #1a1f15;
+}
+
+.deltaUp,
+.deltaDown,
+.deltaFlat {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+.deltaUp { color: #2a5e22; }
+.deltaDown { color: #c63b1f; }
+.deltaFlat { color: #888780; }
+
+.deltaSub {
+  font-size: 11px;
+  color: #888780;
+  margin: 0.125rem 0 0;
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 900px) {
+  .twoCol { grid-template-columns: 1fr 1fr; }
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+.tableHeader h2 {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  font-size: 1.25rem;
+  margin: 0;
+}
+.tableHeader a {
+  font-size: 13px;
+  color: #2a5e22;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  background: #ebf3e3;
+  color: #2a5e22;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+.muted {
+  color: #888780;
+  font-size: 14px;
+  padding: 1rem;
+  background: #fafaf7;
+  border: 1px solid #ece9dd;
+  border-radius: 6px;
+}
+
+.notice {
+  background: #fafaf7;
+  border: 1px solid #ece9dd;
+  border-left: 3px solid #ffde00;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 14px;
+  color: #5f5e5a;
+  border-radius: 6px;
+}
+
+.tableScroll {
+  overflow-x: auto;
+}
+
+.tableNote {
+  color: #5f5e5a;
+  font-size: 13px;
+  margin: 0 0 0.875rem;
+  max-width: 70ch;
+  line-height: 1.5;
 }
 
 .tableSection {

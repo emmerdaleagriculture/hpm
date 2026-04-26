@@ -26,7 +26,14 @@ import config from '@payload-config';
 
 const TOKEN_URL = 'https://oauth2.googleapis.com/token';
 const AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
-const SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
+// Both scopes requested up-front so a single consent unlocks the
+// /admin-stats analytics suite (GSC + GA4 cross-reference).
+const SCOPE = [
+  'https://www.googleapis.com/auth/webmasters.readonly',
+  'https://www.googleapis.com/auth/analytics.readonly',
+  'openid',
+  'email',
+].join(' ');
 
 let cachedToken: { value: string; expiresAt: number } | null = null;
 
@@ -38,10 +45,18 @@ export type GscRow = {
   position: number;
 };
 
+export type GscDimension =
+  | 'query'
+  | 'page'
+  | 'date'
+  | 'country'
+  | 'device'
+  | 'searchAppearance';
+
 export type GscQueryArgs = {
   startDate: string;
   endDate: string;
-  dimensions?: Array<'query' | 'page' | 'date' | 'country' | 'device'>;
+  dimensions?: GscDimension[];
   rowLimit?: number;
 };
 
@@ -144,6 +159,19 @@ async function getStoredRefreshToken(): Promise<string | null> {
     depth: 0,
   })) as { refreshToken?: string | null };
   return auth.refreshToken ?? null;
+}
+
+/**
+ * Public helper: returns a usable Google access token for any service
+ * the connected user has scopes for (currently GSC + GA4). Used by
+ * src/lib/ga4.ts so we share refresh + caching logic.
+ */
+export async function getGoogleAccessToken(): Promise<string> {
+  const refreshToken = await getStoredRefreshToken();
+  if (!refreshToken) {
+    throw new Error('Not connected — visit /admin-stats/auth/connect');
+  }
+  return getAccessTokenFromRefresh(refreshToken);
 }
 
 export async function isGscConnected(): Promise<boolean> {
