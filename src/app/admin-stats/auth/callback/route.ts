@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { headers, cookies } from 'next/headers';
+import { cookies } from 'next/headers';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 import { exchangeCodeForTokens, fetchUserEmail } from '@/lib/gsc';
@@ -15,14 +15,12 @@ export const dynamic = 'force-dynamic';
  * /admin-stats.
  */
 export async function GET(req: Request) {
+  // No payload.auth() call here — Google's redirect doesn't always
+  // forward the admin session cookie (depends on browser cross-site
+  // cookie behaviour). The CSRF state cookie we set in `connect/` is
+  // httpOnly + same-origin, so a matching state proves the request
+  // started from a logged-in admin on this server. That's the auth.
   const payload = await getPayload({ config });
-  const h = await headers();
-  const { user } = await payload.auth({ headers: h });
-  if (!user) {
-    return NextResponse.redirect(
-      new URL('/admin/login?redirect=/admin-stats', req.url),
-    );
-  }
 
   const url = new URL(req.url);
   const code = url.searchParams.get('code');
