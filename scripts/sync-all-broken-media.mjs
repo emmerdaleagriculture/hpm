@@ -27,18 +27,26 @@ const SUPABASE_BASE =
 
 const SIZE_KEYS = ['thumbnail', 'card', 'feature', 'hero', 'large'];
 
+// `url` is the canonical public URL Payload caches alongside `filename`.
+// `focal_x` / `focal_y` are 0-100 floats Payload writes alongside the
+// physical-file columns. Keeping these in sync prevents API responses
+// from serialising a stale URL until an admin save heals it.
 const COLS = [
   'filename',
   'mime_type',
   'filesize',
   'width',
   'height',
+  'url',
+  'focal_x',
+  'focal_y',
   ...SIZE_KEYS.flatMap((s) => [
     `sizes_${s}_filename`,
     `sizes_${s}_mime_type`,
     `sizes_${s}_filesize`,
     `sizes_${s}_width`,
     `sizes_${s}_height`,
+    `sizes_${s}_url`,
   ]),
 ];
 
