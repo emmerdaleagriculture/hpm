@@ -20,6 +20,7 @@ import { Enquiries } from './collections/enquiries';
 import { Homepage } from './globals/homepage';
 import { SiteSettings } from './globals/site-settings';
 import { PricingPage } from './globals/pricing-page';
+import { GscAuth } from './globals/gsc-auth';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -45,6 +46,11 @@ export default buildConfig({
     meta: {
       titleSuffix: ' — HPM Admin',
     },
+    components: {
+      beforeNavLinks: [
+        '@/payload/admin/SearchConsoleNavLink#SearchConsoleNavLink',
+      ],
+    },
   },
 
   editor: lexicalEditor({}),
@@ -64,7 +70,7 @@ export default buildConfig({
     Enquiries,
   ],
 
-  globals: [Homepage, SiteSettings, PricingPage],
+  globals: [Homepage, SiteSettings, PricingPage, GscAuth],
 
   db: postgresAdapter({
     pool: {
