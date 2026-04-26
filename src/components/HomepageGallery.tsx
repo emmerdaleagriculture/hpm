@@ -33,7 +33,10 @@ export function HomepageGallery({ images }: Props) {
                   src={url}
                   alt={alt}
                   fill
-                  sizes="(max-width: 900px) 50vw, 25vw"
+                  // 2-col grid on mobile (~320px slot), 4-col on desktop
+                  // (~280px). Cap at 320px on mobile so next/image doesn't
+                  // upscale to the 1080w deviceSize bucket.
+                  sizes="(max-width: 768px) 320px, (max-width: 1100px) 33vw, 25vw"
                   style={{ objectFit: 'cover' }}
                 />
               )}

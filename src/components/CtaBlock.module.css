@@ -15,9 +15,11 @@
   font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--jd-yellow);
+  /* Was var(--jd-yellow). Yellow-on-green hits ~4.07:1 — fails WCAG AA
+   * for normal text (4.5:1). White on jd-green is 6.4:1; well clear. */
+  color: #ffffff;
   margin-bottom: 24px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .headline {
@@ -71,7 +73,9 @@
 }
 
 .or {
-  opacity: 0.7;
+  /* opacity 0.7 on white-on-jd-green = ~3.6:1, fails AA. Bump to 0.88
+   * for ~5.4:1. */
+  opacity: 0.88;
   font-size: 13px;
   letter-spacing: 0.06em;
 }

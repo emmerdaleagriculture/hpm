@@ -48,9 +48,13 @@ export async function Footer() {
           </p>
         </div>
 
+        {/* Footer column titles are nav-group labels, not document headings.
+            Using <p> avoids the "headings not in sequential order" flag that
+            <h3> still triggers in some auditors when the only preceding
+            heading in the same sectioning context is the page <h1>. */}
         {SERVICE_CATEGORIES.map((cat) => (
           <div key={cat.key} className={styles.col}>
-            <h5>{cat.label}</h5>
+            <p className={styles.colTitle}>{cat.label}</p>
             <ul>
               {(byCat[cat.key] ?? []).map((s) => (
                 <li key={s.slug}>
@@ -62,7 +66,7 @@ export async function Footer() {
         ))}
 
         <div className={styles.col}>
-          <h5>Company</h5>
+          <p className={styles.colTitle}>Company</p>
           <ul>
             <li><Link href="/paddock-maintenance">Paddock maintenance</Link></li>
             <li><Link href="/about">About</Link></li>
@@ -73,7 +77,7 @@ export async function Footer() {
         </div>
 
         <div className={styles.col}>
-          <h5>Contact</h5>
+          <p className={styles.colTitle}>Contact</p>
           <ul>
             <li><a href={`tel:${SITE_PHONE_TEL}`}>{SITE_PHONE}</a></li>
             <li><a href={`mailto:${SITE_EMAIL}`}>Email us</a></li>

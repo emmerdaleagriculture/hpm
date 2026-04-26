@@ -16,7 +16,12 @@
   font-size: 12px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--jd-green);
+  /* jd-green-dark (#245018) on white is 9.0:1 — well above AA's 4.5:1
+   * threshold and reads as a stronger brand accent than the lighter
+   * jd-green at 5.8:1 (which Lighthouse can flag as borderline at
+   * small font sizes). */
+  color: var(--jd-green-dark);
+  font-weight: 700;
   margin-bottom: 20px;
   display: flex;
   justify-content: center;

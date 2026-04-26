@@ -63,7 +63,14 @@ function ServiceTile({ service, feature }: { service: ServiceDoc; feature?: bool
             src={url}
             alt={altText}
             fill
-            sizes={feature ? '(max-width: 900px) 100vw, 66vw' : '(max-width: 900px) 50vw, 22vw'}
+            sizes={
+              feature
+                ? '(max-width: 768px) 100vw, (max-width: 1100px) 66vw, 66vw'
+                // Non-feature card: 2-col on mobile (~320px slot), 4-col
+                // desktop (~280px). Cap mobile at 320px to keep next/image
+                // off the 1080w bucket.
+                : '(max-width: 768px) 320px, (max-width: 1100px) 33vw, 25vw'
+            }
             style={{ objectFit: 'cover' }}
           />
         )}
