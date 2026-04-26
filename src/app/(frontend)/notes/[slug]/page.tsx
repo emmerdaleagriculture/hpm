@@ -54,17 +54,21 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
-  if (!post) return { title: 'Post not found — Hampshire Paddock Management' };
+  if (!post) return { title: { absolute: 'Post not found — Hampshire Paddock Management' } };
 
   const heroMedia = post.heroImage as Parameters<typeof mediaUrl>[0];
   const ogImage = mediaUrl(heroMedia, 'large') ?? mediaUrl(heroMedia);
-  const description =
-    (post.seo as { metaDescription?: string } | null | undefined)?.metaDescription ||
-    post.excerpt ||
-    'Notes from Hampshire Paddock Management.';
+  const seo = (post.seo as { metaTitle?: string; metaDescription?: string } | null | undefined) ?? {};
+  const description = seo.metaDescription || post.excerpt || 'Notes from Hampshire Paddock Management.';
+  // Use the tuned metaTitle verbatim if set; otherwise the post title plus
+  // a " — Notes from the field" suffix, and let the layout template add
+  // " | Hampshire Paddock Management" once.
+  const title: Metadata['title'] = seo.metaTitle
+    ? { absolute: seo.metaTitle }
+    : `${post.title} — Notes from the field`;
 
   return {
-    title: `${post.title} — Notes from the field — Hampshire Paddock Management`,
+    title,
     description,
     openGraph: {
       title: post.title,

@@ -37,13 +37,17 @@ export async function generateMetadata({
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hampshirepaddockmanagement.com';
   const canonical = `${siteUrl.replace(/\/$/, '')}/services/${svc.slug}`;
   const og = mediaUrl(svc.heroImage as Parameters<typeof mediaUrl>[0], 'hero');
-  const desc =
-    (svc.seo as { metaDescription?: string } | null | undefined)?.metaDescription ||
-    svc.shortDescription ||
-    'Paddock management in Hampshire.';
+  const seo = (svc.seo as { metaTitle?: string; metaDescription?: string } | null | undefined) ?? {};
+  const desc = seo.metaDescription || svc.shortDescription || 'Paddock management in Hampshire.';
+  // If a tuned metaTitle is set in the SEO tab, use it verbatim (absolute
+  // bypasses the layout template). Otherwise fall back to the bare service
+  // title and let the template add " | Hampshire Paddock Management".
+  const title: Metadata['title'] = seo.metaTitle
+    ? { absolute: seo.metaTitle }
+    : svc.title;
 
   return {
-    title: `${svc.title} — Hampshire Paddock Management`,
+    title,
     description: desc,
     alternates: { canonical },
     openGraph: {
