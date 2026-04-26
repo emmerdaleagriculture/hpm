@@ -64,6 +64,7 @@ export async function Footer() {
         <div className={styles.col}>
           <h5>Company</h5>
           <ul>
+            <li><Link href="/paddock-maintenance">Paddock maintenance</Link></li>
             <li><Link href="/about">About</Link></li>
             <li><Link href="/pricing">Pricing</Link></li>
             <li><Link href="/gallery">Gallery</Link></li>

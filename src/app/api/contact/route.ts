@@ -87,6 +87,10 @@ export async function POST(req: Request) {
   const location = String(b.location ?? '').trim();
   const service = String(b.service ?? '').trim();
   const message = String(b.message ?? '').trim();
+  // Forwarded from a `?subject=…` URL param. Currently only `contract`
+  // is recognised — flagged in the email subject so contract-pipeline
+  // enquiries are distinguishable in Tom's inbox.
+  const enquirySubject = String(b.enquirySubject ?? '').trim();
   // Honeypot — if any value, bot. 200 to keep them quiet.
   const trap = String(b.website ?? '').trim();
 
@@ -116,7 +120,10 @@ export async function POST(req: Request) {
       from,
       to: [SITE_EMAIL],
       replyTo: email || undefined,
-      subject: `New enquiry from ${name}${service ? ` — ${service}` : ''}`,
+      subject:
+        enquirySubject === 'contract'
+          ? `Contract maintenance enquiry from ${name}`
+          : `New enquiry from ${name}${service ? ` — ${service}` : ''}`,
       text: formatBody({ name, phone, email, location, service, message }),
     });
     if (error) {
