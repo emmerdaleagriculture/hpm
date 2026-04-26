@@ -1,73 +1,34 @@
-import crypto from 'node:crypto';
+import { getPayload } from 'payload';
+import config from '@payload-config';
 
 /**
- * Google Search Console client.
+ * Google Search Console client — OAuth web-server flow.
  *
- * Uses a service-account JWT bearer flow (RFC 7523) to mint an OAuth
- * access token, then queries searchAnalytics.query. No external auth
- * library — Node crypto handles the RS256 signing.
+ * Why OAuth and not a service account: GCP's default org policy
+ * `iam.disableServiceAccountKeyCreation` blocks service-account JSON
+ * keys, which is what the SA flow needs. OAuth uses an admin's own
+ * Google account that already has GSC access, so no extra grant is
+ * needed inside Search Console either.
  *
- * Required env vars:
- *   GSC_SERVICE_ACCOUNT_EMAIL       e.g. svc@project.iam.gserviceaccount.com
- *   GSC_SERVICE_ACCOUNT_PRIVATE_KEY PEM block. Vercel UI escapes newlines
- *                                   to literal "\n" — we handle that here.
- *   GSC_SITE_URL                    Either a URL-prefix property
- *                                   ("https://hampshirepaddockmanagement.com/")
- *                                   or domain ("sc-domain:hampshirepaddockmanagement.com").
+ * Setup:
+ *   1. GCP Console → APIs & Services → Credentials → Create OAuth
+ *      client ID → Web application.
+ *   2. Add redirect URIs:
+ *        http://localhost:3000/admin-stats/auth/callback   (dev)
+ *        https://YOUR-DOMAIN/admin-stats/auth/callback     (prod)
+ *   3. Set GOOGLE_OAUTH_CLIENT_ID + GOOGLE_OAUTH_CLIENT_SECRET +
+ *      GSC_SITE_URL env vars.
+ *   4. Visit /admin-stats/auth/connect once and grant access.
  *
- * The service account must be added as a User (any role) on the GSC
- * property at https://search.google.com/search-console/users.
+ * The refresh token returned is stored in the `gsc-auth` global and
+ * used to mint access tokens on demand.
  */
 
 const TOKEN_URL = 'https://oauth2.googleapis.com/token';
+const AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
 const SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
 
-function base64url(input: Buffer | string): string {
-  const buf = Buffer.isBuffer(input) ? input : Buffer.from(input);
-  return buf
-    .toString('base64')
-    .replace(/=/g, '')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_');
-}
-
 let cachedToken: { value: string; expiresAt: number } | null = null;
-
-async function getAccessToken(email: string, privateKey: string): Promise<string> {
-  const now = Math.floor(Date.now() / 1000);
-  if (cachedToken && cachedToken.expiresAt - 60 > now) return cachedToken.value;
-
-  const header = base64url(JSON.stringify({ alg: 'RS256', typ: 'JWT' }));
-  const claim = base64url(
-    JSON.stringify({
-      iss: email,
-      scope: SCOPE,
-      aud: TOKEN_URL,
-      iat: now,
-      exp: now + 3600,
-    }),
-  );
-  const unsigned = `${header}.${claim}`;
-  const signer = crypto.createSign('RSA-SHA256');
-  signer.update(unsigned);
-  const signature = base64url(signer.sign(privateKey));
-  const jwt = `${unsigned}.${signature}`;
-
-  const res = await fetch(TOKEN_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-      assertion: jwt,
-    }),
-  });
-  if (!res.ok) {
-    throw new Error(`GSC token exchange failed: ${res.status} ${await res.text()}`);
-  }
-  const json = (await res.json()) as { access_token: string; expires_in: number };
-  cachedToken = { value: json.access_token, expiresAt: now + json.expires_in };
-  return json.access_token;
-}
 
 export type GscRow = {
   keys?: string[];
@@ -84,17 +45,121 @@ export type GscQueryArgs = {
   rowLimit?: number;
 };
 
-export async function gscQuery(args: GscQueryArgs): Promise<GscRow[]> {
-  const email = process.env.GSC_SERVICE_ACCOUNT_EMAIL;
-  const rawKey = process.env.GSC_SERVICE_ACCOUNT_PRIVATE_KEY;
-  const siteUrl = process.env.GSC_SITE_URL;
-  if (!email || !rawKey || !siteUrl) {
-    throw new Error('GSC not configured (need GSC_SERVICE_ACCOUNT_EMAIL, GSC_SERVICE_ACCOUNT_PRIVATE_KEY, GSC_SITE_URL)');
-  }
-  // Vercel and similar env stores escape newlines to literal "\n".
-  const privateKey = rawKey.replace(/\\n/g, '\n');
+export function isGscOAuthConfigured(): boolean {
+  return Boolean(
+    process.env.GOOGLE_OAUTH_CLIENT_ID &&
+      process.env.GOOGLE_OAUTH_CLIENT_SECRET &&
+      process.env.GSC_SITE_URL,
+  );
+}
 
-  const token = await getAccessToken(email, privateKey);
+export function buildOAuthRedirectUri(origin: string): string {
+  return `${origin.replace(/\/$/, '')}/admin-stats/auth/callback`;
+}
+
+export function buildAuthUrl(origin: string, state: string): string {
+  const params = new URLSearchParams({
+    client_id: process.env.GOOGLE_OAUTH_CLIENT_ID!,
+    redirect_uri: buildOAuthRedirectUri(origin),
+    response_type: 'code',
+    scope: SCOPE,
+    access_type: 'offline',
+    prompt: 'consent',
+    state,
+  });
+  return `${AUTH_URL}?${params.toString()}`;
+}
+
+export async function exchangeCodeForTokens(
+  code: string,
+  origin: string,
+): Promise<{ refreshToken: string; accessToken: string; expiresIn: number }> {
+  const res = await fetch(TOKEN_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      code,
+      client_id: process.env.GOOGLE_OAUTH_CLIENT_ID!,
+      client_secret: process.env.GOOGLE_OAUTH_CLIENT_SECRET!,
+      redirect_uri: buildOAuthRedirectUri(origin),
+      grant_type: 'authorization_code',
+    }),
+  });
+  if (!res.ok) {
+    throw new Error(`OAuth code exchange failed: ${res.status} ${await res.text()}`);
+  }
+  const json = (await res.json()) as {
+    access_token: string;
+    refresh_token?: string;
+    expires_in: number;
+  };
+  if (!json.refresh_token) {
+    throw new Error(
+      'No refresh_token returned. Re-grant with prompt=consent — Google only returns one on a fresh consent.',
+    );
+  }
+  return {
+    refreshToken: json.refresh_token,
+    accessToken: json.access_token,
+    expiresIn: json.expires_in,
+  };
+}
+
+/** Look up the email associated with an access token (for display). */
+export async function fetchUserEmail(accessToken: string): Promise<string | null> {
+  const res = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  if (!res.ok) return null;
+  const json = (await res.json()) as { email?: string };
+  return json.email ?? null;
+}
+
+async function getAccessTokenFromRefresh(refreshToken: string): Promise<string> {
+  const now = Math.floor(Date.now() / 1000);
+  if (cachedToken && cachedToken.expiresAt - 60 > now) return cachedToken.value;
+
+  const res = await fetch(TOKEN_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      refresh_token: refreshToken,
+      client_id: process.env.GOOGLE_OAUTH_CLIENT_ID!,
+      client_secret: process.env.GOOGLE_OAUTH_CLIENT_SECRET!,
+      grant_type: 'refresh_token',
+    }),
+  });
+  if (!res.ok) {
+    throw new Error(`OAuth refresh failed: ${res.status} ${await res.text()}`);
+  }
+  const json = (await res.json()) as { access_token: string; expires_in: number };
+  cachedToken = { value: json.access_token, expiresAt: now + json.expires_in };
+  return json.access_token;
+}
+
+async function getStoredRefreshToken(): Promise<string | null> {
+  const payload = await getPayload({ config });
+  const auth = (await payload.findGlobal({
+    slug: 'gsc-auth',
+    depth: 0,
+  })) as { refreshToken?: string | null };
+  return auth.refreshToken ?? null;
+}
+
+export async function isGscConnected(): Promise<boolean> {
+  if (!isGscOAuthConfigured()) return false;
+  const tok = await getStoredRefreshToken();
+  return Boolean(tok);
+}
+
+export async function gscQuery(args: GscQueryArgs): Promise<GscRow[]> {
+  const siteUrl = process.env.GSC_SITE_URL;
+  if (!siteUrl) throw new Error('GSC_SITE_URL not set');
+
+  const refreshToken = await getStoredRefreshToken();
+  if (!refreshToken) throw new Error('Not connected — visit /admin-stats/auth/connect');
+
+  const token = await getAccessTokenFromRefresh(refreshToken);
   const url = `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(siteUrl)}/searchAnalytics/query`;
   const res = await fetch(url, {
     method: 'POST',
@@ -121,12 +186,4 @@ export function isoDaysAgo(n: number): string {
   const d = new Date();
   d.setUTCDate(d.getUTCDate() - n);
   return d.toISOString().slice(0, 10);
-}
-
-export function isGscConfigured(): boolean {
-  return Boolean(
-    process.env.GSC_SERVICE_ACCOUNT_EMAIL &&
-      process.env.GSC_SERVICE_ACCOUNT_PRIVATE_KEY &&
-      process.env.GSC_SITE_URL,
-  );
 }

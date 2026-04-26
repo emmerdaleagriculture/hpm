@@ -76,6 +76,36 @@
   color: #c63b1f;
 }
 
+.successBanner {
+  background: #ebf3e3;
+  border: 1px solid #b8d4a4;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  color: #2a5e22;
+  font-weight: 500;
+}
+
+.errorInline {
+  margin-top: 1rem;
+  color: #c63b1f;
+  font-size: 14px;
+}
+
+.connectButton {
+  display: inline-block;
+  padding: 0.625rem 1.25rem;
+  background: #367c2b;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.connectButton:hover {
+  background: #2a5e22;
+}
+
 .totals {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));

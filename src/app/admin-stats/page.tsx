@@ -5,7 +5,12 @@ import Link from 'next/link';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 
-import { gscQuery, isoDaysAgo, isGscConfigured } from '@/lib/gsc';
+import {
+  gscQuery,
+  isoDaysAgo,
+  isGscConnected,
+  isGscOAuthConfigured,
+} from '@/lib/gsc';
 import styles from './admin-stats.module.css';
 
 export const metadata: Metadata = {
@@ -13,32 +18,39 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-// Fresh on every request — no caching of admin-only data.
 export const dynamic = 'force-dynamic';
 
 const RANGE_DAYS = 28;
-const GSC_LAG_DAYS = 3; // GSC data has a 2-3 day lag
+const GSC_LAG_DAYS = 3;
 
 function pct(n: number) {
   return `${(n * 100).toFixed(2)}%`;
 }
-
 function fmtNumber(n: number) {
   return n.toLocaleString('en-GB');
 }
-
 function fmtPosition(n: number) {
   return n.toFixed(1);
 }
 
-export default async function AdminStatsPage() {
-  // Auth — Payload returns user=null if no/invalid cookie.
+export default async function AdminStatsPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
   const payload = await getPayload({ config });
   const h = await headers();
   const { user } = await payload.auth({ headers: h });
   if (!user) redirect('/admin/login?redirect=/admin-stats');
 
-  if (!isGscConfigured()) {
+  const sp = await searchParams;
+  const oauthError = typeof sp.gsc_error === 'string' ? sp.gsc_error : null;
+  const justConnected = sp.gsc_connected === '1';
+
+  const oauthConfigured = isGscOAuthConfigured();
+  const connected = oauthConfigured ? await isGscConnected() : false;
+
+  if (!oauthConfigured) {
     return (
       <main className={styles.page}>
         <header className={styles.head}>
@@ -48,14 +60,14 @@ export default async function AdminStatsPage() {
           </Link>
         </header>
         <section className={styles.notConfigured}>
-          <h2>Not configured yet</h2>
+          <h2>OAuth not configured</h2>
           <p>Three env vars are required:</p>
           <ul>
             <li>
-              <code>GSC_SERVICE_ACCOUNT_EMAIL</code>
+              <code>GOOGLE_OAUTH_CLIENT_ID</code>
             </li>
             <li>
-              <code>GSC_SERVICE_ACCOUNT_PRIVATE_KEY</code>
+              <code>GOOGLE_OAUTH_CLIENT_SECRET</code>
             </li>
             <li>
               <code>GSC_SITE_URL</code> — e.g.{' '}
@@ -63,16 +75,48 @@ export default async function AdminStatsPage() {
             </li>
           </ul>
           <p>
-            And the service account must be added as a User on the GSC property at{' '}
+            Create the OAuth client in GCP at{' '}
             <a
-              href="https://search.google.com/search-console/users"
+              href="https://console.cloud.google.com/apis/credentials"
               target="_blank"
               rel="noopener"
             >
-              search.google.com/search-console/users
-            </a>
-            .
+              APIs & Services → Credentials
+            </a>{' '}
+            (type: Web application). Add the redirect URI{' '}
+            <code>{`{site}/admin-stats/auth/callback`}</code> for both prod and{' '}
+            <code>http://localhost:3000/admin-stats/auth/callback</code> for dev.
           </p>
+        </section>
+      </main>
+    );
+  }
+
+  if (!connected) {
+    return (
+      <main className={styles.page}>
+        <header className={styles.head}>
+          <h1>Search Console</h1>
+          <Link href="/admin" className={styles.back}>
+            ← Back to admin
+          </Link>
+        </header>
+        <section className={styles.notConfigured}>
+          <h2>Connect your Google account</h2>
+          <p>
+            Click below and grant Search Console read access. The token persists
+            until you revoke it from your Google account, so this is a one-time step.
+          </p>
+          <p style={{ marginTop: '1rem' }}>
+            <a href="/admin-stats/auth/connect" className={styles.connectButton}>
+              Connect to Google →
+            </a>
+          </p>
+          {oauthError && (
+            <p className={styles.errorInline}>
+              Last attempt failed: <code>{oauthError}</code>
+            </p>
+          )}
         </section>
       </main>
     );
@@ -121,13 +165,18 @@ export default async function AdminStatsPage() {
         </Link>
       </header>
 
+      {justConnected && (
+        <section className={styles.successBanner}>Connected to Google ✓</section>
+      )}
+
       {errMsg && (
         <section className={styles.error}>
           <h2>Couldn&apos;t load stats</h2>
           <pre>{errMsg}</pre>
           <p>
-            Most common cause: the service account hasn&apos;t been added to the GSC
-            property as a User yet.
+            If the error mentions <code>invalid_grant</code> the refresh token has
+            expired —{' '}
+            <a href="/admin-stats/auth/connect">re-connect</a>.
           </p>
         </section>
       )}
@@ -201,7 +250,7 @@ export default async function AdminStatsPage() {
                 try {
                   display = new URL(url).pathname || url;
                 } catch {
-                  /* ignore parse failure, show raw */
+                  /* ignore */
                 }
                 return (
                   <tr key={url}>
