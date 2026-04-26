@@ -1,4 +1,16 @@
 import type { CollectionConfig } from 'payload';
+import { revalidateTag } from 'next/cache';
+
+// unstable_cache tag used by gallery/page.tsx so toggles in the admin
+// reflect on the public site immediately rather than after the 5-min TTL.
+const revalidateMedia = () => {
+  try {
+    revalidateTag('media');
+  } catch {
+    // revalidateTag throws if called outside a request scope (e.g. seed scripts).
+    // Safe to ignore — the cache will refresh on its own TTL.
+  }
+};
 
 /**
  * Media — every image, video, or file upload.
@@ -13,9 +25,17 @@ import type { CollectionConfig } from 'payload';
 export const Media: CollectionConfig = {
   slug: 'media',
   labels: { singular: 'Media', plural: 'Media' },
+  admin: {
+    useAsTitle: 'filename',
+    defaultColumns: ['filename', 'alt', 'hideFromGallery', 'showOnHomepageGallery', 'updatedAt'],
+  },
   access: {
     // Public read — the frontend renders these images on every page.
     read: () => true,
+  },
+  hooks: {
+    afterChange: [revalidateMedia],
+    afterDelete: [revalidateMedia],
   },
   upload: {
     // Generate responsive sizes for <picture>/srcset
@@ -67,6 +87,21 @@ export const Media: CollectionConfig = {
       admin: {
         position: 'sidebar',
         description: 'Include this image in the 12-image homepage gallery grid.',
+        components: {
+          Cell: '@/payload/admin/BoolToggleCell#BoolToggleCell',
+        },
+      },
+    },
+    {
+      name: 'hideFromGallery',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description: 'Exclude this image from the public /gallery page (and the homepage gallery).',
+        components: {
+          Cell: '@/payload/admin/BoolToggleCell#BoolToggleCell',
+        },
       },
     },
     {

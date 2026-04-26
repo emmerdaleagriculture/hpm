@@ -41,7 +41,13 @@ export default async function HomePage() {
   // Gallery — 12 flagged images
   const gallery = await payload.find({
     collection: 'media',
-    where: { showOnHomepageGallery: { equals: true } },
+    where: {
+      showOnHomepageGallery: { equals: true },
+      or: [
+        { hideFromGallery: { equals: false } },
+        { hideFromGallery: { exists: false } },
+      ],
+    },
     limit: 12,
     depth: 0,
   });

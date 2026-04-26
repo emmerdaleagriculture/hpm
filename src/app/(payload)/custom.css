@@ -1,7 +1,26 @@
 /*
  * Payload admin custom CSS.
  *
- * Override Payload's admin styling here if you want. For now, we keep the
- * default look — it's perfectly serviceable and we want to spend our design
- * effort on the public site.
+ * Override Payload's admin styling here if you want.
  */
+
+/* Bigger thumbnails in collection list views (Media etc.) so the row
+ * preview is actually legible. Default is ~50px; this roughly doubles it. */
+.collection-list .thumbnail,
+.collection-list__cells .cell-_thumbnail,
+.cell-_thumbnail .thumbnail,
+.cell-_thumbnail img,
+.row-fields .upload .thumbnail img,
+table .thumbnail img {
+  width: 110px !important;
+  height: 110px !important;
+  max-width: 110px !important;
+  max-height: 110px !important;
+  object-fit: cover;
+}
+
+/* Give the row enough vertical breathing room for the bigger thumb. */
+.collection-list table tbody tr td,
+.table table tbody tr td {
+  vertical-align: middle;
+}
