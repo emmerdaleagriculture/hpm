@@ -1,0 +1,133 @@
+.routineList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.875rem;
+}
+
+.routineCard {
+  background: #fff;
+  border: 1px solid #ece9dd;
+  border-left: 3px solid #367c2b;
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+}
+
+.routineHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.routineHead strong {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  font-size: 17px;
+  color: #1a1f15;
+}
+
+.routineLink {
+  font-size: 12px;
+  color: #2a5e22;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  white-space: nowrap;
+}
+
+.routineFires {
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  color: #5f5e5a;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.routineDesc {
+  font-size: 14px;
+  color: #2c2c2a;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.pill {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.pillOpen {
+  background: #fff8d6;
+  color: #6e5800;
+  border: 1px solid #f0e0a0;
+}
+
+.pillProgress {
+  background: #e3edff;
+  color: #1f3d80;
+  border: 1px solid #b8cdff;
+}
+
+.pillDone {
+  background: #ebf3e3;
+  color: #2a5e22;
+  border: 1px solid #b8d4a4;
+}
+
+.followupTitle {
+  display: block;
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: #1a1f15;
+  margin-bottom: 0.25rem;
+}
+
+.followupWhy {
+  font-size: 13px;
+  color: #5f5e5a;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 70ch;
+}
+
+.followupRef {
+  font-size: 12px;
+  color: #888780;
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+.cadence {
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #2a5e22;
+  font-weight: 600;
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+.quickLinks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.quickLinks li a {
+  font-size: 14px;
+  color: #2a5e22;
+  text-decoration: none;
+  border-bottom: 1px solid #b8d4a4;
+}
+
+.quickLinks li a:hover {
+  border-bottom-color: #2a5e22;
+}
