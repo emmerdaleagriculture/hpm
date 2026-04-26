@@ -119,7 +119,16 @@
     max-width: calc(100vw - 24px);
     max-height: calc(100vh - 120px);
   }
-  .nav { width: 40px; height: 40px; }
+  /* 44px touch target — was 40px, just under WCAG's 44 px guideline. */
+  .nav { width: 44px; height: 44px; }
   .prev { left: 12px; }
   .next { right: 12px; }
+}
+
+/* On ultra-narrow phones (≤ 380 px) the 2-col masonry leaves tiles at
+ * ~170 px, which crushes detail in the photos. Drop to single column. */
+@media (max-width: 380px) {
+  .masonry {
+    columns: 1;
+  }
 }
