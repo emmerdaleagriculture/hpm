@@ -1,4 +1,9 @@
 import { withPayload } from '@payloadcms/next/withPayload';
+import bundleAnalyzer from '@next/bundle-analyzer';
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -120,7 +125,15 @@ const nextConfig = {
   experimental: {
     // Required for Payload
     reactCompiler: false,
+    // Tree-shake the Payload barrel imports more aggressively. Without
+    // this, importing from '@payloadcms/ui' or '@payloadcms/richtext-
+    // lexical' pulls the whole package's exports in. Enables Next 15's
+    // modularizeImports-style auto-optimisation.
+    optimizePackageImports: [
+      '@payloadcms/ui',
+      '@payloadcms/richtext-lexical',
+    ],
   },
 };
 
-export default withPayload(nextConfig, { devBundleServerPackages: false });
+export default withBundleAnalyzer(withPayload(nextConfig, { devBundleServerPackages: false }));
