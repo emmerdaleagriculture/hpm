@@ -155,7 +155,7 @@ export default async function PlanPage() {
           <a
             href="https://claude.ai/code/routines"
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
           >
             Manage all on claude.ai ↗
           </a>
@@ -176,7 +176,7 @@ export default async function PlanPage() {
                   <a
                     href={r.manageUrl}
                     target="_blank"
-                    rel="noopener"
+                    rel="noopener noreferrer"
                     className={planStyles.routineLink}
                   >
                     open ↗
@@ -257,10 +257,10 @@ export default async function PlanPage() {
           <h2>Quick links</h2>
         </div>
         <ul className={planStyles.quickLinks}>
-          <li><a href="https://claude.ai/code/routines" target="_blank" rel="noopener">claude.ai routines (manage scheduled agents) ↗</a></li>
-          <li><a href="https://search.google.com/search-console" target="_blank" rel="noopener">Google Search Console ↗</a></li>
-          <li><a href="https://analytics.google.com" target="_blank" rel="noopener">Google Analytics 4 ↗</a></li>
-          <li><a href="https://vercel.com/dashboard" target="_blank" rel="noopener">Vercel dashboard ↗</a></li>
+          <li><a href="https://claude.ai/code/routines" target="_blank" rel="noopener noreferrer">claude.ai routines (manage scheduled agents) ↗</a></li>
+          <li><a href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer">Google Search Console ↗</a></li>
+          <li><a href="https://analytics.google.com" target="_blank" rel="noopener noreferrer">Google Analytics 4 ↗</a></li>
+          <li><a href="https://vercel.com/dashboard" target="_blank" rel="noopener noreferrer">Vercel dashboard ↗</a></li>
           <li><Link href="/admin-stats/queries">Queries → Almost there report</Link></li>
         </ul>
       </section>
