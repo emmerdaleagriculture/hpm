@@ -114,6 +114,27 @@ export function Nav({ variant = 'overlay' }: Props) {
         className={`${styles.mobileMenu} ${open ? styles.mobileMenuOpen : ''}`.trim()}
         aria-hidden={!open}
       >
+        <button
+          type="button"
+          className={styles.mobileClose}
+          aria-label="Close menu"
+          onClick={() => setOpen(false)}
+          tabIndex={open ? 0 : -1}
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            aria-hidden="true"
+          >
+            <line x1="4" y1="4" x2="16" y2="16" />
+            <line x1="16" y1="4" x2="4" y2="16" />
+          </svg>
+        </button>
         <ul className={styles.mobileLinks}>
           {LINKS.map((link, i) => {
             const active = link.match(pathname ?? '');
