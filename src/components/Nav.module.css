@@ -127,15 +127,49 @@
   background: var(--jd-green-deep);
   transform: translateY(-100%);
   transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 96px 32px 32px;
+  padding: 64px 24px 24px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  max-height: 100vh;
+  /* Bound height for very short viewports but otherwise let content drive
+     the panel size so it doesn't fill the screen on phones. */
+  max-height: 90vh;
   overflow-y: auto;
   visibility: hidden;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 .mobileMenuOpen {
   transform: translateY(0);
   visibility: visible;
+}
+
+/* Dedicated close button inside the menu. The burger also morphs into an
+   X, but a close affordance inside the panel is the expected pattern. */
+.mobileClose {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, border-color 0.15s;
+}
+.mobileClose:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+.mobileClose:active {
+  background: rgba(255, 255, 255, 0.15);
+}
+.mobileClose:focus-visible {
+  outline: 2px solid var(--jd-yellow);
+  outline-offset: 2px;
 }
 .mobileOverlay {
   position: fixed;
@@ -153,7 +187,7 @@
 
 .mobileLinks {
   list-style: none;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
 }
 .mobileLinks li {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -163,11 +197,11 @@
 }
 .mobileLinks a {
   display: block;
-  padding: 18px 0;
+  padding: 12px 0;
   color: #fff;
   text-decoration: none;
   font-family: var(--font-display-stack);
-  font-size: 22px;
+  font-size: 18px;
   letter-spacing: 0.01em;
   transition: color 0.15s;
 }
@@ -179,42 +213,42 @@
 }
 
 .mobileFooter {
-  margin-top: 8px;
-  padding-top: 24px;
+  margin-top: 0;
+  padding-top: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 .mobilePhoneEyebrow {
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--jd-yellow);
   font-weight: 500;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 .mobilePhone {
   display: block;
   font-family: var(--font-display-stack);
-  font-size: 28px;
+  font-size: 22px;
   color: #fff;
   text-decoration: none;
   letter-spacing: 0.01em;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
   transition: color 0.15s;
 }
 .mobilePhone:hover {
   color: var(--jd-yellow);
 }
 .mobilePhoneSub {
-  font-size: 13px;
+  font-size: 12px;
   color: rgba(255, 255, 255, 0.6);
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 .mobileCta {
   display: block;
   width: 100%;
   background: var(--jd-yellow);
   color: var(--jd-green-deep);
-  padding: 16px;
+  padding: 14px;
   text-align: center;
   text-decoration: none;
   font-weight: 600;
