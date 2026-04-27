@@ -15,6 +15,7 @@ import { Videos } from './collections/videos';
 import { Tools } from './collections/tools';
 import { Redirects } from './collections/redirects';
 import { Enquiries } from './collections/enquiries';
+import { SeoOpportunities } from './collections/seo-opportunities';
 
 import { Homepage } from './globals/homepage';
 import { SiteSettings } from './globals/site-settings';
@@ -66,6 +67,7 @@ export default buildConfig({
     Tools,
     Redirects,
     Enquiries,
+    SeoOpportunities,
   ],
 
   globals: [Homepage, SiteSettings, PricingPage, GscAuth],

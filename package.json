@@ -21,6 +21,7 @@
     "analyze": "ANALYZE=true npm run build"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.91.1",
     "@payloadcms/db-postgres": "^3.0.0",
     "@payloadcms/next": "^3.0.0",
     "@payloadcms/richtext-lexical": "^3.0.0",
