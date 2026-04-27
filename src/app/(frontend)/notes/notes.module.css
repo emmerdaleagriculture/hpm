@@ -366,7 +366,10 @@
 }
 @media (max-width: 768px) {
   .heroInner {
-    padding: 0 24px 32px;
+    /* Mobile: align content from below the nav so the breadcrumb/eyebrow
+       can't climb into the nav region and overlap the brand text. */
+    justify-content: flex-start;
+    padding: 88px 24px 28px;
   }
   .featuredWrap {
     padding: 48px 20px 0;
