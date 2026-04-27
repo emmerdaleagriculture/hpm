@@ -11,7 +11,6 @@ import { Pages } from './collections/pages';
 import { Posts } from './collections/posts';
 import { Services } from './collections/services';
 import { Media } from './collections/media';
-import { GalleryItems } from './collections/gallery-items';
 import { Videos } from './collections/videos';
 import { Tools } from './collections/tools';
 import { Redirects } from './collections/redirects';
@@ -63,7 +62,6 @@ export default buildConfig({
     Posts,
     Services,
     Media,
-    GalleryItems,
     Videos,
     Tools,
     Redirects,

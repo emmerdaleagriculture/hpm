@@ -60,32 +60,33 @@ type AutoDeriveOptions = {
   tags?: boolean;
 };
 
-// Single-word stopwords used when picking proper nouns from content
-const TAG_STOPWORDS = new Set([
-  'The','A','An','I','You','We','It','This','That','These','Those',
-  'And','Or','But','So','Yet',
-  'In','Of','To','For','With','As','If','By','On','At','From',
-  'When','Where','Why','How','What','Who','Which',
-  'My','Your','His','Her','Its','Their','Our',
-  'Is','Are','Was','Were','Be','Been','Being','Have','Has','Had','Do','Does','Did','Will','Would','Should','Could',
-  'Mr','Mrs','Ms','Dr',
-]);
+// Curated tag taxonomy — must stay in sync with the description on the
+// `tags` field in posts.ts and with the filter chips on /notes.
+// Each entry is a slug paired with keywords/synonyms to look for in the
+// post's title + body. Whole-word, case-insensitive match.
+const TAG_TAXONOMY: Array<{ tag: string; keywords: string[] }> = [
+  { tag: 'topping',     keywords: ['topping', 'topped', 'mow', 'mowing', 'mowed', 'mower'] },
+  { tag: 'weeds',       keywords: ['weed', 'weeds', 'weeding', 'ragwort', 'thistle', 'thistles', 'dock', 'docks', 'nettle', 'nettles', 'buttercup', 'buttercups'] },
+  { tag: 'seasonal',    keywords: ['spring', 'summer', 'autumn', 'winter', 'seasonal'] },
+  { tag: 'equipment',   keywords: ['tractor', 'harrow', 'harrows', 'roller', 'rollers', 'sprayer', 'sprayers', 'machinery', 'equipment', 'attachment', 'attachments'] },
+  { tag: 'ground-care', keywords: ['paddock', 'paddocks', 'turf', 'sward', 'pasture', 'grazing'] },
+  { tag: 'advice',      keywords: ['guide', 'advice', 'tip', 'tips', 'recommend', 'recommended', 'how to', 'when to', 'should you', 'do you'] },
+  { tag: 'drainage',    keywords: ['drainage', 'drain', 'drains', 'waterlogged', 'flooded', 'flooding', 'muddy', 'wet ground', 'wet soil'] },
+  { tag: 'kit',         keywords: ['kit'] },
+];
 
 function deriveTags(plain: string, title: string): string[] {
-  const corpus = `${title}. ${plain.slice(0, 1500)}`;
-  const matches = corpus.match(/\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+){0,2}\b/g) ?? [];
-  const seen = new Set<string>();
+  const corpus = `${title} ${plain}`.toLowerCase();
   const out: string[] = [];
-  for (const raw of matches) {
-    const phrase = raw.trim();
-    const firstWord = phrase.split(/\s+/)[0];
-    if (TAG_STOPWORDS.has(firstWord)) continue;
-    if (phrase.length < 3 || phrase.length > 40) continue;
-    const key = phrase.toLowerCase();
-    if (seen.has(key)) continue;
-    seen.add(key);
-    out.push(phrase);
-    if (out.length >= 5) break;
+  for (const { tag, keywords } of TAG_TAXONOMY) {
+    const hit = keywords.some((kw) => {
+      // Multi-word phrases match as a substring; single words match
+      // whole-word so "mow" doesn't fire on "mowed-down" → it does (good)
+      // but doesn't fire on "homeowner" → it doesn't (good).
+      if (kw.includes(' ')) return corpus.includes(kw);
+      return new RegExp(`\\b${kw}\\b`).test(corpus);
+    });
+    if (hit) out.push(tag);
   }
   return out;
 }

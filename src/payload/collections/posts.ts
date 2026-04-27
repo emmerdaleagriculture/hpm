@@ -33,10 +33,11 @@ export const Posts: CollectionConfig = {
     maxPerDoc: 20,
   },
   hooks: {
-    // Excerpt auto-fill on save is helpful. Auto-derived tags pulled
-    // capitalised words from titles ("Discover", "Here", "June" etc.) —
-    // disabled in favour of a curated taxonomy assigned in admin.
-    beforeValidate: [autoDerive({ excerpt: true, tags: false })],
+    // Auto-fills excerpt from body and tags from the curated taxonomy
+    // defined in auto-derive.ts (topping, weeds, seasonal, equipment,
+    // ground-care, advice, drainage, kit). Authors can still override
+    // either field by hand — auto-derive only fills when they're blank.
+    beforeValidate: [autoDerive({ excerpt: true, tags: true })],
   },
   defaultSort: '-publishedAt',
   fields: [
