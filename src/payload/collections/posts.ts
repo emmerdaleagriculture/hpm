@@ -150,5 +150,19 @@ export const Posts: CollectionConfig = {
         description: 'WordPress post/page ID — for migration tracking. Do not edit.',
       },
     },
+    {
+      name: 'seoSource',
+      type: 'select',
+      defaultValue: 'manual',
+      options: [
+        { label: 'Manual', value: 'manual' },
+        { label: 'Agent-generated', value: 'agent' },
+        { label: 'Imported (WordPress)', value: 'imported' },
+      ],
+      admin: {
+        position: 'sidebar',
+        description: 'How this post originated. Agent-generated posts must be reviewed before publishing.',
+      },
+    },
   ],
 };
