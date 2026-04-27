@@ -125,14 +125,6 @@ const nextConfig = {
   experimental: {
     // Required for Payload
     reactCompiler: false,
-    // Tree-shake the Payload barrel imports more aggressively. Without
-    // this, importing from '@payloadcms/ui' or '@payloadcms/richtext-
-    // lexical' pulls the whole package's exports in. Enables Next 15's
-    // modularizeImports-style auto-optimisation.
-    optimizePackageImports: [
-      '@payloadcms/ui',
-      '@payloadcms/richtext-lexical',
-    ],
   },
 };
 
