@@ -166,6 +166,7 @@ export async function persistOpportunity(
       targetPage: targetPage as never,
       draftContent: (opp.draftContent ?? undefined) as never,
       relatedPost: postId,
+      deferred: opp.type === 'new_article' ? Boolean(opp.deferred) : false,
       agentRunId: runId,
     },
   });

@@ -106,6 +106,17 @@ export const SeoOpportunities: CollectionConfig = {
       relationTo: 'posts',
       admin: { description: 'For new_article — the draft Post created alongside this opportunity.' },
     },
+    {
+      name: 'deferred',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description:
+          'For new_article — true when the row was queued past the per-week generation cap and has no draft yet. Read-only signal for the digest.',
+        readOnly: true,
+        position: 'sidebar',
+      },
+    },
     { name: 'notes', type: 'textarea' },
     {
       name: 'decidedAt',
