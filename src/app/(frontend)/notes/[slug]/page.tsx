@@ -242,10 +242,12 @@ export default async function NotePostPage({
     }
   }
 
-  // SEO JSON-LD
+  // SEO JSON-LD. Authors can override via seo.structuredDataOverride in
+  // Payload — the override replaces the auto-generated schema entirely.
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL || 'https://hampshirepaddockmanagement.com';
-  const articleSchema = {
+  const seoBlock = post.seo as { structuredDataOverride?: unknown } | null | undefined;
+  const articleSchema = seoBlock?.structuredDataOverride ?? {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: post.title,

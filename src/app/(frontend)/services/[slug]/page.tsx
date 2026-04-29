@@ -150,9 +150,11 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
       })
     : null;
 
-  // JSON-LD: Service schema
+  // JSON-LD: Service schema. Authors can override via seo.structuredDataOverride
+  // in Payload — the override replaces the auto-generated schema entirely.
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hampshirepaddockmanagement.com';
-  const serviceSchema = {
+  const seoBlock = svc.seo as { structuredDataOverride?: unknown } | null | undefined;
+  const serviceSchema = seoBlock?.structuredDataOverride ?? {
     '@context': 'https://schema.org',
     '@type': 'Service',
     name: svc.title,

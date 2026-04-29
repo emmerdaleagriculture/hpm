@@ -29,6 +29,14 @@ function tokens(s: string): string[] {
 /** Tiny suffix stemmer — good enough for a lexical check. */
 function stem(t: string): string {
   if (t.length <= 4) return t;
+  const stripped = stripSuffix(t);
+  // Bail out if stemming leaves a degenerate stub (e.g. "better" → "bett",
+  // "river" → "riv"). A sub-3-char stem is more likely to false-match than
+  // help, so keep the original token.
+  return stripped.length >= 3 ? stripped : t;
+}
+
+function stripSuffix(t: string): string {
   if (t.endsWith('ing')) return t.slice(0, -3);
   if (t.endsWith('ies')) return t.slice(0, -3) + 'y';
   if (t.endsWith('es')) return t.slice(0, -2);
