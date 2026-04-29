@@ -113,6 +113,7 @@ export async function POST(req: Request) {
   const resend = new Resend(apiKey);
   const from =
     process.env.EMAIL_FROM ||
+    process.env.CONTACT_FORM_FROM ||
     'HPM website <noreply@hampshirepaddockmanagement.com>';
 
   try {

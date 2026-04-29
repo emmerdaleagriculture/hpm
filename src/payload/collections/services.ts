@@ -1,8 +1,18 @@
 import type { CollectionConfig } from 'payload';
+import { revalidateTag } from 'next/cache';
 import { seoFields } from '../fields/seo';
 import { slugField } from '../fields/slug';
 import { allContentBlocks } from '../blocks/content-blocks';
 import { autoDerive } from '../hooks/auto-derive';
+
+const revalidateServices = () => {
+  try {
+    revalidateTag('services');
+  } catch {
+    // revalidateTag throws if called outside a request scope (e.g. seed scripts).
+    // Safe to ignore — the cache will refresh on its own TTL.
+  }
+};
 
 /**
  * Services — the 11 (and growing) service pages.
@@ -36,6 +46,8 @@ export const Services: CollectionConfig = {
   },
   hooks: {
     beforeValidate: [autoDerive({ shortDescription: true })],
+    afterChange: [revalidateServices],
+    afterDelete: [revalidateServices],
   },
   defaultSort: 'orderInMenu',
   fields: [

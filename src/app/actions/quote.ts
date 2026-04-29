@@ -9,7 +9,10 @@ const TO = SITE_EMAIL;
 // Until the domain is DNS-verified in Resend, `EMAIL_FROM` can be set to a
 // verified address (e.g. onboarding@resend.dev for testing). We default to
 // the HPM address because that's what Tom wants in production.
-const FROM = process.env.EMAIL_FROM || 'HPM Quote Form <quotes@hampshirepaddockmanagement.com>';
+const FROM =
+  process.env.EMAIL_FROM ||
+  process.env.CONTACT_FORM_FROM ||
+  'HPM Quote Form <quotes@hampshirepaddockmanagement.com>';
 
 export type QuoteState = {
   ok: boolean;

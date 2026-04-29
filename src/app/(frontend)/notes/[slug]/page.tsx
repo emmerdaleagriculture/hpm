@@ -18,19 +18,6 @@ type Params = { slug: string };
 
 export const revalidate = 3600;
 
-export async function generateStaticParams() {
-  const payload = await getPayload({ config });
-  const posts = await payload.find({
-    collection: 'posts',
-    where: { _status: { equals: 'published' } },
-    limit: 0,
-    select: { slug: true },
-  });
-  return posts.docs
-    .map((p) => ({ slug: typeof p.slug === 'string' ? p.slug : '' }))
-    .filter((p) => p.slug.length > 0);
-}
-
 async function getPostBySlug(slug: string) {
   const payload = await getPayload({ config });
   const res = await payload.find({

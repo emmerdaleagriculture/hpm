@@ -1,6 +1,16 @@
 import type { GlobalConfig } from 'payload';
+import { revalidateTag } from 'next/cache';
 import { seoFields } from '../fields/seo';
 import { allContentBlocks } from '../blocks/content-blocks';
+
+const revalidateHomepage = () => {
+  try {
+    revalidateTag('homepage');
+  } catch {
+    // revalidateTag throws if called outside a request scope (e.g. seed scripts).
+    // Safe to ignore — the cache will refresh on its own TTL.
+  }
+};
 
 /**
  * Homepage — singleton.
@@ -18,6 +28,9 @@ export const Homepage: GlobalConfig = {
   slug: 'homepage',
   label: 'Homepage',
   access: { read: () => true },
+  hooks: {
+    afterChange: [revalidateHomepage],
+  },
   versions: {
     drafts: { autosave: { interval: 2000 } },
     max: 20,
