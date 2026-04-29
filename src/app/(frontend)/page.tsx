@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { unstable_cache } from 'next/cache';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 import { Hero } from '@/components/Hero';
@@ -11,9 +12,7 @@ import { FleetSection } from '@/components/FleetSection';
 import { CtaBlock } from '@/components/CtaBlock';
 import { Footer } from '@/components/Footer';
 
-// Re-read on every request in dev; ISR-like caching in production will be
-// added at build time. The admin expects saves to be visible without a rebuild.
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   // GSC audit (2026-04-26) showed "paddock maintenance" at 303 imp,
@@ -25,34 +24,41 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
 };
 
+const getHomePageData = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config });
+
+    const [homepage, featured, gallery] = await Promise.all([
+      payload.findGlobal({ slug: 'homepage', depth: 1 }),
+      payload.find({
+        collection: 'services',
+        where: { featuredOnHomepage: { equals: true } },
+        sort: 'orderInMenu',
+        depth: 1,
+        limit: 5,
+      }),
+      payload.find({
+        collection: 'media',
+        where: {
+          showOnHomepageGallery: { equals: true },
+          or: [
+            { hideFromGallery: { equals: false } },
+            { hideFromGallery: { exists: false } },
+          ],
+        },
+        limit: 12,
+        depth: 0,
+      }),
+    ]);
+
+    return { homepage, featured, gallery };
+  },
+  ['homepage-data'],
+  { revalidate: 300, tags: ['media', 'homepage', 'services'] },
+);
+
 export default async function HomePage() {
-  const payload = await getPayload({ config });
-
-  // Homepage global — carries the hero background image
-  const homepage = await payload.findGlobal({ slug: 'homepage', depth: 1 });
-
-  // Featured services — the 5 tiles
-  const featured = await payload.find({
-    collection: 'services',
-    where: { featuredOnHomepage: { equals: true } },
-    sort: 'orderInMenu',
-    depth: 1,
-    limit: 5,
-  });
-
-  // Gallery — 12 flagged images
-  const gallery = await payload.find({
-    collection: 'media',
-    where: {
-      showOnHomepageGallery: { equals: true },
-      or: [
-        { hideFromGallery: { equals: false } },
-        { hideFromGallery: { exists: false } },
-      ],
-    },
-    limit: 12,
-    depth: 0,
-  });
+  const { homepage, featured, gallery } = await getHomePageData();
 
   // Fleet photo — reuse the homepage hero for now; swap when a dedicated
   // fleet shot is available

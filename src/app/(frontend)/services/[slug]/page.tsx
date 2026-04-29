@@ -18,12 +18,7 @@ import { mediaUrl } from '@/lib/media';
 
 type Params = { slug: string };
 
-// Generate all 11 service paths at build time
-export async function generateStaticParams(): Promise<Params[]> {
-  const payload = await getPayload({ config });
-  const res = await payload.find({ collection: 'services', limit: 100, depth: 0 });
-  return res.docs.map((s) => ({ slug: s.slug }));
-}
+export const revalidate = 3600;
 
 export async function generateMetadata({
   params,
