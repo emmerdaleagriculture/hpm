@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     'Cutting, ground care, and treatment & upkeep services for paddocks and smallholdings across Hampshire, Wiltshire, Berkshire, Surrey, Dorset and East Sussex.',
 };
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 type ServiceDoc = {
   id: string | number;
