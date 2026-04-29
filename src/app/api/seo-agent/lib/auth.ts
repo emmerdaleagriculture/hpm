@@ -18,6 +18,10 @@ export function checkCronAuth(req: Request): Response | null {
   const expectedHeader = `Bearer ${expected}`;
   const got = Buffer.from(authHeader);
   const want = Buffer.from(expectedHeader);
+  // The length guard is required: timingSafeEqual throws RangeError on
+  // mismatched buffer lengths. The remaining length-oracle leak is
+  // non-actionable here — CRON_SECRET is server-configured and never
+  // changes per request.
   const ok = got.length === want.length && timingSafeEqual(got, want);
   if (!ok) {
     return new Response(JSON.stringify({ ok: false, error: 'unauthorised' }), {

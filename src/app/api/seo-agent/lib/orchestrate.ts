@@ -201,7 +201,11 @@ export async function runAgent(opts: RunOptions): Promise<AgentRunSummary> {
       try {
         priorId = await findActivePriorOpportunity(payload, item.row.query, item.type);
       } catch (err) {
+        // Skip — falling through with priorId=null would burn Anthropic
+        // budget and persist a duplicate `pending` row when one already
+        // exists. Next week's run retries.
         errors.push(`Prior check "${item.row.query}" failed: ${err instanceof Error ? err.message : String(err)}`);
+        continue;
       }
     }
 
@@ -232,6 +236,40 @@ export async function runAgent(opts: RunOptions): Promise<AgentRunSummary> {
   }
 
   const finishedAt = new Date();
+
+  // Counts reflect the WEEK'S total, not just this run's new opportunities.
+  // Idempotent skips never enter `opportunities[]`, so deriving counts from
+  // the in-memory array under-reported on re-runs (the digest would say
+  // "0 new articles" even when articles already existed for the week).
+  // Re-query persisted state when not dry-running.
+  let weekTotals = {
+    metaRewrites: opportunities.filter((o) => o.type === 'meta_rewrite').length,
+    onPageTweaks: opportunities.filter((o) => o.type === 'on_page_tweak').length,
+    newArticles: opportunities.filter((o) => o.type === 'new_article' && !(o as { deferred?: boolean }).deferred).length,
+    deferred: opportunities.filter((o) => o.type === 'new_article' && (o as { deferred?: boolean }).deferred).length,
+    superseded: counts.superseded,
+  };
+  if (!opts.dryRun) {
+    try {
+      const persisted = await payload.find({
+        collection: 'seo-opportunities',
+        where: { weekIdentified: { equals: weekIdentified } },
+        limit: 0,
+        depth: 0,
+      });
+      const docs = persisted.docs;
+      weekTotals = {
+        metaRewrites: docs.filter((d) => d.type === 'meta_rewrite').length,
+        onPageTweaks: docs.filter((d) => d.type === 'on_page_tweak').length,
+        newArticles: docs.filter((d) => d.type === 'new_article' && !d.deferred).length,
+        deferred: docs.filter((d) => d.type === 'new_article' && d.deferred === true).length,
+        superseded: docs.filter((d) => d.status === 'superseded').length,
+      };
+    } catch (err) {
+      errors.push(`Week-totals query failed: ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
+
   return {
     runId,
     weekIdentified,
@@ -241,11 +279,7 @@ export async function runAgent(opts: RunOptions): Promise<AgentRunSummary> {
     counts: {
       rowsFromGsc: rows.length,
       classified: classified.length,
-      metaRewrites: opportunities.filter((o) => o.type === 'meta_rewrite').length,
-      onPageTweaks: opportunities.filter((o) => o.type === 'on_page_tweak').length,
-      newArticles: opportunities.filter((o) => o.type === 'new_article' && !(o as { deferred?: boolean }).deferred).length,
-      deferred: opportunities.filter((o) => o.type === 'new_article' && (o as { deferred?: boolean }).deferred).length,
-      superseded: counts.superseded,
+      ...weekTotals,
     },
     opportunities,
     errors,
@@ -332,7 +366,7 @@ async function buildOpportunity(args: {
           query: item.row.query,
           intent: item.classification.intent,
           serviceSlugs: servicePages,
-          existingPostsSummary: postSummaries.slice(0, 12).join('; '),
+          existingPostsSummary: postSummaries.join('; '),
           rationale: item.classification.rationale,
         },
         budget,

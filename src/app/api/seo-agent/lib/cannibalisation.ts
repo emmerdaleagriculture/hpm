@@ -26,9 +26,22 @@ function tokens(s: string): string[] {
     .map(stem);
 }
 
-/** Tiny suffix stemmer — good enough for a lexical check. */
+/**
+ * Tiny suffix stemmer — good enough for a lexical check.
+ *
+ * Sanity floor: bail out if stemming would leave a stub under 4 chars.
+ * Catches degenerate strips like "river" → "riv" while preserving useful
+ * ones like "harrower" → "harrow". Doesn't help with cases where the
+ * stripped form is the wrong length but still ≥ 4 (e.g. "better" → "bett")
+ * — that needs a real stemmer.
+ */
 function stem(t: string): string {
   if (t.length <= 4) return t;
+  const stripped = stripSuffix(t);
+  return stripped.length >= 4 ? stripped : t;
+}
+
+function stripSuffix(t: string): string {
   if (t.endsWith('ing')) return t.slice(0, -3);
   if (t.endsWith('ies')) return t.slice(0, -3) + 'y';
   if (t.endsWith('es')) return t.slice(0, -2);

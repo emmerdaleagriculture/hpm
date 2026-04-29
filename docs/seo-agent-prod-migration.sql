@@ -151,6 +151,16 @@ CREATE INDEX IF NOT EXISTS "seo_opportunities_rels_parent_idx"     ON "seo_oppor
 CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_seo_opportunities_id_idx"
   ON "payload_locked_documents_rels" USING btree ("seo_opportunities_id");
 
+-- ============================================================================
+-- 8. Follow-up: deferred column for new_article opportunities
+--    (Added after initial migration. Distinguishes cap-deferred new_articles
+--    from drafted ones in the digest counts. Idempotent.)
+-- ============================================================================
+
+ALTER TABLE "seo_opportunities"
+  ADD COLUMN IF NOT EXISTS "deferred" boolean DEFAULT false;
+
 -- Done. Verify with:
 --   SELECT column_name FROM information_schema.columns WHERE table_name='posts' AND column_name='seo_source';
 --   SELECT 1 FROM seo_opportunities LIMIT 1;
+--   SELECT column_name FROM information_schema.columns WHERE table_name='seo_opportunities' AND column_name='deferred';
