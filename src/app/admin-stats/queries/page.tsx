@@ -91,8 +91,17 @@ export default async function QueriesPage() {
       };
     })
     .filter((m) => Math.abs(m.delta) >= 1 && m.clicks > 0);
-  const winners = [...movements].sort((a, b) => a.delta - b.delta).slice(0, 15);
-  const losers = [...movements].sort((a, b) => b.delta - a.delta).slice(0, 15);
+  // Lower position = better, so a negative delta is an improvement.
+  // Without the sign filter, a thin tail (e.g. only one truly-regressed
+  // query) lets near-zero negatives pad the Losers list — see #42.
+  const winners = movements
+    .filter((m) => m.delta < 0)
+    .sort((a, b) => a.delta - b.delta)
+    .slice(0, 15);
+  const losers = movements
+    .filter((m) => m.delta > 0)
+    .sort((a, b) => b.delta - a.delta)
+    .slice(0, 15);
 
   // Full long tail
   const allSorted = [...now].sort((a, b) => b.clicks - a.clicks);

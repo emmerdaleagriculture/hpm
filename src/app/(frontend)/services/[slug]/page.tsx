@@ -35,9 +35,14 @@ export async function generateMetadata({
   if (!svc) return { title: 'Service not found' };
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hampshirepaddockmanagement.com';
-  const canonical = `${siteUrl.replace(/\/$/, '')}/services/${svc.slug}`;
   const og = mediaUrl(svc.heroImage as Parameters<typeof mediaUrl>[0], 'hero');
-  const seo = (svc.seo as { metaTitle?: string; metaDescription?: string } | null | undefined) ?? {};
+  const seo =
+    (svc.seo as
+      | { metaTitle?: string; metaDescription?: string; canonicalUrl?: string; noIndex?: boolean }
+      | null
+      | undefined) ?? {};
+  const canonical =
+    seo.canonicalUrl?.trim() || `${siteUrl.replace(/\/$/, '')}/services/${svc.slug}`;
   const desc = seo.metaDescription || svc.shortDescription || 'Paddock management in Hampshire.';
   // If a tuned metaTitle is set in the SEO tab, use it verbatim (absolute
   // bypasses the layout template). Otherwise fall back to the bare service
@@ -50,6 +55,7 @@ export async function generateMetadata({
     title,
     description: desc,
     alternates: { canonical },
+    robots: seo.noIndex ? { index: false, follow: true } : undefined,
     openGraph: {
       title: svc.title,
       description: desc,
