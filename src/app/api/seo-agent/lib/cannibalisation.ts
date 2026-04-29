@@ -26,14 +26,19 @@ function tokens(s: string): string[] {
     .map(stem);
 }
 
-/** Tiny suffix stemmer — good enough for a lexical check. */
+/**
+ * Tiny suffix stemmer — good enough for a lexical check.
+ *
+ * Sanity floor: bail out if stemming would leave a stub under 4 chars.
+ * Catches degenerate strips like "river" → "riv" while preserving useful
+ * ones like "harrower" → "harrow". Doesn't help with cases where the
+ * stripped form is the wrong length but still ≥ 4 (e.g. "better" → "bett")
+ * — that needs a real stemmer.
+ */
 function stem(t: string): string {
   if (t.length <= 4) return t;
   const stripped = stripSuffix(t);
-  // Bail out if stemming leaves a degenerate stub (e.g. "better" → "bett",
-  // "river" → "riv"). A sub-3-char stem is more likely to false-match than
-  // help, so keep the original token.
-  return stripped.length >= 3 ? stripped : t;
+  return stripped.length >= 4 ? stripped : t;
 }
 
 function stripSuffix(t: string): string {

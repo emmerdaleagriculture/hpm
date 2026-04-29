@@ -257,12 +257,26 @@ export async function runAgent(opts: RunOptions): Promise<AgentRunSummary> {
         limit: 0,
         depth: 0,
       });
-      const docs = persisted.docs as Array<{ type?: string; status?: string; deferred?: boolean }>;
+      // `deferred` is an in-memory marker on Opportunity but is NOT a
+      // persisted field on seo-opportunities. We infer it from the row's
+      // shape: a deferred new_article is persisted as status=pending with
+      // null draftContent (because generation was skipped).
+      const docs = persisted.docs as Array<{
+        type?: string;
+        status?: string;
+        draftContent?: unknown;
+      }>;
+      const isDrafted = (d: (typeof docs)[number]) =>
+        d.draftContent != null && d.draftContent !== '';
       weekTotals = {
         metaRewrites: docs.filter((d) => d.type === 'meta_rewrite').length,
         onPageTweaks: docs.filter((d) => d.type === 'on_page_tweak').length,
-        newArticles: docs.filter((d) => d.type === 'new_article' && !d.deferred).length,
-        deferred: docs.filter((d) => d.type === 'new_article' && d.deferred === true).length,
+        newArticles: docs.filter(
+          (d) => d.type === 'new_article' && d.status === 'pending' && isDrafted(d),
+        ).length,
+        deferred: docs.filter(
+          (d) => d.type === 'new_article' && d.status === 'pending' && !isDrafted(d),
+        ).length,
         superseded: docs.filter((d) => d.status === 'superseded').length,
       };
     } catch (err) {
