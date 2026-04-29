@@ -45,8 +45,13 @@ export async function generateMetadata({
 
   const heroMedia = post.heroImage as Parameters<typeof mediaUrl>[0];
   const ogImage = mediaUrl(heroMedia, 'large') ?? mediaUrl(heroMedia);
-  const seo = (post.seo as { metaTitle?: string; metaDescription?: string } | null | undefined) ?? {};
+  const seo =
+    (post.seo as
+      | { metaTitle?: string; metaDescription?: string; canonicalUrl?: string; noIndex?: boolean }
+      | null
+      | undefined) ?? {};
   const description = seo.metaDescription || post.excerpt || 'Notes from Hampshire Paddock Management.';
+  const canonical = seo.canonicalUrl?.trim() || `/notes/${post.slug}`;
   // Use the tuned metaTitle verbatim if set; otherwise the post title plus
   // a " — Notes from the field" suffix, and let the layout template add
   // " | Hampshire Paddock Management" once.
@@ -64,7 +69,8 @@ export async function generateMetadata({
       publishedTime: post.publishedAt ?? undefined,
       images: ogImage ? [{ url: ogImage }] : undefined,
     },
-    alternates: { canonical: `/notes/${post.slug}` },
+    alternates: { canonical },
+    robots: seo.noIndex ? { index: false, follow: true } : undefined,
   };
 }
 

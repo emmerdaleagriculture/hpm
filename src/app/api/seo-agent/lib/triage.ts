@@ -33,8 +33,12 @@ export function triageRow(row: GscRowPlus): TriageVerdict {
     }
   }
 
-  // On-page tweak: striking distance
-  if (position >= 8 && position <= 20 && impressions >= 50) {
+  // On-page tweak: striking distance. Starts at position 5 to close the
+  // gap with meta_rewrite (≤5) — positions 6–7 are bottom-of-page-1 and
+  // worth tweaking. Impressions threshold matches the other buckets at
+  // 30; 50 was inconsistent and silently dropped striking-distance
+  // candidates.
+  if (position > 5 && position <= 20 && impressions >= 30) {
     return {
       candidate: true,
       suggestedType: 'on_page_tweak',
