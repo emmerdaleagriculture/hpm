@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import { Tenor_Sans, DM_Sans } from 'next/font/google';
 import './globals.css';
+import { SITE_EMAIL, SITE_PHONE_TEL } from '@/lib/site';
 
 // Hampshire Green typography stack.
 // Tenor Sans = display headings (gentle, editorial)
@@ -78,9 +79,52 @@ export default function RootLayout({
   // pollute the live dashboard.
   const enableGA = process.env.NODE_ENV === 'production' && GA_MEASUREMENT_ID;
 
+  // Sitewide LocalBusiness JSON-LD. Anchored with a stable @id so per-page
+  // schema (Service blocks on /paddock-maintenance and /services/*) can
+  // reference it via { "provider": { "@id": "..." } } in future, and Google
+  // treats the business as a single entity rather than re-deriving it per page.
+  // Drives "near me" intent — no street address yet (sole trader, no public
+  // forecourt) but addressRegion + areaServed give Google a geographic anchor.
+  const siteUrl = (
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://hampshirepaddockmanagement.com'
+  ).replace(/\/$/, '');
+  const localBusinessJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    '@id': `${siteUrl}/#business`,
+    name: 'Hampshire Paddock Management',
+    legalName: 'Emmerdale Agriculture Limited',
+    url: siteUrl,
+    telephone: SITE_PHONE_TEL,
+    email: SITE_EMAIL,
+    image: `${siteUrl}/og-default.jpg`,
+    priceRange: '££',
+    address: {
+      '@type': 'PostalAddress',
+      addressRegion: 'Hampshire',
+      addressCountry: 'GB',
+    },
+    areaServed: [
+      { '@type': 'AdministrativeArea', name: 'Hampshire' },
+      { '@type': 'AdministrativeArea', name: 'Wiltshire' },
+      { '@type': 'AdministrativeArea', name: 'Berkshire' },
+      { '@type': 'AdministrativeArea', name: 'Surrey' },
+      { '@type': 'AdministrativeArea', name: 'Dorset' },
+      { '@type': 'AdministrativeArea', name: 'West Sussex' },
+      { '@type': 'AdministrativeArea', name: 'East Sussex' },
+    ],
+    serviceType: 'Paddock maintenance',
+  };
+
   return (
     <html lang="en-GB" className={`${tenor.variable} ${dm.variable}`}>
       <body>{children}</body>
+      {/* JSON-LD must render in the initial HTML — use a plain <script>,
+          not next/script (which is lazy / client-side only). */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
+      />
       {enablePlausible && (
         <Script
           defer

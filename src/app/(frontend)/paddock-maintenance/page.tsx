@@ -171,8 +171,8 @@ const FAQS: FaqItem[] = [
     ),
   },
   {
-    q: 'Where do you work?',
-    a: 'Hampshire mainly, with regular work in Wiltshire, West Sussex, Surrey, Berkshire, and Dorset. Anywhere further afield is by arrangement — ask, and we\'ll work out whether it makes sense.',
+    q: 'Where do you work? Are you near me?',
+    a: 'Hampshire mainly — Winchester, Andover, Basingstoke, Petersfield, Romsey, Stockbridge, Alresford, the Test Valley, the Meon Valley, and the New Forest fringe are all regular runs. Beyond Hampshire there\'s steady work in Wiltshire (Salisbury, Marlborough), Berkshire (Newbury, Hungerford), Surrey, Dorset, and West Sussex. Anywhere further afield is by arrangement — ask, and we\'ll work out whether it makes sense.',
   },
 ];
 
@@ -185,7 +185,12 @@ export default async function PaddockMaintenancePage() {
     (typeof heroMedia === 'object' && heroMedia?.alt) || 'Hampshire paddock work';
 
   // JSON-LD: a Service block for the page itself + an FAQPage block
-  // for rich-snippet eligibility on the FAQs.
+  // for rich-snippet eligibility on the FAQs. The provider references the
+  // sitewide LocalBusiness via @id (defined in the root layout) so Google
+  // treats this as the same entity rather than a duplicate org.
+  const siteUrl = (
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://hampshirepaddockmanagement.com'
+  ).replace(/\/$/, '');
   const serviceJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Service',
@@ -195,12 +200,23 @@ export default async function PaddockMaintenancePage() {
       'Year-round paddock maintenance for horse owners — topping, harrowing, weed control, fertiliser, drainage, and contract maintenance.',
     provider: {
       '@type': 'LocalBusiness',
+      '@id': `${siteUrl}/#business`,
       name: 'Hampshire Paddock Management',
       telephone: SITE_PHONE_TEL,
-      areaServed: ['Hampshire', 'Wiltshire', 'West Sussex', 'Surrey', 'Berkshire', 'Dorset'],
+      address: {
+        '@type': 'PostalAddress',
+        addressRegion: 'Hampshire',
+        addressCountry: 'GB',
+      },
     },
-    // areaServed lives on `provider` only — the bare top-level Place
-    // with just a name is useless to Google's geo parser.
+    areaServed: [
+      { '@type': 'AdministrativeArea', name: 'Hampshire' },
+      { '@type': 'AdministrativeArea', name: 'Wiltshire' },
+      { '@type': 'AdministrativeArea', name: 'Berkshire' },
+      { '@type': 'AdministrativeArea', name: 'Surrey' },
+      { '@type': 'AdministrativeArea', name: 'Dorset' },
+      { '@type': 'AdministrativeArea', name: 'West Sussex' },
+    ],
   };
 
   const faqJsonLd = {
@@ -259,15 +275,23 @@ export default async function PaddockMaintenancePage() {
       <section className={styles.intro}>
         <p>
           <strong>Paddock maintenance</strong> is the ongoing work that keeps a horse paddock
-          healthy, safe, and grazing-ready year-round. It covers everything from cutting and
-          harrowing through to weed control, fertiliser, and ground repair — done at the right
-          time, in the right order, with the right kit.
+          healthy, safe, and grazing-ready year-round. It covers everything from{' '}
+          <Link href="/services/paddock-topping">paddock topping</Link> and{' '}
+          <Link href="/services/harrowing">harrowing</Link> through to weed control,
+          fertiliser, and ground repair — done at the right time, in the right order, with
+          the right kit.
         </p>
         <p>
           Most paddocks need attention three or four times a year. Get the timing right and
           the field stays in condition with relatively little effort. Get it wrong — or skip a
           season — and the work needed to recover the field is several times what regular
           maintenance would have cost.
+        </p>
+        <p>
+          Based in Hampshire, with regular routes through Winchester, Andover, Basingstoke,
+          Petersfield, Romsey, Stockbridge, and Alresford, plus into Wiltshire, Berkshire,
+          Surrey, Dorset, and West Sussex — if you&apos;re searching for paddock maintenance
+          near you in any of these areas, you&apos;re in the catchment.
         </p>
       </section>
 
