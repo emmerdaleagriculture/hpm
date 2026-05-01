@@ -59,32 +59,9 @@ const ROUTINES: ScheduledRoutine[] = [
 
 const FOLLOWUPS: Followup[] = [
   {
-    title: '/paddock-maintenance pillar page',
-    why: '"paddock maintenance" was 303 imp / pos 19.8 (page 2) on the first audit. Pillar page targets the keyword + drives 20+ internal links into service pages.',
-    status: 'done',
-    prRef: '#27',
-  },
-  {
-    title: 'Internal linking pass for orphan queries',
-    why: '"rotavated soil", "poor aeration", "horse paddock drainage" — all 18-56 imp at positions 4-7 with zero clicks. Added contextual cross-links from 5 service pages (overseeding, spraying, rolling, manure-sweeping, rotavating) using the orphan phrase as anchor text. See scripts/seo-orphan-internal-links.mjs.',
-    status: 'done',
-    prRef: '#25 deferred list',
-  },
-  {
-    title: 'Service schema.org markup',
-    why: 'No `Service` JSON-LD on /services/* pages yet. The new /paddock-maintenance has it; the 15 service detail pages should each emit a Service block too — eligible for rich snippets in SERP.',
-    status: 'open',
-    prRef: '#25 deferred list',
-  },
-  {
     title: 'GitHub auto-deploy via Vercel app',
     why: 'Vercel project `tomforex1s-projects/hpm-site` is linked but the GitHub-app connection to `emmerdaleagriculture/hpm` failed at link time (cross-org permissions). Currently every deploy is manual `vercel --prod`. To enable on-push deploys: install the Vercel GitHub App on the emmerdaleagriculture org and re-run `vercel link`.',
     status: 'open',
-  },
-  {
-    title: 'Connect to Google on prod (post-OAuth-scope-change)',
-    why: 'OAuth scope was extended for GA4. Prod token re-granted with the wider scope on 2026-04-26.',
-    status: 'done',
   },
   {
     title: 'Set Vercel env vars after DNS swap to hampshirepaddockmanagement.com',
