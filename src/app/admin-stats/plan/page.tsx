@@ -66,8 +66,8 @@ const FOLLOWUPS: Followup[] = [
   },
   {
     title: 'Internal linking pass for orphan queries',
-    why: '"rotavated soil", "poor aeration", "horse paddock drainage" — all 18-56 imp at positions 4-7 with zero clicks. Position is OK, content depth is thin. Add cross-references from existing notes posts and service pages.',
-    status: 'open',
+    why: '"rotavated soil", "poor aeration", "horse paddock drainage" — all 18-56 imp at positions 4-7 with zero clicks. Added contextual cross-links from 5 service pages (overseeding, spraying, rolling, manure-sweeping, rotavating) using the orphan phrase as anchor text. See scripts/seo-orphan-internal-links.mjs.',
+    status: 'done',
     prRef: '#25 deferred list',
   },
   {
